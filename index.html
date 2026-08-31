@@ -1,127 +1,448 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    ```
     <title>Sheern Premium Dry Fruit</title>
 
-    <!-- Bootstrap -->
+    <!-- ================= BOOTSTRAP ================= -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- ================= BOOTSTRAP ICONS ================= -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Google Fonts -->
+    <!-- ================= GOOGLE FONTS ================= -->
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- ================= CUSTOM CSS ================= -->
     <link rel="stylesheet" href="CSS/Style.css">
+    ```
+
 </head>
 
 <body>
 
-    <!-- ================= TOP BAR ================= -->
+    ```
+    <!-- =====================================================
+     TOP BAR
+====================================================== -->
 
     <div class="top-bar">
-        <div class="container-fluid px-4">
-            <div class="row align-items-center">
 
-                <div class="col-md-4 d-none d-md-block">
-                    <i class="bi bi-leaf"></i>
-                    100% Natural
-                </div>
+        <div class="moving-text">
 
-                <div class="col-md-4 text-center">
-                    <i class="bi bi-truck"></i>
-                    Free Delivery on Orders Over $50
-                </div>
+            <span>
+                <i class="bi bi-leaf"></i>
+                100% Natural Dry Fruits
+            </span>
 
-                <div class="col-md-4 text-end d-none d-md-block">
-                    <i class="bi bi-telephone"></i>
-                    9953827976
+            <span>
+                <i class="bi bi-truck"></i>
+                Free Delivery on Orders Over $50
+            </span>
 
-                    <span class="social-top">
-                        <i class="bi bi-facebook"></i>
-                        <i class="bi bi-instagram"></i>
-                        <i class="bi bi-whatsapp"></i>
-                    </span>
-                </div>
+            <span>
+                <i class="bi bi-award"></i>
+                Premium Quality Guaranteed
+            </span>
 
-            </div>
+            <span>
+                <i class="bi bi-heart"></i>
+                Healthy & Natural Choice
+            </span>
+
+            <span>
+                <i class="bi bi-telephone"></i>
+                Call Us: 9953827976
+            </span>
+
+            <!-- Repeat -->
+
+            <span>
+                <i class="bi bi-leaf"></i>
+                100% Natural Dry Fruits
+            </span>
+
+            <span>
+                <i class="bi bi-truck"></i>
+                Free Delivery on Orders Over $50
+            </span>
+
+            <span>
+                <i class="bi bi-award"></i>
+                Premium Quality Guaranteed
+            </span>
+
+            <span>
+                <i class="bi bi-heart"></i>
+                Healthy & Natural Choice
+            </span>
+
+            <span>
+                <i class="bi bi-telephone"></i>
+                Call Us: 9953827976
+            </span>
+
         </div>
+
     </div>
 
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- =====================================================
+     NAVBAR
+====================================================== -->
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top main-navbar">
 
         <div class="container">
 
+            <!-- LOGO -->
+
             <a class="navbar-brand logo" href="#home">
+
                 <img src="Photos/Logo.png" alt="Sheern Premium Dry Fruit">
+
             </a>
 
-            <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar">
+
+            <!-- MOBILE TOGGLE -->
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
+
             </button>
+
+
+            <!-- NAVIGATION -->
 
             <div class="collapse navbar-collapse" id="mainNavbar">
 
-                <ul class="navbar-nav mx-auto">
+                <ul class="navbar-nav mx-auto align-items-lg-center">
+
+                    <!-- HOME -->
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="#home">HOME</a>
+
+                        <a class="nav-link active" href="#home">
+                            HOME
+                        </a>
+
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">ABOUT US</a>
-                    </li>
+
+                    <!-- ABOUT -->
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#products">SHOP</a>
+
+                        <a class="nav-link" href="#about">
+                            ABOUT US
+                        </a>
+
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#categories">CATEGORIES</a>
+
+                    <!-- SHOP DROPDOWN -->
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#products" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                            SHOP
+
+                        </a>
+
+                        <ul class="dropdown-menu">
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-grid"></i>
+                                    All Products
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-star"></i>
+                                    Best Sellers
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-tags"></i>
+                                    Special Offers
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#benefits">BENEFITS</a>
+
+                    <!-- CATEGORIES DROPDOWN -->
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#categories" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                            CATEGORIES
+
+                        </a>
+
+                        <ul class="dropdown-menu">
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Almonds
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Pistachios
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Walnuts
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Cashews
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Raisins
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="#products">
+
+                                    <i class="bi bi-circle-fill"></i>
+                                    Mixed Dry Fruits
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <hr class="dropdown-divider">
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item view-all" href="#categories">
+
+                                    View All Categories
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
                     </li>
 
+
+                    <!-- BENEFITS -->
+
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">CONTACT</a>
+
+                        <a class="nav-link" href="#benefits">
+                            BENEFITS
+                        </a>
+
+                    </li>
+
+
+                    <!-- CONTACT -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="#contact">
+                            CONTACT
+                        </a>
+
                     </li>
 
                 </ul>
 
-                <button class="cart-button"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#cartCanvas">
 
-                    <i class="bi bi-cart3"></i>
-                    <span id="cartCount">0</span>
+                <!-- =================================================
+                 RIGHT SIDE NAVBAR ACTIONS
+            ================================================== -->
 
-                </button>
+                <div class="navbar-actions">
+
+
+                    <!-- SEARCH -->
+
+                    <button class="nav-icon-btn" type="button" data-bs-toggle="modal" data-bs-target="#searchModal"
+                        aria-label="Search">
+
+                        <i class="bi bi-search"></i>
+
+                    </button>
+
+
+                    <!-- ADMIN -->
+
+                    <div class="dropdown">
+
+                        <button class="nav-icon-btn admin-btn" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" aria-label="Admin">
+
+                            <i class="bi bi-person-circle"></i>
+
+                        </button>
+
+
+                        <ul class="dropdown-menu dropdown-menu-end admin-menu">
+
+                            <li>
+
+                                <h6 class="dropdown-header">
+
+                                    <i class="bi bi-person-circle"></i>
+
+                                    Admin
+
+                                </h6>
+
+                            </li>
+
+
+                            <li>
+
+                                <a class="dropdown-item" href="#">
+
+                                    <i class="bi bi-person"></i>
+
+                                    My Profile
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a class="dropdown-item" href="#">
+
+                                    <i class="bi bi-box-seam"></i>
+
+                                    My Orders
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <hr class="dropdown-divider">
+
+                            </li>
+
+
+                            <li>
+
+                                <a class="dropdown-item logout-item" href="#">
+
+                                    <i class="bi bi-box-arrow-right"></i>
+
+                                    Logout
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                    <!-- SHOPPING BAG -->
+
+                    <button class="nav-icon-btn cart-button" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#cartCanvas" aria-label="Shopping Cart">
+
+                        <i class="bi bi-bag"></i>
+
+                        <span id="cartCount">0</span>
+
+                    </button>
+
+                </div>
 
             </div>
+
         </div>
+
     </nav>
 
 
-    <!-- ================= HERO ================= -->
+    <!-- =====================================================
+     HERO
+====================================================== -->
 
     <section id="home" class="hero">
 
@@ -129,36 +450,44 @@
 
             <div class="row align-items-center g-0">
 
+                <!-- HERO TEXT -->
+
                 <div class="col-lg-6 hero-content">
 
                     <p class="hero-small">
                         Naturally Delicious
                     </p>
 
-                    <h1>SHEERN</h1>
+                    <h1>
+                        SHEERN
+                    </h1>
 
                     <p class="hero-description">
+
                         Premium quality dry fruits, carefully selected
                         and packed to bring nature's finest flavors
                         to your home.
+
                     </p>
 
                     <a href="#products" class="shop-btn">
+
                         SHOP NOW
+
                         <i class="bi bi-arrow-right"></i>
+
                     </a>
 
                 </div>
+
+
+                <!-- HERO VIDEO -->
 
                 <div class="col-lg-6 hero-media">
 
                     <div class="hero-video-wrapper">
 
-                        <video class="hero-video"
-                            autoplay
-                            muted
-                            loop
-                            playsinline>
+                        <video class="hero-video" autoplay muted loop playsinline>
 
                             <source src="Photos/Hero1.mp4" type="video/mp4">
 
@@ -179,7 +508,9 @@
     </section>
 
 
-    <!-- ================= BENEFITS ================= -->
+    <!-- =====================================================
+     BENEFITS
+====================================================== -->
 
     <section id="benefits" class="benefits">
 
@@ -188,35 +519,78 @@
             <div class="row">
 
                 <div class="col-md-3 benefit-item">
+
                     <i class="bi bi-leaf benefit-icon"></i>
+
                     <div>
-                        <h5>100% Natural</h5>
-                        <p>Pure & natural dry fruits.</p>
+
+                        <h5>
+                            100% Natural
+                        </h5>
+
+                        <p>
+                            Pure & natural dry fruits.
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="col-md-3 benefit-item">
+
                     <i class="bi bi-award benefit-icon"></i>
+
                     <div>
-                        <h5>Premium Quality</h5>
-                        <p>Handpicked best quality.</p>
+
+                        <h5>
+                            Premium Quality
+                        </h5>
+
+                        <p>
+                            Handpicked best quality.
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="col-md-3 benefit-item">
+
                     <i class="bi bi-heart-pulse benefit-icon"></i>
+
                     <div>
-                        <h5>Healthy Choice</h5>
-                        <p>Rich in nutrients.</p>
+
+                        <h5>
+                            Healthy Choice
+                        </h5>
+
+                        <p>
+                            Rich in nutrients.
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="col-md-3 benefit-item">
+
                     <i class="bi bi-truck benefit-icon"></i>
+
                     <div>
-                        <h5>Fast Delivery</h5>
-                        <p>Quick & safe delivery.</p>
+
+                        <h5>
+                            Fast Delivery
+                        </h5>
+
+                        <p>
+                            Quick & safe delivery.
+                        </p>
+
                     </div>
+
                 </div>
 
             </div>
@@ -226,7 +600,9 @@
     </section>
 
 
-    <!-- ================= CATEGORIES ================= -->
+    <!-- =====================================================
+     CATEGORIES
+====================================================== -->
 
     <section id="categories" class="categories section-padding">
 
@@ -234,12 +610,18 @@
 
             <div class="section-title">
 
-                <h2>SHOP BY CATEGORY</h2>
+                <h2>
+                    SHOP BY CATEGORY
+                </h2>
 
                 <div class="title-line">
+
                     <span></span>
+
                     <i class="bi bi-leaf"></i>
+
                     <span></span>
+
                 </div>
 
             </div>
@@ -247,135 +629,330 @@
 
             <div class="row g-4">
 
-                <!-- CATEGORY -->
+
+                <!-- ALMONDS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/almond.jpg" alt="Almonds">
+
                         </div>
-                        <h5>ALMONDS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            ALMONDS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- PISTACHIOS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/pistacho.jpg" alt="Pistachios">
+
                         </div>
-                        <h5>PISTACHIOS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            PISTACHIOS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- WALNUTS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/walnut.jpg" alt="Walnuts">
+
                         </div>
-                        <h5>WALNUTS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            WALNUTS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- PINE NUTS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Pine Nut.jpg" alt="Pine Nuts">
+
                         </div>
-                        <h5>PINE NUTS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            PINE NUTS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- CASHEWS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/cashew.jpg" alt="Cashews">
+
                         </div>
-                        <h5>CASHEWS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            CASHEWS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- MIX DRY FRUITS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/mixed.jpg" alt="Mix Dry Fruits">
+
                         </div>
-                        <h5>MIX DRY FRUITS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            MIX DRY FRUITS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- RAISINS -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Raisin.jpg" alt="Raisins">
+
                         </div>
-                        <h5>RAISINS</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            RAISINS
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- MACADAMIA -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Macadamia.jpg" alt="Macadamia">
+
                         </div>
-                        <h5>MACADAMIA</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            MACADAMIA
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- APRICOT -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Apricote.jpg" alt="Apricot">
+
                         </div>
-                        <h5>APRICOT</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            APRICOT
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- RUSSIAN OLIVE -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Russian_Olive.jpg" alt="Russian Olive">
+
                         </div>
-                        <h5>RUSSIAN OLIVE</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            RUSSIAN OLIVE
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- ANJEER -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/Anjeer.jpg" alt="Anjeer">
+
                         </div>
-                        <h5>ANJEER</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            ANJEER
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
+
+                <!-- DATES -->
+
                 <div class="col-6 col-md-4 col-lg-2">
+
                     <a href="#products" class="category-card">
+
                         <div class="category-image">
+
                             <img src="Photos/dates.jpg" alt="Dates">
+
                         </div>
-                        <h5>DATES</h5>
-                        <span>Shop Now <i class="bi bi-arrow-right"></i></span>
+
+                        <h5>
+                            DATES
+                        </h5>
+
+                        <span>
+                            Shop Now
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+
                     </a>
+
                 </div>
 
             </div>
 
+            
         </div>
+
 
     </section>
 
 
-    <!-- ================= ABOUT ================= -->
+    <!-- =====================================================
+     ABOUT
+====================================================== -->
 
     <section id="about" class="about-section">
 
@@ -384,28 +961,38 @@
             <div class="row align-items-center">
 
                 <div class="col-lg-6">
-                    <img src="Photos/mixed.jpg"
-                        class="about-image"
-                        alt="Dry Fruits">
+
+                    <img src="Photos/mixed.jpg" class="about-image" alt="Dry Fruits">
+
                 </div>
+
 
                 <div class="col-lg-6 about-content">
 
-                    <p class="about-small">About Us</p>
+                    <p class="about-small">
+                        About Us
+                    </p>
 
-                    <h2>SHEERN PREMIUM DRY FRUIT</h2>
+                    <h2>
+                        SHEERN PREMIUM DRY FRUIT
+                    </h2>
 
                     <p>
+
                         At Sheern Premium Dry Fruit, we believe in
                         purity, quality and trust. Our dry fruits are
                         carefully selected from the finest sources
                         and packed with love to bring nature's best
                         to your home.
+
                     </p>
 
                     <a href="#products" class="btn shop-btn">
+
                         LEARN MORE
+
                         <i class="bi bi-arrow-right"></i>
+
                     </a>
 
                 </div>
@@ -417,7 +1004,9 @@
     </section>
 
 
-    <!-- ================= POPULAR PRODUCTS ================= -->
+    <!-- =====================================================
+     POPULAR PRODUCTS
+====================================================== -->
 
     <section id="products" class="products-section section-padding">
 
@@ -425,48 +1014,69 @@
 
             <div class="section-title">
 
-                <p class="product-subtitle">BEST SELLERS</p>
+                <p class="product-subtitle">
+                    BEST SELLERS
+                </p>
 
-                <h2>OUR POPULAR PRODUCTS</h2>
+                <h2>
+                    OUR POPULAR PRODUCTS
+                </h2>
 
                 <div class="title-line">
+
                     <span></span>
+
                     <i class="bi bi-leaf"></i>
+
                     <span></span>
+
                 </div>
 
                 <p class="product-intro">
+
                     Discover our most loved premium dry fruits,
                     selected specially for you.
+
                 </p>
 
             </div>
 
 
-            <!-- PRODUCTS ARE CREATED BY JAVASCRIPT -->
-            <div id="productGrid" class="row g-4"></div>
+            <!-- PRODUCTS CREATED BY JAVASCRIPT -->
+
+            <div id="productGrid" class="row g-4">
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- ================= TESTIMONIAL ================= -->
+    <!-- =====================================================
+     TESTIMONIAL
+====================================================== -->
 
     <section class="testimonial">
 
         <div class="container text-center">
 
             <div class="quote-icon">
+
                 <i class="bi bi-quote"></i>
+
             </div>
 
             <p class="testimonial-text">
+
                 "The quality is exceptional and the taste is amazing!
                 Sheern Premium Dry Fruits is my first choice."
+
             </p>
 
-            <h5>— Sharara Naderi</h5>
+            <h5>
+                — Sharara Naderi
+            </h5>
 
             <div class="stars">
                 ★ ★ ★ ★ ★
@@ -477,7 +1087,9 @@
     </section>
 
 
-    <!-- ================= FOOTER ================= -->
+    <!-- =====================================================
+     FOOTER
+====================================================== -->
 
     <footer id="contact">
 
@@ -485,73 +1097,133 @@
 
             <div class="row g-5">
 
+
+                <!-- FOOTER ABOUT -->
+
                 <div class="col-lg-3">
 
                     <div class="footer-logo">
+
                         <a class="navbar-brand logo">
-                            <img src="Photos/Logo.png"
-                                alt="Sheern Premium Dry Fruit">
+
+                            <img src="Photos/Logo.png" alt="Sheern Premium Dry Fruit">
+
                         </a>
+
                     </div>
 
                     <p>
+
                         Pure. Natural. Premium.
                         For a healthy and happy life.
+
                     </p>
 
+
                     <div class="footer-social">
+
                         <i class="bi bi-facebook"></i>
+
                         <i class="bi bi-instagram"></i>
+
                         <i class="bi bi-whatsapp"></i>
+
                     </div>
 
                 </div>
 
 
+                <!-- QUICK LINKS -->
+
                 <div class="col-lg-3">
 
-                    <h5>QUICK LINKS</h5>
+                    <h5>
+                        QUICK LINKS
+                    </h5>
 
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#products">Shop</a></li>
-                        <li><a href="#categories">Categories</a></li>
-                        <li><a href="#contact">Contact</a></li>
+
+                        <li>
+                            <a href="#home">Home</a>
+                        </li>
+
+                        <li>
+                            <a href="#about">About Us</a>
+                        </li>
+
+                        <li>
+                            <a href="#products">Shop</a>
+                        </li>
+
+                        <li>
+                            <a href="#categories">Categories</a>
+                        </li>
+
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+
                     </ul>
 
                 </div>
 
 
+                <!-- CUSTOMER SERVICE -->
+
                 <div class="col-lg-3">
 
-                    <h5>CUSTOMER SERVICE</h5>
+                    <h5>
+                        CUSTOMER SERVICE
+                    </h5>
 
                     <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Track Order</a></li>
-                        <li><a href="#">Shipping & Delivery</a></li>
-                        <li><a href="#">Returns & Refunds</a></li>
-                        <li><a href="#">FAQ</a></li>
+
+                        <li>
+                            <a href="#">My Account</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Track Order</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Shipping & Delivery</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Returns & Refunds</a>
+                        </li>
+
+                        <li>
+                            <a href="#">FAQ</a>
+                        </li>
+
                     </ul>
 
                 </div>
 
 
+                <!-- NEWSLETTER -->
+
                 <div class="col-lg-3">
 
-                    <h5>NEWSLETTER</h5>
+                    <h5>
+                        NEWSLETTER
+                    </h5>
 
                     <p>
-                        Subscribe to get updates and special offers.
+
+                        Subscribe to get updates
+                        and special offers.
+
                     </p>
 
-                    <input type="email"
-                        class="form-control"
-                        placeholder="Your Email">
+                    <input type="email" class="form-control" placeholder="Your Email">
 
                     <button class="subscribe-btn">
+
                         SUBSCRIBE
+
                     </button>
 
                 </div>
@@ -562,29 +1234,101 @@
 
 
         <div class="copyright">
+
             © 2026 Sheern Premium Dry Fruit.
             All Rights Reserved.
+
         </div>
 
     </footer>
 
 
-    <!-- ================= CART ================= -->
+    <!-- =====================================================
+     SEARCH MODAL
+====================================================== -->
 
-    <div class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="cartCanvas">
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered search-modal-dialog">
+
+            <div class="modal-content search-modal">
+
+
+                <!-- SEARCH HEADER -->
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="searchModalLabel">
+
+                        <i class="bi bi-search"></i>
+
+                        Search Products
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+
+                </div>
+
+
+                <!-- SEARCH BODY -->
+
+                <div class="modal-body">
+
+                    <div class="search-box">
+
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Search almonds, pistachios, dates..." autocomplete="off">
+
+                        <button type="button" class="search-submit" onclick="searchProducts()">
+
+                            <i class="bi bi-search"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="searchResults" class="search-results">
+
+                        <p class="search-hint">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            Search for your favorite dry fruits.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+     CART OFFCANVAS
+====================================================== -->
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
 
         <div class="offcanvas-header">
 
             <h5 class="offcanvas-title">
+
                 <i class="bi bi-cart3"></i>
+
                 Your Cart
+
             </h5>
 
-            <button type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas">
+
             </button>
 
         </div>
@@ -598,7 +1342,9 @@
 
                     <i class="bi bi-cart-x"></i>
 
-                    <p>Your cart is empty.</p>
+                    <p>
+                        Your cart is empty.
+                    </p>
 
                 </div>
 
@@ -609,7 +1355,9 @@
 
                 <div class="d-flex justify-content-between">
 
-                    <strong>Total:</strong>
+                    <strong>
+                        Total:
+                    </strong>
 
                     <strong id="cartTotal">
                         ₹0.00
@@ -617,8 +1365,8 @@
 
                 </div>
 
-                <button class="checkout-btn"
-                    onclick="checkout()">
+
+                <button class="checkout-btn" onclick="checkout()">
 
                     CHECKOUT
 
@@ -631,13 +1379,21 @@
     </div>
 
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- =====================================================
+     BOOTSTRAP JAVASCRIPT
+====================================================== -->
 
-    <!-- Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+   JAVASCRIPT FILES
+====================================================== -->
+
     <script src="Dry.js"></script>
+
 
 </body>
 
 </html>
-

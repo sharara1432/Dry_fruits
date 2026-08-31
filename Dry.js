@@ -1,16 +1,14 @@
-
 /* =========================================================
    SHEERN PREMIUM DRY FRUIT
-   SHOPPING CART + POPULAR PRODUCTS
+   PRODUCTS + SEARCH + SHOPPING CART
 ========================================================= */
 
 
 /* =========================================================
-   PRODUCT DATA
+   PRODUCTS DATA
 ========================================================= */
 
 const products = [
-
     {
         id: 1,
         name: "Premium Pistachios",
@@ -106,35 +104,73 @@ const products = [
         description: "Naturally sweet dates",
         badge: "POPULAR"
     }
-
 ];
 
 
 /* =========================================================
-   CART
+   SHOPPING CART
 ========================================================= */
 
 let cart = [];
 
 
 /* =========================================================
-   LOAD PRODUCTS
+   DISPLAY PRODUCTS
 ========================================================= */
 
-function loadProducts() {
+function displayProducts(productList = products) {
 
-    const productGrid = document.getElementById("productGrid");
+    const productGrid =
+        document.getElementById("productGrid");
+
 
     if (!productGrid) {
+
+        console.error(
+            'Error: Element with id="productGrid" was not found.'
+        );
+
         return;
+
     }
+
 
     productGrid.innerHTML = "";
 
-    products.forEach(product => {
 
-        const stars = "★".repeat(product.rating) +
+    /* No products */
+
+    if (!productList || productList.length === 0) {
+
+        productGrid.innerHTML = `
+
+            <div class="col-12 text-center">
+
+                <p style="
+                    color: #888;
+                    padding: 30px;
+                    font-size: 16px;
+                ">
+                    No products found.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* Display Products */
+
+    productList.forEach(product => {
+
+        const stars =
+            "★".repeat(product.rating) +
             "☆".repeat(5 - product.rating);
+
 
         const productHTML = `
 
@@ -142,57 +178,80 @@ function loadProducts() {
 
                 <div class="product-card">
 
+
                     <span class="product-badge">
+
                         ${product.badge}
+
                     </span>
+
 
                     <div class="product-image">
 
                         <img
                             src="${product.image}"
                             alt="${product.name}"
+                            loading="lazy"
                         >
 
                     </div>
 
+
                     <div class="product-info">
 
+
                         <h4>
+
                             ${product.name}
+
                         </h4>
+
 
                         <div class="product-rating">
 
                             ${stars}
 
                             <span>
+
                                 (${product.reviews})
+
                             </span>
 
                         </div>
 
+
                         <p class="product-description">
+
                             ${product.description}
+
                         </p>
+
 
                         <div class="product-price">
 
                             ₹${product.price}
 
                             <small>
+
                                 / ${product.weight}
+
                             </small>
 
                         </div>
 
+
                         <button
                             class="add-cart-btn"
-                            onclick="addToCart(${product.id})">
+                            type="button"
+                            onclick="addToCart(${product.id})"
+                        >
 
                             <i class="bi bi-cart-plus"></i>
+
                             ADD TO CART
 
                         </button>
+
 
                     </div>
 
@@ -202,9 +261,196 @@ function loadProducts() {
 
         `;
 
-        productGrid.innerHTML += productHTML;
+
+        productGrid.insertAdjacentHTML(
+            "beforeend",
+            productHTML
+        );
 
     });
+
+}
+
+
+/* =========================================================
+   DISPLAY BEST SELLERS
+========================================================= */
+
+function displayBestSellers() {
+
+    const bestSellers =
+        products.filter(
+            product => product.badge === "BEST SELLER"
+        );
+
+
+    displayProducts(bestSellers);
+
+}
+
+
+/* =========================================================
+   DISPLAY POPULAR PRODUCTS
+========================================================= */
+
+function displayPopularProducts() {
+
+    const popularProducts =
+        products.filter(
+            product => product.badge === "POPULAR"
+        );
+
+
+    displayProducts(popularProducts);
+
+}
+
+
+/* =========================================================
+   DISPLAY NEW PRODUCTS
+========================================================= */
+
+function displayNewProducts() {
+
+    const newProducts =
+        products.filter(
+            product => product.badge === "NEW"
+        );
+
+
+    displayProducts(newProducts);
+
+}
+
+
+/* =========================================================
+   SEARCH PRODUCTS
+========================================================= */
+
+function searchProducts() {
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchResults =
+        document.getElementById("searchResults");
+
+
+    if (!searchInput) {
+
+        console.error(
+            'Search input with id="searchInput" not found.'
+        );
+
+        return;
+
+    }
+
+
+    const searchText =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    /* Empty Search */
+
+    if (searchText === "") {
+
+        displayProducts(products);
+
+        if (searchResults) {
+
+            searchResults.innerHTML = "";
+
+        }
+
+        return;
+
+    }
+
+
+    /* Filter Products */
+
+    const results =
+        products.filter(product => {
+
+            return (
+
+                product.name
+                    .toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                product.description
+                    .toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                product.badge
+                    .toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                product.weight
+                    .toLowerCase()
+                    .includes(searchText)
+
+            );
+
+        });
+
+
+    /* Display matching products */
+
+    displayProducts(results);
+
+
+    /* Search result message */
+
+    if (searchResults) {
+
+        if (results.length === 0) {
+
+            searchResults.innerHTML = `
+
+                <p class="search-hint">
+
+                    No products found.
+
+                </p>
+
+            `;
+
+        } else {
+
+            searchResults.innerHTML = `
+
+                <p class="search-result-title">
+
+                    ${results.length} product(s) found
+
+                </p>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LIVE SEARCH
+========================================================= */
+
+function liveSearch() {
+
+    searchProducts();
 
 }
 
@@ -215,29 +461,48 @@ function loadProducts() {
 
 function addToCart(productId) {
 
-    const product = products.find(
-        item => item.id === productId
-    );
+    const product =
+        products.find(
+            item => item.id === productId
+        );
+
 
     if (!product) {
+
+        console.error(
+            "Product not found:",
+            productId
+        );
+
         return;
+
     }
 
 
-    const existingProduct = cart.find(
-        item => item.id === productId
-    );
+    const existingProduct =
+        cart.find(
+            item => item.id === productId
+        );
 
+
+    /* Product already exists */
 
     if (existingProduct) {
 
         existingProduct.quantity += 1;
 
-    } else {
+    }
+
+    /* Add new product */
+
+    else {
 
         cart.push({
+
             ...product,
+
             quantity: 1
+
         });
 
     }
@@ -246,6 +511,7 @@ function addToCart(productId) {
     updateCart();
 
     showAddedMessage(product.name);
+
 }
 
 
@@ -255,12 +521,18 @@ function addToCart(productId) {
 
 function updateCart() {
 
-    const cartItems = document.getElementById("cartItems");
-    const cartCount = document.getElementById("cartCount");
-    const cartTotal = document.getElementById("cartTotal");
+    const cartItems =
+        document.getElementById("cartItems");
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
 
 
     let totalItems = 0;
+
     let totalPrice = 0;
 
 
@@ -274,11 +546,36 @@ function updateCart() {
     });
 
 
-    cartCount.textContent = totalItems;
+    /* Update cart count */
 
-    cartTotal.textContent =
-        "₹" + totalPrice.toFixed(2);
+    if (cartCount) {
 
+        cartCount.textContent =
+            totalItems;
+
+    }
+
+
+    /* Update cart total */
+
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            "₹" + totalPrice.toFixed(2);
+
+    }
+
+
+    /* Stop if cart HTML does not exist */
+
+    if (!cartItems) {
+
+        return;
+
+    }
+
+
+    /* Empty cart */
 
     if (cart.length === 0) {
 
@@ -289,7 +586,9 @@ function updateCart() {
                 <i class="bi bi-cart-x"></i>
 
                 <p>
+
                     Your cart is empty.
+
                 </p>
 
             </div>
@@ -297,11 +596,16 @@ function updateCart() {
         `;
 
         return;
+
     }
 
 
+    /* Clear previous items */
+
     cartItems.innerHTML = "";
 
+
+    /* Display cart items */
 
     cart.forEach(item => {
 
@@ -309,20 +613,28 @@ function updateCart() {
 
             <div class="cart-product">
 
+
                 <img
                     src="${item.image}"
                     alt="${item.name}"
                 >
 
+
                 <div class="cart-product-info">
 
                     <h6>
+
                         ${item.name}
+
                     </h6>
 
+
                     <p>
+
                         ₹${item.price}
+
                         × ${item.quantity}
+
                     </p>
 
                 </div>
@@ -330,42 +642,59 @@ function updateCart() {
 
                 <div class="cart-quantity">
 
+
                     <button
                         class="btn btn-sm btn-light"
-                        onclick="changeQuantity(${item.id}, -1)">
+                        type="button"
+                        onclick="changeQuantity(${item.id}, -1)"
+                    >
 
                         −
 
                     </button>
 
+
                     <span class="mx-2">
+
                         ${item.quantity}
+
                     </span>
+
 
                     <button
                         class="btn btn-sm btn-light"
-                        onclick="changeQuantity(${item.id}, 1)">
+                        type="button"
+                        onclick="changeQuantity(${item.id}, 1)"
+                    >
 
                         +
 
                     </button>
+
 
                 </div>
 
 
                 <button
                     class="remove-cart"
-                    onclick="removeFromCart(${item.id})">
+                    type="button"
+                    onclick="removeFromCart(${item.id})"
+                >
 
                     <i class="bi bi-trash"></i>
 
                 </button>
 
+
             </div>
 
         `;
 
-        cartItems.innerHTML += cartHTML;
+
+        cartItems.insertAdjacentHTML(
+            "beforeend",
+            cartHTML
+        );
 
     });
 
@@ -378,28 +707,36 @@ function updateCart() {
 
 function changeQuantity(productId, amount) {
 
-    const product = cart.find(
-        item => item.id === productId
-    );
+    const product =
+        cart.find(
+            item => item.id === productId
+        );
+
 
     if (!product) {
+
         return;
+
     }
 
 
     product.quantity += amount;
 
 
+    /* Remove product if quantity is zero */
+
     if (product.quantity <= 0) {
 
-        cart = cart.filter(
-            item => item.id !== productId
-        );
+        cart =
+            cart.filter(
+                item => item.id !== productId
+            );
 
     }
 
 
     updateCart();
+
 }
 
 
@@ -409,34 +746,58 @@ function changeQuantity(productId, amount) {
 
 function removeFromCart(productId) {
 
-    cart = cart.filter(
-        item => item.id !== productId
-    );
+    cart =
+        cart.filter(
+            item => item.id !== productId
+        );
+
 
     updateCart();
+
 }
 
 
 /* =========================================================
-   ADDED MESSAGE
+   ADDED TO CART MESSAGE
 ========================================================= */
 
 function showAddedMessage(productName) {
 
-    const message = document.createElement("div");
+    const message =
+        document.createElement("div");
+
 
     message.textContent =
         productName + " added to cart!";
 
-    message.style.position = "fixed";
-    message.style.bottom = "25px";
-    message.style.right = "25px";
-    message.style.background = "#283618";
-    message.style.color = "#fff";
-    message.style.padding = "13px 20px";
-    message.style.borderRadius = "3px";
-    message.style.fontSize = "12px";
-    message.style.zIndex = "9999";
+
+    message.style.position =
+        "fixed";
+
+    message.style.bottom =
+        "25px";
+
+    message.style.right =
+        "25px";
+
+    message.style.background =
+        "#283618";
+
+    message.style.color =
+        "#ffffff";
+
+    message.style.padding =
+        "13px 20px";
+
+    message.style.borderRadius =
+        "5px";
+
+    message.style.fontSize =
+        "13px";
+
+    message.style.zIndex =
+        "9999";
+
     message.style.boxShadow =
         "0 5px 20px rgba(0,0,0,0.2)";
 
@@ -464,6 +825,7 @@ function checkout() {
         alert("Your cart is empty.");
 
         return;
+
     }
 
 
@@ -479,27 +841,71 @@ function checkout() {
 
 
     alert(
+
         "Thank you for shopping with Sheern!\n\n" +
+
         "Your order total is ₹" +
+
         total.toFixed(2) +
+
         "."
+
     );
 
 }
 
 
 /* =========================================================
-   INITIALIZE
+   SEARCH ENTER KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+
+        if (
+
+            searchInput &&
+
+            event.target === searchInput &&
+
+            event.key === "Enter"
+
+        ) {
+
+            searchProducts();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE WEBSITE
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        loadProducts();
+        console.log(
+            "Sheern Premium Dry Fruit website loaded."
+        );
+
+
+        /* Show all 8 products */
+
+        displayProducts(products);
+
+
+        /* Initialize cart */
 
         updateCart();
 
     }
 );
-
