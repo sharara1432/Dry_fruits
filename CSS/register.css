@@ -1,0 +1,810 @@
+/* =========================================================
+   SHEERN PREMIUM DRY FRUIT
+   REGISTRATION PAGE
+========================================================= */
+
+:root {
+    --green: #203517;
+    --dark-green: #172711;
+    --gold: #b58a3a;
+    --cream: #f8f5ee;
+    --text: #263022;
+    --muted: #777d70;
+    --border: #e5e1d7;
+    --white: #ffffff;
+}
+
+
+/* ================= RESET ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* ================= PAGE ================= */
+
+.register-page {
+    min-height: 100vh;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 105px 30px 75px;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+.register-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    border-radius: 50%;
+
+    background: rgba(181, 138, 58, 0.06);
+
+    top: -280px;
+    left: -280px;
+
+    z-index: -2;
+}
+
+
+.register-page::after {
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    border-radius: 50%;
+
+    background: rgba(32, 53, 23, 0.05);
+
+    bottom: -300px;
+    right: -250px;
+
+    z-index: -2;
+}
+
+
+/* ================= BRAND ================= */
+
+.top-brand {
+    position: absolute;
+
+    top: 27px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    z-index: 10;
+}
+
+
+.top-brand img {
+    width: 48px;
+    height: 48px;
+
+    object-fit: contain;
+}
+
+
+.brand-text h1 {
+    font-family: "Playfair Display", serif;
+
+    font-size: 28px;
+    line-height: 1;
+
+    color: var(--green);
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.brand-text span {
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 2.5px;
+
+    color: var(--gold);
+
+    margin-top: 5px;
+
+    font-weight: 600;
+}
+
+
+/* ================= DECORATIONS ================= */
+
+.decor {
+    position: absolute;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    opacity: 0.9;
+
+    box-shadow:
+        0 15px 40px rgba(32, 53, 23, 0.08);
+
+    z-index: -1;
+}
+
+
+.decor img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+.decor-one {
+    width: 145px;
+    height: 145px;
+
+    top: 8%;
+    left: 5%;
+
+    transform: rotate(-12deg);
+}
+
+
+.decor-two {
+    width: 120px;
+    height: 120px;
+
+    bottom: 14%;
+    left: 7%;
+
+    transform: rotate(15deg);
+}
+
+
+.decor-three {
+    width: 135px;
+    height: 135px;
+
+    top: 14%;
+    right: 7%;
+
+    transform: rotate(12deg);
+}
+
+
+.decor-four {
+    width: 150px;
+    height: 150px;
+
+    bottom: 9%;
+    right: 5%;
+
+    transform: rotate(-15deg);
+}
+
+
+/* ================= SIDE TEXT ================= */
+
+.side-title {
+    position: absolute;
+
+    left: 9%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    max-width: 300px;
+}
+
+
+.side-title > span {
+    display: block;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    color: var(--gold);
+
+    font-weight: 600;
+
+    margin-bottom: 12px;
+}
+
+
+.side-title h2 {
+    font-family: "Playfair Display", serif;
+
+    font-size: 58px;
+
+    line-height: 1.05;
+
+    color: var(--green);
+
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+
+.side-title p {
+    font-size: 13px;
+
+    line-height: 2;
+
+    color: var(--muted);
+}
+
+
+/* ================= CARD ================= */
+
+.register-card {
+    position: relative;
+
+    width: 100%;
+    max-width: 470px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid rgba(229, 225, 215, 0.8);
+
+    border-radius: 24px;
+
+    padding: 35px 42px 30px;
+
+    box-shadow:
+        0 25px 70px rgba(32, 53, 23, 0.12);
+
+    z-index: 2;
+}
+
+
+.register-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 70px;
+    height: 4px;
+
+    background: var(--gold);
+
+    border-radius: 0 0 10px 10px;
+}
+
+
+/* ================= LOGO ================= */
+
+.register-logo {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--cream);
+
+    border-radius: 50%;
+
+    border: 1px solid #e8e1d2;
+}
+
+
+.register-logo img {
+    width: 49px;
+    height: 49px;
+
+    object-fit: contain;
+}
+
+
+/* ================= HEADING ================= */
+
+.register-heading {
+    text-align: center;
+
+    margin-bottom: 23px;
+}
+
+
+.register-heading h2 {
+    font-family: "Playfair Display", serif;
+
+    font-size: 31px;
+
+    color: var(--green);
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+
+.register-heading p {
+    font-size: 11px;
+
+    color: var(--muted);
+}
+
+
+/* ================= INPUT ================= */
+
+.input-group-custom {
+    margin-bottom: 15px;
+}
+
+
+.input-group-custom label {
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: var(--text);
+
+    margin-bottom: 7px;
+}
+
+
+.input-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+
+.input-wrapper > i {
+    position: absolute;
+
+    left: 15px;
+
+    color: #a1a69b;
+
+    font-size: 15px;
+
+    z-index: 1;
+}
+
+
+.input-wrapper input {
+    width: 100%;
+
+    height: 45px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #fff;
+
+    padding: 0 44px;
+
+    font-size: 11px;
+
+    color: var(--text);
+
+    transition: 0.3s ease;
+}
+
+
+.input-wrapper input::placeholder {
+    color: #b1b5ac;
+}
+
+
+.input-wrapper input:focus {
+    border-color: var(--gold);
+
+    box-shadow:
+        0 0 0 3px rgba(181, 138, 58, 0.08);
+}
+
+
+/* ================= PASSWORD ================= */
+
+.password-button {
+    position: absolute;
+
+    right: 9px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #9da399;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.password-button:hover {
+    color: var(--green);
+}
+
+
+/* ================= TERMS ================= */
+
+.terms {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 5px;
+    margin-bottom: 18px;
+
+    font-size: 10px;
+
+    color: var(--muted);
+
+    cursor: pointer;
+}
+
+
+.terms input {
+    margin-top: 2px;
+
+    width: 13px;
+    height: 13px;
+
+    accent-color: var(--green);
+}
+
+
+.terms a {
+    color: var(--green);
+
+    font-weight: 600;
+}
+
+
+.terms a:hover {
+    color: var(--gold);
+}
+
+
+/* ================= MESSAGE ================= */
+
+.register-message {
+    text-align: center;
+
+    font-size: 10px;
+
+    margin-bottom: 10px;
+
+    min-height: 0;
+}
+
+
+.register-message.success {
+    color: #2f6b35;
+
+    background: #edf7ed;
+
+    border: 1px solid #cce5ce;
+
+    padding: 9px;
+
+    border-radius: 8px;
+}
+
+
+.register-message.error {
+    color: #a33a32;
+
+    background: #fff1ef;
+
+    border: 1px solid #f0d0cb;
+
+    padding: 9px;
+
+    border-radius: 8px;
+}
+
+
+/* ================= BUTTON ================= */
+
+.register-button {
+    width: 100%;
+
+    height: 48px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: var(--green);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 8px 20px rgba(32, 53, 23, 0.15);
+}
+
+
+.register-button:hover {
+    background: var(--dark-green);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(32, 53, 23, 0.2);
+}
+
+
+.register-button i {
+    transition: 0.3s ease;
+}
+
+
+.register-button:hover i {
+    transform: translateX(4px);
+}
+
+
+/* ================= LOGIN ================= */
+
+.already-account {
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-size: 10px;
+
+    color: var(--muted);
+}
+
+
+.already-account a {
+    color: var(--green);
+
+    font-weight: 600;
+
+    margin-left: 4px;
+}
+
+
+.already-account a:hover {
+    color: var(--gold);
+}
+
+
+/* ================= BACK HOME ================= */
+
+.back-home {
+    text-align: center;
+
+    margin-top: 18px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+.back-home a {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 10px;
+
+    color: var(--muted);
+
+    transition: 0.3s ease;
+}
+
+
+.back-home a:hover {
+    color: var(--green);
+}
+
+
+/* ================= FOOTER ================= */
+
+.page-footer {
+    position: absolute;
+
+    bottom: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-size: 9px;
+
+    color: #a5aa9e;
+
+    white-space: nowrap;
+}
+
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1100px) {
+
+    .side-title {
+        left: 4%;
+    }
+
+    .decor-one {
+        left: 1%;
+    }
+
+    .decor-two {
+        left: 2%;
+    }
+
+    .decor-three {
+        right: 2%;
+    }
+
+    .decor-four {
+        right: 1%;
+    }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .register-page {
+        padding: 100px 18px 70px;
+
+        align-items: flex-start;
+    }
+
+    .side-title {
+        display: none;
+    }
+
+    .decor {
+        opacity: 0.3;
+    }
+
+    .decor-one {
+        width: 85px;
+        height: 85px;
+
+        left: -15px;
+        top: 12%;
+    }
+
+    .decor-two {
+        width: 75px;
+        height: 75px;
+
+        left: -15px;
+        bottom: 12%;
+    }
+
+    .decor-three {
+        width: 80px;
+        height: 80px;
+
+        right: -15px;
+        top: 15%;
+    }
+
+    .decor-four {
+        width: 85px;
+        height: 85px;
+
+        right: -15px;
+        bottom: 8%;
+    }
+
+    .register-card {
+        max-width: 450px;
+
+        padding: 32px 24px 27px;
+    }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 400px) {
+
+    .register-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .register-card {
+        padding: 30px 19px 24px;
+
+        border-radius: 20px;
+    }
+
+    .register-heading h2 {
+        font-size: 28px;
+    }
+
+}

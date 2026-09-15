@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "Sheern Admin",
+        "username": "admin",
+        "email": "admin@sheern.com",
+        "password": "admin123",
+        "role": "admin"
+    },
+    {
+        "id": 2,
+        "name": "Demo Customer",
+        "username": "customer",
+        "email": "customer@sheern.com",
+        "password": "customer123",
+        "role": "customer"
+    }
+]
