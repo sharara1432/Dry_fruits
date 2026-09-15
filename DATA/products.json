@@ -1,0 +1,124 @@
+
+
+    [
+    {
+        "id": 1,
+        "name": "Premium Pistachios",
+        "image": "Photos/pistacho.jpg",
+        "price": 499,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 128,
+        "description": "Crunchy premium pistachios",
+        "badge": "BEST SELLER",
+        "category": "pistachios"
+    },
+    {
+        "id": 2,
+        "name": "Premium Almonds",
+        "image": "Photos/almond.jpg",
+        "price": 399,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 96,
+        "description": "Fresh California almonds",
+        "badge": "POPULAR",
+        "category": "almonds"
+    },
+    {
+        "id": 3,
+        "name": "Premium Cashews",
+        "image": "Photos/cashew.jpg",
+        "price": 449,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 112,
+        "description": "Rich and creamy cashews",
+        "badge": "BEST SELLER",
+        "category": "cashews"
+    },
+    {
+        "id": 4,
+        "name": "Premium Mulberries",
+        "image": "Photos/Toot.jpg",
+        "price": 750,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 112,
+        "description": "Rich and creamy mulberries",
+        "badge": "BEST SELLER",
+        "category": "mulberries"
+    },
+    {
+        "id": 5,
+        "name": "Premium Walnuts",
+        "image": "Photos/walnut.jpg",
+        "price": 549,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 84,
+        "description": "Fresh premium walnuts",
+        "badge": "POPULAR",
+        "category": "walnuts"
+    },
+    {
+        "id": 6,
+        "name": "Premium Anjeer",
+        "image": "Photos/Anjeer.jpg",
+        "price": 599,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 73,
+        "description": "Soft and naturally sweet",
+        "badge": "NEW",
+        "category": "anjeer"
+    },
+    {
+        "id": 7,
+        "name": "Premium Apricot",
+        "image": "Photos/Apricote.jpg",
+        "price": 449,
+        "weight": "250g",
+        "rating": 4,
+        "reviews": 67,
+        "description": "Naturally sweet apricots",
+        "badge": "POPULAR",
+        "category": "apricot"
+    },
+    {
+        "id": 8,
+        "name": "Premium Raisins",
+        "image": "Photos/Raisin.jpg",
+        "price": 299,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 91,
+        "description": "Sweet golden raisins",
+        "badge": "BEST SELLER",
+        "category": "raisins"
+    },
+    {
+        "id": 9,
+        "name": "Premium Dates",
+        "image": "Photos/dates.jpg",
+        "price": 349,
+        "weight": "500g",
+        "rating": 5,
+        "reviews": 105,
+        "description": "Naturally sweet dates",
+        "badge": "POPULAR",
+        "category": "dates"
+    },
+     {
+        "id": 10,
+        "name": "Premium Saffron ",
+        "image": "Photos/Saffron.jpeg",
+        "price": 800,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 105,
+        "description": "Naturally sweet dates",
+        "badge": "POPULAR",
+        "category": "dates"
+    }
+]
