@@ -1,0 +1,1753 @@
+
+/* =========================================================
+   1. GLOBAL RESPONSIVE FIX
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+video {
+    max-width: 100%;
+}
+
+.row {
+    --bs-gutter-x: 0;
+}
+
+
+/* =========================================================
+   2. LARGE DESKTOP
+   1400px AND ABOVE
+========================================================= */
+
+@media (min-width: 1400px) {
+
+    .sheern-header {
+        height: 125px;
+        padding: 0 35px;
+    }
+
+    .sheern-brand {
+        left: 70px;
+        width: 300px;
+    }
+
+    .sheern-logo {
+        width: 300px !important;
+    }
+
+    .sheern-header-actions {
+        right: 25px;
+    }
+
+    /*
+       Sticky navbar
+    */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+        transform: none;
+
+        width: fit-content;
+
+        margin: -50px auto 0;
+
+        min-height: 50px;
+
+        background: var(--sheern-cream);
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .nav-link {
+        font-size: 12px;
+
+        padding: 9px 12px;
+
+        white-space: nowrap;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        min-height: 500px;
+    }
+
+    .hero-content {
+        padding: 80px 70px;
+    }
+
+    .hero h1 {
+        font-size: clamp(55px, 5vw, 80px);
+    }
+
+    .hero-media {
+        height: 500px;
+    }
+
+
+    /* CATEGORIES */
+
+    .category-card {
+        flex: 0 0 210px;
+    }
+
+
+    /* PRODUCTS */
+
+    .product-image {
+        height: 230px;
+    }
+}
+
+
+/* =========================================================
+   3. DESKTOP / LAPTOP
+   1200px - 1399px
+========================================================= */
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+
+    .sheern-header {
+        height: 120px;
+        padding: 0 25px;
+    }
+
+    .sheern-brand {
+        left: 50px;
+        width: 250px;
+    }
+
+    .sheern-logo {
+        width: 250px !important;
+    }
+
+    .sheern-header-actions {
+        right: 18px;
+    }
+
+
+    /* NAVBAR */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+        transform: none;
+
+        width: fit-content;
+
+        margin: -50px auto 0;
+
+        min-height: 50px;
+
+        background: var(--sheern-cream);
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .nav-link {
+        font-size: 11px;
+
+        padding: 9px 9px;
+    }
+
+
+    /* HERO */
+
+    .hero-content {
+        padding: 65px 50px;
+    }
+
+    .hero h1 {
+        font-size: 65px;
+    }
+
+    .hero-media {
+        height: 430px;
+    }
+}
+
+
+/* =========================================================
+   4. SMALL LAPTOP
+   992px - 1199px
+========================================================= */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    .sheern-header {
+        height: 110px;
+        padding: 0 20px;
+    }
+
+    .sheern-brand {
+        left: 35px;
+        width: 215px;
+    }
+
+    .sheern-logo {
+        width: 215px !important;
+    }
+
+    .sheern-header-actions {
+        right: 12px;
+        gap: 2px;
+    }
+
+    .sheern-action {
+        width: 52px;
+        height: 55px;
+    }
+
+    .sheern-action i {
+        font-size: 18px;
+    }
+
+
+    /* NAVBAR */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+        transform: none;
+
+        width: fit-content;
+
+        margin: -45px auto 0;
+
+        min-height: 48px;
+
+        background: var(--sheern-cream);
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .nav-link {
+        font-size: 10px;
+
+        padding: 8px 7px;
+    }
+
+
+    /* HERO */
+
+    .hero-content {
+        padding: 55px 40px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .hero-media {
+        height: 400px;
+    }
+
+
+    /* CATEGORY */
+
+    .category-card {
+        flex: 0 0 180px;
+    }
+
+    .category-image {
+        height: 140px;
+    }
+}
+
+
+/* =========================================================
+   5. TABLET
+   768px - 991px
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /* HEADER */
+
+    .sheern-header {
+        position: relative;
+
+        width: 100%;
+
+        height: 100px;
+
+        padding: 0 15px;
+    }
+
+    .sheern-brand {
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        width: 190px;
+    }
+
+    .sheern-logo {
+        width: 190px !important;
+    }
+
+
+    /* HEADER ACTIONS */
+
+    .sheern-header-actions {
+        right: 8px;
+
+        gap: 1px;
+    }
+
+    .sheern-action {
+        width: 46px;
+        height: 52px;
+    }
+
+    .action-label {
+        display: none;
+    }
+
+
+    /* STICKY NAVBAR */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+        transform: none;
+
+        width: 100%;
+
+        margin: 0;
+
+        min-height: 50px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .container-fluid {
+        width: 100%;
+
+        padding: 0 15px;
+    }
+
+    .sheern-navbar .navbar-toggler {
+        margin-left: auto;
+    }
+
+    .sheern-navbar .navbar-collapse {
+        background: #ffffff;
+
+        border-top: 1px solid var(--sheern-border);
+
+        margin-top: 5px;
+    }
+
+    .sheern-navbar .navbar-nav {
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 7px 0;
+    }
+
+    .sheern-navbar .nav-item {
+        width: 100%;
+    }
+
+    .sheern-navbar .nav-link {
+        width: 100%;
+
+        padding: 11px 15px;
+
+        font-size: 11px;
+    }
+
+    .sheern-navbar .dropdown-menu {
+        width: 100%;
+
+        border: none;
+
+        box-shadow: none;
+
+        margin: 0 !important;
+
+        padding-left: 20px;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        min-height: auto;
+    }
+
+    .hero-content {
+        padding: 50px 30px;
+
+        text-align: left;
+    }
+
+    .hero h1 {
+        font-size: clamp(40px, 6vw, 55px);
+    }
+
+    .hero-description {
+        max-width: 100%;
+    }
+
+    .hero-media {
+        height: 380px;
+    }
+
+
+    /* BENEFITS */
+
+    .benefit-item {
+        min-height: 90px;
+
+        padding: 15px;
+
+        border-right: 1px solid var(--sheern-border);
+    }
+
+
+    /* CATEGORY */
+
+    .category-slider {
+        gap: 18px;
+
+        padding: 10px 45px 20px;
+    }
+
+    .category-card {
+        flex: 0 0 175px;
+    }
+
+    .category-image {
+        height: 135px;
+    }
+
+
+    /* ABOUT */
+
+    .about-image {
+        height: 350px;
+    }
+
+    .about-content {
+        padding: 45px 35px;
+    }
+}
+
+
+/* =========================================================
+   6. MOBILE
+   481px - 767px
+========================================================= */
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* GLOBAL */
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+
+    /* PROMOTION */
+
+    .sheern-promo-bar {
+        width: 100%;
+
+        min-height: 34px;
+
+        font-size: 8px;
+    }
+
+    .promo-track {
+        gap: 30px;
+    }
+
+
+    /* HEADER */
+
+    .sheern-header {
+        position: relative;
+
+        width: 100%;
+
+        height: 82px;
+
+        padding: 0 8px;
+    }
+
+
+    /* LOGO */
+
+    .sheern-brand {
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        width: 140px;
+
+        max-width: 35vw;
+    }
+
+    .sheern-logo {
+        width: 140px !important;
+    }
+
+
+    /* ACTIONS */
+
+    .sheern-header-actions {
+        right: 3px;
+
+        gap: 0;
+    }
+
+    .sheern-action {
+        width: 40px;
+        height: 48px;
+
+        padding: 0;
+    }
+
+    .sheern-action i {
+        font-size: 17px;
+    }
+
+    .action-label {
+        display: none;
+    }
+
+
+    /* WISHLIST */
+
+    .wishlist-action {
+        background: transparent !important;
+
+        box-shadow: none !important;
+    }
+
+    .wishlist-action i {
+        font-size: 19px;
+    }
+
+
+    /* NAVBAR */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+        transform: none;
+
+        width: 100%;
+
+        margin: 0;
+
+        min-height: 48px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .container-fluid {
+        width: 100%;
+
+        padding: 0 10px;
+    }
+
+    .sheern-navbar .navbar-toggler {
+        margin-left: auto;
+
+        padding: 5px 8px;
+    }
+
+    .sheern-navbar .navbar-collapse {
+        width: 100%;
+
+        background: #ffffff;
+
+        border-top: 1px solid var(--sheern-border);
+
+        margin-top: 5px;
+    }
+
+    .sheern-navbar .navbar-nav {
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 5px 0;
+    }
+
+    .sheern-navbar .nav-item {
+        width: 100%;
+    }
+
+    .sheern-navbar .nav-link {
+        width: 100%;
+
+        padding: 10px 14px;
+
+        font-size: 10px;
+    }
+
+    .sheern-navbar .dropdown-menu {
+        position: static !important;
+
+        width: 100%;
+
+        border: none;
+
+        box-shadow: none;
+
+        margin: 0 !important;
+
+        padding: 0 0 5px 15px;
+    }
+
+    .sheern-navbar .dropdown-item {
+        font-size: 9px;
+
+        padding: 8px 12px;
+    }
+
+
+    /* MENU BUTTON */
+
+    .sheern-menu-button {
+        top: 92px;
+
+        left: 8px;
+
+        width: 38px;
+
+        height: 38px;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        width: 100%;
+
+        min-height: auto;
+    }
+
+    .hero-content {
+        width: 100%;
+
+        padding: 42px 20px;
+
+        text-align: center;
+    }
+
+    .hero-small {
+        font-size: 8px;
+
+        letter-spacing: 1.8px;
+    }
+
+    .hero h1 {
+        font-size: clamp(32px, 9vw, 42px);
+
+        line-height: 1.08;
+    }
+
+    .hero-description {
+        width: 100%;
+
+        max-width: 100%;
+
+        font-size: 11px;
+
+        line-height: 1.7;
+    }
+
+    .hero-media {
+        width: 100%;
+
+        height: 280px;
+    }
+
+    .hero-video {
+        width: 100%;
+
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+
+    /* BENEFITS */
+
+    .benefit-item {
+        min-height: 80px;
+
+        padding: 15px;
+
+        border-right: none;
+
+        border-bottom: 1px solid var(--sheern-border);
+    }
+
+
+    /* SECTIONS */
+
+    .section-padding {
+        padding: 50px 15px;
+    }
+
+    .section-title h2 {
+        font-size: clamp(27px, 8vw, 34px);
+    }
+
+
+    /* CATEGORY */
+
+    .category-section {
+        padding: 50px 0;
+    }
+
+    .category-section .section-title {
+        padding: 0 15px;
+    }
+
+    .category-section .section-title h2 {
+        font-size: clamp(28px, 8vw, 36px);
+    }
+
+    .category-section .section-title p {
+        font-size: 12px;
+    }
+
+    .category-slider {
+        gap: 14px;
+
+        padding: 10px 42px 20px;
+    }
+
+    .category-card {
+        flex: 0 0 155px;
+
+        width: 155px;
+
+        padding: 10px;
+    }
+
+    .category-image {
+        height: 120px;
+    }
+
+    .category-card h5 {
+        font-size: 14px;
+    }
+
+    .category-arrow {
+        width: 35px;
+
+        height: 35px;
+
+        font-size: 14px;
+    }
+
+
+    /* PRODUCTS */
+
+    #productGrid {
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    #productGrid > div {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .product-card {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .product-image {
+        height: 190px;
+    }
+
+    .product-info {
+        padding: 12px;
+    }
+
+    .product-info h4 {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 15px;
+    }
+
+
+    /* ABOUT */
+
+    .about-image {
+        width: 100%;
+
+        height: 280px;
+
+        object-fit: cover;
+    }
+
+    .about-content {
+        padding: 40px 20px;
+    }
+
+    .about-content h2 {
+        font-size: 30px;
+    }
+
+
+    /* TESTIMONIAL */
+
+    .testimonial {
+        padding: 50px 20px;
+    }
+
+    .testimonial-text {
+        font-size: 17px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+        text-align: center;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+
+    /* SIDEBAR */
+
+    .sheern-sidebar {
+        width: min(270px, 85vw);
+
+        left: calc(-1 * min(270px, 85vw));
+    }
+
+    .sheern-sidebar.open {
+        left: 0;
+    }
+
+
+    /* CART */
+
+    .offcanvas {
+        width: min(90%, 390px) !important;
+    }
+}
+
+
+/* =========================================================
+   7. SMALL PHONES
+   0px - 480px
+========================================================= */
+
+@media (max-width: 480px) {
+
+    body {
+        width: 100%;
+
+        overflow-x: hidden;
+    }
+
+
+    /* PROMOTION */
+
+    .sheern-promo-bar {
+        min-height: 30px;
+
+        font-size: 7px;
+    }
+
+    .promo-track {
+        gap: 25px;
+    }
+
+
+    /* HEADER */
+
+    .sheern-header {
+        width: 100%;
+
+        height: 76px;
+
+        padding: 0 5px;
+    }
+
+
+    /* LOGO */
+
+    .sheern-brand {
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        width: 120px;
+
+        max-width: 33vw;
+    }
+
+    .sheern-logo {
+        width: 120px !important;
+    }
+
+
+    /* ACTIONS */
+
+    .sheern-header-actions {
+        right: 1px;
+
+        gap: 0;
+    }
+
+    .sheern-action {
+        width: 34px;
+
+        height: 46px;
+
+        padding: 0;
+    }
+
+    .sheern-action i {
+        font-size: 15px;
+    }
+
+    .wishlist-action i {
+        font-size: 17px;
+    }
+
+    .cart-action {
+        width: 37px;
+    }
+
+
+    /* COUNTS */
+
+    .sheern-wishlist-count {
+        top: 1px;
+
+        right: 0;
+
+        min-width: 14px;
+
+        height: 14px;
+
+        font-size: 6px;
+    }
+
+    .sheern-cart-count {
+        top: 1px;
+
+        right: 0;
+
+        min-width: 15px;
+
+        height: 15px;
+
+        font-size: 6px;
+    }
+
+
+    /* MENU BUTTON */
+
+    .sheern-menu-button {
+        top: 83px;
+
+        left: 6px;
+
+        width: 35px;
+
+        height: 35px;
+    }
+
+    .sheern-menu-button span {
+        width: 14px;
+    }
+
+
+    /* NAVBAR */
+
+    .sheern-navbar {
+        position: sticky;
+
+        top: 0;
+
+        left: auto;
+
+        transform: none;
+
+        width: 100%;
+
+        margin: 0;
+
+        min-height: 45px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid var(--sheern-border);
+
+        z-index: 11500;
+    }
+
+    .sheern-navbar .container-fluid {
+        padding: 0 8px;
+    }
+
+    .sheern-navbar .navbar-toggler {
+        padding: 4px 7px;
+
+        margin-left: auto;
+    }
+
+    .sheern-navbar .navbar-collapse {
+        width: 100%;
+
+        background: #ffffff;
+
+        border-top: 1px solid var(--sheern-border);
+
+        margin-top: 5px;
+    }
+
+    .sheern-navbar .navbar-nav {
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+    }
+
+    .sheern-navbar .nav-item {
+        width: 100%;
+    }
+
+    .sheern-navbar .nav-link {
+        width: 100%;
+
+        padding: 9px 12px;
+
+        font-size: 9px;
+    }
+
+    .sheern-navbar .dropdown-menu {
+        position: static !important;
+
+        width: 100%;
+
+        border: none;
+
+        box-shadow: none;
+
+        margin: 0 !important;
+
+        padding-left: 12px;
+    }
+
+    .sheern-navbar .dropdown-item {
+        font-size: 8px;
+
+        padding: 8px 10px;
+    }
+
+
+    /* HERO */
+
+    .hero-content {
+        padding: 35px 15px;
+
+        text-align: center;
+    }
+
+    .hero-small {
+        font-size: 7px;
+
+        letter-spacing: 1.5px;
+    }
+
+    .hero h1 {
+        font-size: clamp(28px, 9vw, 34px);
+
+        line-height: 1.08;
+    }
+
+    .hero-description {
+        font-size: 10px;
+
+        line-height: 1.7;
+    }
+
+    .hero-media {
+        height: 235px;
+    }
+
+
+    /* BENEFITS */
+
+    .benefit-item {
+        width: 100%;
+
+        padding: 15px;
+
+        border-right: none;
+
+        border-bottom: 1px solid var(--sheern-border);
+    }
+
+    .benefit-icon {
+        font-size: 21px;
+    }
+
+
+    /* SECTIONS */
+
+    .section-padding {
+        padding: 45px 12px;
+    }
+
+    .section-title {
+        margin-bottom: 25px;
+    }
+
+    .section-title h2 {
+        font-size: 27px;
+    }
+
+
+    /* CATEGORY */
+
+    .category-section {
+        padding: 45px 0;
+    }
+
+    .category-section .section-title {
+        padding: 0 12px;
+    }
+
+    .category-section .section-title h2 {
+        font-size: 28px;
+    }
+
+    .category-section .section-title p {
+        font-size: 11px;
+    }
+
+    .category-slider {
+        gap: 12px;
+
+        padding: 10px 38px 20px;
+    }
+
+    .category-card {
+        flex: 0 0 140px;
+
+        width: 140px;
+
+        padding: 9px;
+    }
+
+    .category-image {
+        height: 105px;
+    }
+
+    .category-card h5 {
+        font-size: 13px;
+
+        margin-top: 10px;
+    }
+
+    .category-arrow {
+        width: 31px;
+
+        height: 31px;
+
+        font-size: 13px;
+    }
+
+    .category-prev {
+        left: 3px;
+    }
+
+    .category-next {
+        right: 3px;
+    }
+
+
+    /* PRODUCTS */
+
+    #productGrid {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    #productGrid > div {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .product-card {
+        width: 100%;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    .product-info {
+        padding: 13px;
+    }
+
+
+    /* ABOUT */
+
+    .about-image,
+    .about-section img {
+        width: 100%;
+
+        height: 240px;
+
+        object-fit: cover;
+    }
+
+    .about-content {
+        padding: 35px 15px;
+    }
+
+    .about-content h2 {
+        font-size: 28px;
+    }
+
+
+    /* TESTIMONIAL */
+
+    .testimonial {
+        padding: 45px 15px;
+    }
+
+    .testimonial-text {
+        font-size: 16px;
+
+        line-height: 1.6;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+
+    /* SIDEBAR */
+
+    .sheern-sidebar {
+        width: 85vw;
+
+        left: -90vw;
+    }
+
+    .sheern-sidebar.open {
+        left: 0;
+    }
+
+
+    /* CART */
+
+    .offcanvas {
+        width: 92% !important;
+    }
+}
+
+
+/* =========================================================
+   8. VERY NARROW PHONES
+   360px AND BELOW
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .sheern-brand {
+        width: 105px;
+
+        max-width: 30vw;
+    }
+
+    .sheern-logo {
+        width: 105px !important;
+    }
+
+    .sheern-header-actions {
+        right: 0;
+    }
+
+    .sheern-action {
+        width: 31px;
+
+        height: 44px;
+    }
+
+    .sheern-action i {
+        font-size: 14px;
+    }
+
+    .wishlist-action i {
+        font-size: 16px;
+    }
+
+    .cart-action {
+        width: 34px;
+    }
+
+
+    .hero h1 {
+        font-size: 29px;
+    }
+
+    .hero-media {
+        height: 210px;
+    }
+
+
+    .category-card {
+        flex: 0 0 130px;
+
+        width: 130px;
+    }
+
+    .category-image {
+        height: 95px;
+    }
+
+
+    .product-image {
+        height: 180px;
+    }
+}
+
+
+/* =========================================================
+   9. LANDSCAPE PHONES
+========================================================= */
+
+@media (max-width: 767px) and (orientation: landscape) {
+
+    .sheern-header {
+        height: 72px;
+    }
+
+    .sheern-brand {
+        width: 115px;
+    }
+
+    .sheern-logo {
+        width: 115px !important;
+    }
+
+    .hero-content {
+        padding: 30px 20px;
+    }
+
+    .hero-media {
+        height: 250px;
+    }
+
+    .category-image {
+        height: 100px;
+    }
+}
+
+
+/* =========================================================
+   10. PREVENT LONG TEXT FROM BREAKING MOBILE
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button {
+    overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   11. RESPONSIVE VIDEO / IMAGES
+========================================================= */
+
+.hero-video-wrapper,
+.hero-media,
+.about-image,
+.product-image,
+.category-image {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   12. STICKY NAVBAR SAFETY
+========================================================= */
+
+.sheern-navbar {
+    z-index: 11500;
+}
+
+.sheern-sidebar {
+    z-index: 12000;
+}
+
+.sidebar-overlay {
+    z-index: 11999;
+}
+
+.sheern-menu-button {
+    z-index: 13000;
+}
+
+
+/* =========================================================
+   MOBILE HEADER ACTIONS - FINAL FIX
+   Search + Wishlist + Basket + Login
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .sheern-header {
+        position: relative;
+        width: 100%;
+        height: 82px;
+        padding: 0 5px;
+        overflow: visible;
+    }
+
+    /* LOGO */
+    .sheern-brand {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 135px;
+        z-index: 10;
+    }
+
+    .sheern-logo {
+        width: 135px !important;
+        height: auto;
+    }
+
+    /* HEADER ACTIONS */
+    .sheern-header-actions {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 2px;
+        width: auto;
+        max-width: none;
+
+        z-index: 50;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* ALL ACTION BUTTONS */
+    .sheern-header-actions .sheern-action {
+        position: relative;
+
+        display: flex !important;
+        flex-shrink: 0;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 38px;
+        height: 50px;
+
+        padding: 0;
+        margin: 0;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* ICONS */
+    .sheern-header-actions .sheern-action i {
+        display: block !important;
+        font-size: 17px;
+        visibility: visible !important;
+    }
+
+    /* HIDE TEXT */
+    .sheern-header-actions .action-label {
+        display: none !important;
+    }
+
+    /* SEARCH */
+    .sheern-header-actions .search-action {
+        display: flex !important;
+        visibility: visible !important;
+    }
+
+    /* WISHLIST */
+    .sheern-header-actions .wishlist-action {
+        display: flex !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .sheern-header-actions .wishlist-action i {
+        color: var(--sheern-green);
+        font-size: 19px;
+    }
+
+    .sheern-header-actions .sheern-wishlist-count {
+        position: absolute;
+
+        top: 2px;
+        right: 0;
+
+        display: flex !important;
+
+        min-width: 15px;
+        height: 15px;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 7px;
+    }
+
+    /* BASKET */
+    .sheern-header-actions .cart-action {
+        display: flex !important;
+
+        width: 40px;
+        height: 50px;
+
+        flex-shrink: 0;
+
+        background: #ffffff;
+        border-radius: 9px;
+
+        box-shadow: 0 5px 15px rgba(38, 59, 29, 0.10);
+    }
+
+    .sheern-header-actions .cart-action i {
+        font-size: 17px;
+    }
+
+    .sheern-header-actions .sheern-cart-count {
+        position: absolute;
+
+        top: 2px;
+        right: 0;
+
+        display: flex !important;
+
+        min-width: 16px;
+        height: 16px;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 7px;
+    }
+
+    /* LOGIN */
+    .sheern-header-actions .login-action {
+        display: flex !important;
+        flex-shrink: 0;
+    }
+
+    .sheern-header-actions .login-action i {
+        font-size: 17px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .sheern-header {
+        height: 76px;
+    }
+
+    .sheern-brand {
+        left: 5px;
+        width: 105px;
+    }
+
+    .sheern-logo {
+        width: 105px !important;
+    }
+
+    .sheern-header-actions {
+        right: 3px;
+        gap: 0;
+    }
+
+    .sheern-header-actions .sheern-action {
+        width: 32px;
+        height: 46px;
+    }
+
+    .sheern-header-actions .sheern-action i {
+        font-size: 15px;
+    }
+
+    .sheern-header-actions .wishlist-action i {
+        font-size: 17px;
+    }
+
+    .sheern-header-actions .cart-action {
+        width: 35px;
+        height: 46px;
+    }
+
+    .sheern-header-actions .sheern-wishlist-count {
+        min-width: 13px;
+        height: 13px;
+        font-size: 6px;
+    }
+
+    .sheern-header-actions .sheern-cart-count {
+        min-width: 14px;
+        height: 14px;
+        font-size: 6px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .sheern-brand {
+        width: 88px;
+    }
+
+    .sheern-logo {
+        width: 88px !important;
+    }
+
+    .sheern-header-actions {
+        right: 1px;
+    }
+
+    .sheern-header-actions .sheern-action {
+        width: 29px;
+        height: 43px;
+    }
+
+    .sheern-header-actions .sheern-action i {
+        font-size: 14px;
+    }
+
+    .sheern-header-actions .wishlist-action i {
+        font-size: 16px;
+    }
+
+    .sheern-header-actions .cart-action {
+        width: 32px;
+        height: 43px;
+    }
+}

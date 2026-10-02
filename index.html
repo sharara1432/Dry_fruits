@@ -36,7 +36,7 @@
     <!-- =====================================================
          YOUR CSS
     ====================================================== -->
-
+    <link rel="stylesheet" href="CSS/About.css">
     <link rel="stylesheet" href="CSS/Style.css">
 
 </head>
@@ -102,7 +102,7 @@
 
                     <li>
 
-                        <a href="#products">
+                        <a href="AllProduct.html>
 
                             <i class="bi bi-grid"></i>
 
@@ -254,7 +254,7 @@
 
             <!-- ACCOUNT -->
 
-            <a href="#" class="side-bottom-link">
+            <a href="Login.html" class="side-bottom-link">
 
                 <i class="bi bi-person"></i>
 
@@ -440,6 +440,9 @@
 
                     </button>
 
+
+                    <!-- NAVIGATION LINKS -->
+
                     <div class="collapse navbar-collapse" id="mainNavbar">
 
                         <ul class="navbar-nav">
@@ -462,7 +465,7 @@
 
                             <li class="nav-item">
 
-                                <a class="nav-link" href="#about">
+                                <a class="nav-link" href="About.html">
 
                                     ABOUT US
 
@@ -487,7 +490,7 @@
 
                                     <li>
 
-                                        <a class="dropdown-item" href="#products">
+                                        <a class="dropdown-item" href="AllProduct.html">
 
                                             <i class="bi bi-grid"></i>
 
@@ -613,9 +616,11 @@
             <div class="sheern-header-actions">
 
 
-                <!-- SEARCH -->
+                <!-- =================================================
+                     SEARCH
+                ================================================== -->
 
-                <button type="button" class="sheern-action search-action" data-bs-toggle="modal"
+                <button type="button" class="sheern-action search-action" id="headerSearchButton" data-bs-toggle="modal"
                     data-bs-target="#searchModal" aria-label="Search">
 
                     <i class="bi bi-search"></i>
@@ -626,7 +631,11 @@
 
                 </button>
 
-                <!-- WISHLIST -->
+
+                <!-- =================================================
+                     WISHLIST
+                ================================================== -->
+
                 <button type="button" class="sheern-action wishlist-action" id="headerWishlistButton"
                     aria-label="Wishlist">
 
@@ -637,15 +646,19 @@
                     </span>
 
                     <span class="sheern-wishlist-count" id="headerWishlistCount">
+
                         0
+
                     </span>
 
                 </button>
 
 
-                <!-- BASKET -->
+                <!-- =================================================
+                     BASKET
+                ================================================== -->
 
-                <button type="button" class="sheern-action cart-action" data-bs-toggle="offcanvas"
+                <button type="button" class="sheern-action cart-action" id="headerCartButton" data-bs-toggle="offcanvas"
                     data-bs-target="#cartCanvas" aria-label="Shopping Basket">
 
                     <i class="bi bi-bag"></i>
@@ -661,17 +674,100 @@
                     </span>
 
                 </button>
-                <!-- ADMIN -->
 
-                <a href="Login.html" class="sheern-action admin-action" aria-label="Login">
 
-                    <i class="bi bi-person-gear"></i>
+                <!-- =================================================
+                     ACCOUNT
+                     ONLY ACCOUNT BUTTON OPENS THIS DROPDOWN
+                ================================================== -->
 
-                    <span class="action-label">
-                        Login
-                    </span>
+                <div class="header-account">
 
-                </a>
+
+                    <!-- ACCOUNT BUTTON -->
+
+                    <button type="button" class="account-button" id="headerLoginButton" aria-label="Account"
+                        aria-expanded="false">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        <span id="accountButtonName">
+                            Login
+                        </span>
+
+                        <i class="bi bi-chevron-down account-arrow"></i>
+
+                    </button>
+
+
+                    <!-- =================================================
+                         ACCOUNT DROPDOWN
+                    ================================================== -->
+
+                    <div class="account-dropdown" id="accountDropdown">
+
+
+                        <!-- ACCOUNT HEADER -->
+
+                        <div class="account-dropdown-header">
+
+                        
+
+                            <strong id="accountName">
+                                    My Account
+                                </strong>
+
+                        
+
+                        </div>
+
+
+                        <!-- DIVIDER -->
+
+                        <div class="account-dropdown-divider"></div>
+
+
+                        <!-- LOGIN -->
+
+                        <a href="Login.html" id="loginDropdownLink">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            <span>
+                                Login
+                            </span>
+
+                        </a>
+
+
+                        <!-- CREATE ACCOUNT -->
+
+                        <a href="register.html" id="registerDropdownLink">
+
+                            <i class="bi bi-person-plus"></i>
+
+                            <span>
+                                Create Account
+                            </span>
+
+                        </a>
+
+
+                        <!-- LOGOUT -->
+
+                        <a href="#" id="logoutButton" class="d-none">
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            <span>
+                                Logout
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -771,6 +867,8 @@
                 <div class="row">
 
 
+                    <!-- BENEFIT 1 -->
+
                     <div class="col-lg-3 col-md-6">
 
                         <div class="benefit-item">
@@ -793,6 +891,8 @@
 
                     </div>
 
+
+                    <!-- BENEFIT 2 -->
 
                     <div class="col-lg-3 col-md-6">
 
@@ -817,6 +917,8 @@
                     </div>
 
 
+                    <!-- BENEFIT 3 -->
+
                     <div class="col-lg-3 col-md-6">
 
                         <div class="benefit-item">
@@ -839,6 +941,8 @@
 
                     </div>
 
+
+                    <!-- BENEFIT 4 -->
 
                     <div class="col-lg-3 col-md-6">
 
@@ -876,6 +980,8 @@
         <section class="category-section" id="categories">
 
 
+            <!-- SECTION TITLE -->
+
             <div class="section-title">
 
                 <p>
@@ -903,6 +1009,8 @@
             </div>
 
 
+            <!-- CATEGORY SLIDER -->
+
             <div class="category-slider-wrapper">
 
 
@@ -920,7 +1028,7 @@
 
                 <div class="category-slider" id="categorySlider">
 
-                    <!-- Categories generated by JS -->
+                    <!-- Categories generated by JavaScript -->
 
                 </div>
 
@@ -950,12 +1058,16 @@
                 <div class="row align-items-center">
 
 
+                    <!-- ABOUT IMAGE -->
+
                     <div class="col-lg-6 p-0">
 
                         <img src="Photos/MIX.jpg" class="about-image" alt="Premium Mixed Dry Fruits">
 
                     </div>
 
+
+                    <!-- ABOUT CONTENT -->
 
                     <div class="col-lg-6">
 
@@ -1011,6 +1123,8 @@
 
         <section class="products-section section-padding" id="products">
 
+
+            <!-- SECTION TITLE -->
 
             <div class="section-title">
 
@@ -1160,19 +1274,27 @@
                         <ul>
 
                             <li>
-                                <a href="#home">Home</a>
+                                <a href="index.html">
+                                    Home
+                                </a>
                             </li>
 
                             <li>
-                                <a href="#about">About Us</a>
+                                <a href="About.html">
+                                    About Us
+                                </a>
                             </li>
 
                             <li>
-                                <a href="#products">Products</a>
+                                <a href="#products">
+                                    Products
+                                </a>
                             </li>
 
                             <li>
-                                <a href="#categories">Categories</a>
+                                <a href="#categories">
+                                    Categories
+                                </a>
                             </li>
 
                         </ul>
@@ -1276,6 +1398,8 @@
             <div class="modal-content search-modal">
 
 
+                <!-- MODAL HEADER -->
+
                 <div class="modal-header">
 
                     <h5 class="modal-title">
@@ -1293,6 +1417,8 @@
 
                 </div>
 
+
+                <!-- MODAL BODY -->
 
                 <div class="modal-body">
 
@@ -1338,6 +1464,8 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
 
 
+        <!-- CART HEADER -->
+
         <div class="offcanvas-header">
 
             <h5 class="offcanvas-title">
@@ -1356,6 +1484,8 @@
         </div>
 
 
+        <!-- CART BODY -->
+
         <div class="offcanvas-body">
 
 
@@ -1373,6 +1503,8 @@
 
             </div>
 
+
+            <!-- CART SUMMARY -->
 
             <div class="cart-summary">
 
@@ -1411,12 +1543,15 @@
 
 
     <!-- =========================================================
-         YOUR JAVASCRIPT
+         YOUR MAIN JAVASCRIPT
     ========================================================= -->
 
     <script src="JS/Dry.js"></script>
+    <script src="JS/Login.js"></script>
+
+
 
 
 </body>
 
-</html
+</html>

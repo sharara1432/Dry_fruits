@@ -117,8 +117,56 @@
         "weight": "250g",
         "rating": 5,
         "reviews": 105,
-        "description": "Naturally sweet dates",
+        "description": "Naturally Saffron",
         "badge": "POPULAR",
-        "category": "dates"
+        "category": "saffron"
+    },
+    {
+        "id": 11,
+        "name": "Premium Apricot",
+        "image": "Photos/Apricote.jpg",
+        "price": 400,
+        "weight": "250g",
+        "rating": 3,
+        "reviews": 105,
+        "description": "Naturally sweet apricots",
+        "badge": "POPULAR",
+        "category": "apricot"
+    },
+    {
+        "id": 12,
+        "name": "Premium Black Raisins",
+        "image": "Photos/blackRasin.jpg",
+        "price": 250,
+        "weight": "250g",
+        "rating": 4.3,
+        "reviews": 105,
+        "description": "Naturally sweet black raisins",
+        "badge": "POPULAR",
+        "category": "black-raisins"
+    },
+    {
+        "id": 13,
+        "name": "Premium Sunflower Seeds",
+        "image": "Photos/Sunflower.jpg",
+        "price": 300,
+        "weight": "250g",
+        "rating": 4,
+        "reviews": 105,
+        "description": "Naturally sweet sunflower seeds",
+        "badge": "POPULAR",
+        "category": "sunflower-seeds"
+    },
+    {
+        "id": 14,
+        "name": "Premium Nuqol",
+        "image": "Photos/Nuqol.jpeg",
+        "price": 450,
+        "weight": "250g",
+        "rating": 5,
+        "reviews": 103,
+        "description": "Naturally sweet nuqol",
+        "badge": "POPULAR",
+        "category": "nuqol"
     }
 ]

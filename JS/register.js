@@ -1,22 +1,18 @@
-/* =========================================================
-   SHEERN PREMIUM DRY FRUIT
-   REGISTRATION SYSTEM
-========================================================= */
-
 "use strict";
+const registerForm =
+    document.getElementById("registerForm");
 
+const fullNameInput =
+    document.getElementById("fullName");
 
-/* ================= GET ELEMENTS ================= */
+const usernameInput =
+    document.getElementById("username");
 
-const registerForm = document.getElementById("registerForm");
+const emailInput =
+    document.getElementById("email");
 
-const fullNameInput = document.getElementById("fullName");
-
-const usernameInput = document.getElementById("username");
-
-const emailInput = document.getElementById("email");
-
-const passwordInput = document.getElementById("password");
+const passwordInput =
+    document.getElementById("password");
 
 const confirmPasswordInput =
     document.getElementById("confirmPassword");
@@ -35,25 +31,25 @@ const registerMessage =
 
 
 /* =========================================================
-   SHOW MESSAGE
+   SHOW REGISTER MESSAGE
 ========================================================= */
 
-function showRegisterMessage(message, type) {
+function showRegisterMessage(message, type = "") {
 
     if (!registerMessage) {
         return;
     }
 
-    registerMessage.textContent = message;
+    registerMessage.textContent =
+        message;
 
     registerMessage.className =
         "register-message " + type;
-
 }
 
 
 /* =========================================================
-   PASSWORD TOGGLE
+   PASSWORD SHOW / HIDE
 ========================================================= */
 
 if (passwordToggle && passwordInput) {
@@ -64,17 +60,31 @@ if (passwordToggle && passwordInput) {
 
             if (passwordInput.type === "password") {
 
-                passwordInput.type = "text";
+                passwordInput.type =
+                    "text";
 
                 passwordToggle.innerHTML =
                     '<i class="bi bi-eye-slash"></i>';
 
-            } else {
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
-                passwordInput.type = "password";
+            }
+
+            else {
+
+                passwordInput.type =
+                    "password";
 
                 passwordToggle.innerHTML =
                     '<i class="bi bi-eye"></i>';
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
 
             }
 
@@ -85,7 +95,7 @@ if (passwordToggle && passwordInput) {
 
 
 /* =========================================================
-   CONFIRM PASSWORD TOGGLE
+   CONFIRM PASSWORD SHOW / HIDE
 ========================================================= */
 
 if (
@@ -102,18 +112,31 @@ if (
                 "password"
             ) {
 
-                confirmPasswordInput.type = "text";
+                confirmPasswordInput.type =
+                    "text";
 
                 confirmPasswordToggle.innerHTML =
                     '<i class="bi bi-eye-slash"></i>';
 
-            } else {
+                confirmPasswordToggle.setAttribute(
+                    "aria-label",
+                    "Hide confirm password"
+                );
+
+            }
+
+            else {
 
                 confirmPasswordInput.type =
                     "password";
 
                 confirmPasswordToggle.innerHTML =
                     '<i class="bi bi-eye"></i>';
+
+                confirmPasswordToggle.setAttribute(
+                    "aria-label",
+                    "Show confirm password"
+                );
 
             }
 
@@ -136,7 +159,9 @@ if (registerForm) {
             event.preventDefault();
 
 
-            /* ================= GET VALUES ================= */
+            /* =================================================
+               GET VALUES
+            ================================================= */
 
             const fullName =
                 fullNameInput.value.trim();
@@ -154,7 +179,9 @@ if (registerForm) {
                 confirmPasswordInput.value;
 
 
-            /* ================= EMPTY CHECK ================= */
+            /* =================================================
+               EMPTY CHECK
+            ================================================= */
 
             if (
                 fullName === "" ||
@@ -170,11 +197,27 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= USERNAME CHECK ================= */
+            /* =================================================
+               FULL NAME CHECK
+            ================================================= */
+
+            if (fullName.length < 2) {
+
+                showRegisterMessage(
+                    "Please enter your full name.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* =================================================
+               USERNAME CHECK
+            ================================================= */
 
             if (username.length < 3) {
 
@@ -184,14 +227,16 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= EMAIL CHECK ================= */
+            /* =================================================
+               EMAIL FORMAT CHECK
+            ================================================= */
 
             const emailPattern =
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
             if (!emailPattern.test(email)) {
 
@@ -201,11 +246,12 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= PASSWORD CHECK ================= */
+            /* =================================================
+               PASSWORD CHECK
+            ================================================= */
 
             if (password.length < 6) {
 
@@ -215,13 +261,17 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= CONFIRM PASSWORD ================= */
+            /* =================================================
+               CONFIRM PASSWORD CHECK
+            ================================================= */
 
-            if (password !== confirmPassword) {
+            if (
+                password !==
+                confirmPassword
+            ) {
 
                 showRegisterMessage(
                     "Passwords do not match.",
@@ -229,11 +279,12 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= TERMS ================= */
+            /* =================================================
+               TERMS & CONDITIONS
+            ================================================= */
 
             if (
                 termsCheckbox &&
@@ -246,41 +297,64 @@ if (registerForm) {
                 );
 
                 return;
-
             }
-
-
-            /* =================================================
-               GET EXISTING USERS
-            ================================================= */
 
             let users = [];
 
+
             try {
 
-                users = JSON.parse(
-                    localStorage.getItem("sheernUsers")
-                ) || [];
+                const storedUsers =
+                    localStorage.getItem(
+                        "sheernUsers"
+                    );
 
-            } catch (error) {
+
+                if (storedUsers) {
+
+                    users =
+                        JSON.parse(storedUsers);
+
+                }
+
+
+                if (!Array.isArray(users)) {
+
+                    users = [];
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error reading Sheern users:",
+                    error
+                );
 
                 users = [];
 
             }
 
 
-            /* ================= DUPLICATE USERNAME ================= */
+            /* =================================================
+               CHECK USERNAME
+            ================================================= */
 
             const usernameExists =
-                users.some(function (user) {
+                users.some(
+                    function (user) {
 
-                    return (
-                        user.username &&
-                        user.username.toLowerCase() ===
-                        username.toLowerCase()
-                    );
+                        return (
+                            user.username &&
+                            user.username
+                                .toLowerCase() ===
+                            username.toLowerCase()
+                        );
 
-                });
+                    }
+                );
 
 
             if (usernameExists) {
@@ -291,22 +365,26 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
-            /* ================= DUPLICATE EMAIL ================= */
+            /* =================================================
+               CHECK EMAIL
+            ================================================= */
 
             const emailExists =
-                users.some(function (user) {
+                users.some(
+                    function (user) {
 
-                    return (
-                        user.email &&
-                        user.email.toLowerCase() ===
-                        email.toLowerCase()
-                    );
+                        return (
+                            user.email &&
+                            user.email
+                                .toLowerCase() ===
+                            email.toLowerCase()
+                        );
 
-                });
+                    }
+                );
 
 
             if (emailExists) {
@@ -317,12 +395,11 @@ if (registerForm) {
                 );
 
                 return;
-
             }
 
 
             /* =================================================
-               CREATE NEW USER
+               CREATE NEW CUSTOMER
             ================================================= */
 
             const newUser = {
@@ -345,9 +422,16 @@ if (registerForm) {
             };
 
 
-            /* ================= SAVE USER ================= */
+            /* =================================================
+               ADD NEW USER
+            ================================================= */
 
             users.push(newUser);
+
+
+            /* =================================================
+               SAVE USERS TO LOCAL STORAGE
+            ================================================= */
 
             localStorage.setItem(
                 "sheernUsers",
@@ -355,7 +439,25 @@ if (registerForm) {
             );
 
 
-            /* ================= SUCCESS ================= */
+            /* =================================================
+               CHECK THAT USER WAS SAVED
+            ================================================= */
+
+            console.log(
+                "New Sheern user registered:",
+                newUser
+            );
+
+
+            console.log(
+                "All Sheern users:",
+                users
+            );
+
+
+            /* =================================================
+               SUCCESS MESSAGE
+            ================================================= */
 
             showRegisterMessage(
                 "Account created successfully! Redirecting to login...",
@@ -363,18 +465,26 @@ if (registerForm) {
             );
 
 
-            /* ================= CLEAR FORM ================= */
+            /* =================================================
+               RESET FORM
+            ================================================= */
 
             registerForm.reset();
 
 
-            /* ================= REDIRECT ================= */
+            /* =================================================
+               REDIRECT TO LOGIN
+            ================================================= */
 
-            setTimeout(function () {
+            setTimeout(
+                function () {
 
-                window.location.href = "login.html";
+                    window.location.href =
+                        "Login.html";
 
-            }, 1500);
+                },
+                1500
+            );
 
         }
     );
@@ -383,9 +493,10 @@ if (registerForm) {
 
 
 /* =========================================================
-   CONSOLE TEST
+   REGISTER.JS LOADED
 ========================================================= */
 
 console.log(
     "Sheern register.js loaded successfully."
 );
+

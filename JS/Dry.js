@@ -1,11 +1,8 @@
-/* =========================================================
-   SHEERN PREMIUM DRY FRUIT
-   PRODUCTS + SEARCH + CART + WISHLIST + SIDEBAR
-   + CATEGORY CAROUSEL
-========================================================= */
-
 let products = [];
-let cart = [];
+
+let cart = JSON.parse(
+    localStorage.getItem("sheernCart")
+) || [];
 
 
 /* =========================================================
@@ -16,7 +13,7 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch ("DATA/products.json");
+        const response = await fetch("DATA/products.json");
 
         if (!response.ok) {
 
@@ -31,14 +28,31 @@ async function loadProducts() {
         console.log("JSON DATA:", data);
 
 
-        
-        products = data;
+        /*
+            Supports BOTH formats:
+
+            1. [
+                {...},
+                {...}
+            ]
+
+            2. {
+                "products": [
+                    {...},
+                    {...}
+                ]
+            }
+        */
+
+        products = Array.isArray(data)
+            ? data
+            : data.products;
 
 
         if (!Array.isArray(products)) {
 
             throw new Error(
-                "products.json must contain an array."
+                "products.json must contain an array or a products array."
             );
 
         }
@@ -52,11 +66,11 @@ async function loadProducts() {
 
         displayCategories();
 
-
         displayProducts(products);
 
-
         updateCart();
+
+        loadWishlist();
 
     }
 
@@ -67,13 +81,28 @@ async function loadProducts() {
             error
         );
 
+        const productGrid =
+            document.getElementById("productGrid");
+
+        if (productGrid) {
+
+            productGrid.innerHTML = `
+                <div class="col-12 text-center">
+                    <p>
+                        Unable to load products.
+                    </p>
+                </div>
+            `;
+
+        }
+
     }
 
 }
 
 
 /* =========================================================
-   DISPLAY CATEGORIES FROM JSON
+   DISPLAY CATEGORIES
 ========================================================= */
 
 function displayCategories() {
@@ -82,10 +111,10 @@ function displayCategories() {
         document.getElementById("categorySlider");
 
 
-    if (!categorySlider || !Array.isArray(products)) {
+    if (!categorySlider) {
 
         console.error(
-            "categorySlider not found or products are not an array."
+            "categorySlider not found."
         );
 
         return;
@@ -93,7 +122,6 @@ function displayCategories() {
     }
 
 
-    
     categorySlider.innerHTML = "";
 
 
@@ -122,7 +150,6 @@ function displayCategories() {
 
     categories.forEach(function (category) {
 
-
         const product =
             products.find(function (item) {
 
@@ -136,7 +163,6 @@ function displayCategories() {
         if (!product) return;
 
 
-        // Makes category readable
         const categoryName =
             category
                 .split(" ")
@@ -151,27 +177,28 @@ function displayCategories() {
                 .join(" ");
 
 
-        // Create category card
         categorySlider.insertAdjacentHTML(
             "beforeend",
             `
             <div
                 class="category-card"
-                data-category="${category}"
+                data-category="${escapeHTML(category)}"
             >
 
                 <div class="category-image">
 
                     <img
-                        src="${product.image}"
-                        alt="${categoryName}"
+                        src="${escapeAttribute(product.image)}"
+                        alt="${escapeAttribute(categoryName)}"
                         loading="lazy"
                         onerror="this.src='Photos/Logo.png'"
                     >
 
                 </div>
 
-                <h5>${categoryName}</h5>
+                <h5>
+                    ${escapeHTML(categoryName)}
+                </h5>
 
             </div>
             `
@@ -180,7 +207,11 @@ function displayCategories() {
     });
 
 
-    // Add click event to category cards
+    /*
+        Add click events AFTER
+        the cards have been created.
+    */
+
     document
         .querySelectorAll(".category-card")
         .forEach(function (card) {
@@ -192,245 +223,12 @@ function displayCategories() {
                     const category =
                         this.dataset.category;
 
-
                     filterByCategory(category);
 
                 }
-
             );
 
         });
-
-}
-/* =========================================================
-   HEADER WISHLIST BUTTON
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const headerWishlistButton =
-            document.getElementById(
-                "headerWishlistButton"
-            );
-
-
-        if (headerWishlistButton) {
-
-            headerWishlistButton.addEventListener(
-                "click",
-                function () {
-
-                    const wishlist =
-                        JSON.parse(
-                            localStorage.getItem("wishlist")
-                        ) || [];
-
-
-                    /* EMPTY WISHLIST */
-
-                    if (wishlist.length === 0) {
-
-                        alert(
-                            "Your wishlist is empty."
-                        );
-
-                        return;
-
-                    }
-
-
-                    /* GET WISHLIST PRODUCTS */
-
-                    const wishlistProducts =
-                        products.filter(
-                            function (product) {
-
-                                return wishlist.includes(
-                                    String(product.id)
-                                );
-
-                            }
-                        );
-
-
-
-                    displayProducts(
-                        wishlistProducts
-                    );
-
-
-
-                    const productSection =
-                        document.getElementById(
-                            "products"
-                        );
-
-
-                    if (productSection) {
-
-                        productSection.scrollIntoView({
-                            behavior: "smooth"
-                        });
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   LOAD WISHLIST
-========================================================= */
-
-function loadWishlist() {
-
-    const wishlist =
-        JSON.parse(
-            localStorage.getItem("wishlist")
-        ) || [];
-
-
-    document
-        .querySelectorAll(".wishlist-btn")
-        .forEach(function (btn) {
-
-            const productId =
-                String(btn.dataset.id);
-
-
-            /* CHECK IF PRODUCT IS IN WISHLIST */
-
-            if (wishlist.includes(productId)) {
-
-                btn.classList.add("active");
-
-                btn.innerHTML =
-                    '<i class="bi bi-heart-fill"></i>';
-
-            }
-
-            else {
-
-                btn.classList.remove("active");
-
-                btn.innerHTML =
-                    '<i class="bi bi-heart"></i>';
-
-            }
-
-
-            /* ADD WISHLIST ACTION */
-
-            btn.onclick = function () {
-
-                toggleWishlist(productId);
-
-            };
-
-        });
-
-
-   
-
-    updateWishlistCount(
-        wishlist.length
-    );
-
-}
-
-
-/* =========================================================
-   ADD / REMOVE WISHLIST
-========================================================= */
-
-function toggleWishlist(productId) {
-
-    let wishlist =
-        JSON.parse(
-            localStorage.getItem("wishlist")
-        ) || [];
-
-
-    productId =
-        String(productId);
-
-
-    const index =
-        wishlist.indexOf(productId);
-
-
-    /* ADD */
-
-    if (index === -1) {
-
-        wishlist.push(productId);
-
-        localStorage.setItem(
-            "wishlist",
-            JSON.stringify(wishlist)
-        );
-
-
-        alert(
-            "Product added to your wishlist."
-        );
-
-    }
-
-    /* REMOVE */
-
-    else {
-
-        wishlist.splice(
-            index,
-            1
-        );
-
-        localStorage.setItem(
-            "wishlist",
-            JSON.stringify(wishlist)
-        );
-
-
-        alert(
-            "Product removed from your wishlist."
-        );
-
-    }
-
-
-    /* REFRESH HEARTS + COUNT */
-
-    loadWishlist();
-
-}
-
-
-/* =========================================================
-   UPDATE NAVBAR WISHLIST COUNT
-========================================================= */
-
-function updateWishlistCount(count) {
-
-    const headerWishlistCount =
-        document.getElementById(
-            "headerWishlistCount"
-        );
-
-
-    if (headerWishlistCount) {
-
-        headerWishlistCount.textContent =
-            count;
-
-    }
 
 }
 
@@ -444,21 +242,23 @@ function displayProducts(productList = products) {
     const productGrid =
         document.getElementById("productGrid");
 
+
     if (!productGrid) {
 
         console.error(
-            "productGrid not found"
+            "productGrid not found."
         );
 
         return;
+
     }
+
 
     productGrid.innerHTML = "";
 
-    /* NO PRODUCTS FOUND */
 
     if (
-        !productList ||
+        !Array.isArray(productList) ||
         productList.length === 0
     ) {
 
@@ -469,15 +269,20 @@ function displayProducts(productList = products) {
         `;
 
         return;
+
     }
 
-
-    /* CREATE PRODUCT CARDS */
 
     productList.forEach(function (product) {
 
         const rating =
-            Number(product.rating) || 0;
+            Math.max(
+                0,
+                Math.min(
+                    5,
+                    Number(product.rating) || 0
+                )
+            );
 
 
         const stars =
@@ -491,14 +296,18 @@ function displayProducts(productList = products) {
 
                 <div
                     class="product-card"
-                    data-category="${product.category}"
+                    data-category="${escapeAttribute(
+            product.category || ""
+        )}"
                 >
 
                     <!-- PRODUCT BADGE -->
 
                     <span class="product-badge">
 
-                        ${product.badge || "Premium"}
+                        ${escapeHTML(
+            product.badge || "Premium"
+        )}
 
                     </span>
 
@@ -507,7 +316,7 @@ function displayProducts(productList = products) {
 
                     <button
                         class="wishlist-btn"
-                        data-id="${product.id}"
+                        data-id="${escapeAttribute(product.id)}"
                         type="button"
                         aria-label="Add to Wishlist"
                     >
@@ -522,8 +331,8 @@ function displayProducts(productList = products) {
                     <div class="product-image">
 
                         <img
-                            src="${product.image}"
-                            alt="${product.name}"
+                            src="${escapeAttribute(product.image)}"
+                            alt="${escapeAttribute(product.name)}"
                             loading="lazy"
                             onerror="this.src='Photos/Logo.png'"
                         >
@@ -535,11 +344,9 @@ function displayProducts(productList = products) {
 
                     <div class="product-info">
 
-                        <!-- PRODUCT NAME -->
-
                         <h4>
 
-                            ${product.name}
+                            ${escapeHTML(product.name)}
 
                         </h4>
 
@@ -552,7 +359,9 @@ function displayProducts(productList = products) {
 
                             <span>
 
-                                (${product.reviews || 0})
+                                (${escapeHTML(
+            product.reviews || 0
+        )})
 
                             </span>
 
@@ -563,7 +372,9 @@ function displayProducts(productList = products) {
 
                         <p class="product-description">
 
-                            ${product.description || ""}
+                            ${escapeHTML(
+            product.description || ""
+        )}
 
                         </p>
 
@@ -572,11 +383,13 @@ function displayProducts(productList = products) {
 
                         <div class="product-price">
 
-                            ₹${product.price}
+                            ₹${Number(product.price || 0).toFixed(2)}
 
                             <small>
 
-                                / ${product.weight || ""}
+                                / ${escapeHTML(
+            product.weight || ""
+        )}
 
                             </small>
 
@@ -588,7 +401,7 @@ function displayProducts(productList = products) {
                         <button
                             class="add-cart-btn"
                             type="button"
-                            onclick="addToCart(${product.id})"
+                            onclick="addToCart(${Number(product.id)})"
                         >
 
                             <i class="bi bi-cart-plus"></i>
@@ -614,11 +427,256 @@ function displayProducts(productList = products) {
     });
 
 
-    
+    loadWishlist();
+
+}
+
+
+/* =========================================================
+   WISHLIST
+========================================================= */
+
+function getWishlist() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("wishlist")
+        ) || [];
+
+    }
+
+    catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD WISHLIST
+========================================================= */
+
+function loadWishlist() {
+
+    const wishlist = getWishlist();
+
+
+    document
+        .querySelectorAll(".wishlist-btn")
+        .forEach(function (btn) {
+
+            const productId =
+                String(btn.dataset.id);
+
+
+            if (wishlist.includes(productId)) {
+
+                btn.classList.add("active");
+
+                btn.innerHTML =
+                    '<i class="bi bi-heart-fill"></i>';
+
+            }
+
+            else {
+
+                btn.classList.remove("active");
+
+                btn.innerHTML =
+                    '<i class="bi bi-heart"></i>';
+
+            }
+
+
+            btn.onclick = function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                toggleWishlist(productId);
+
+            };
+
+        });
+
+
+    updateWishlistCount(
+        wishlist.length
+    );
+
+}
+
+
+/* =========================================================
+   TOGGLE WISHLIST
+========================================================= */
+
+function toggleWishlist(productId) {
+
+    let wishlist = getWishlist();
+
+
+    productId = String(productId);
+
+
+    const index =
+        wishlist.indexOf(productId);
+
+
+    if (index === -1) {
+
+        wishlist.push(productId);
+
+        alert(
+            "Product added to your wishlist."
+        );
+
+    }
+
+    else {
+
+        wishlist.splice(index, 1);
+
+        alert(
+            "Product removed from your wishlist."
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
+
 
     loadWishlist();
 
 }
+
+
+/* =========================================================
+   WISHLIST COUNT
+========================================================= */
+
+function updateWishlistCount(count) {
+
+    const headerWishlistCount =
+        document.getElementById(
+            "headerWishlistCount"
+        );
+
+
+    const sidebarWishlistCount =
+        document.getElementById(
+            "sidebarWishlistCount"
+        );
+
+
+    if (headerWishlistCount) {
+
+        headerWishlistCount.textContent =
+            count;
+
+    }
+
+
+    if (sidebarWishlistCount) {
+
+        sidebarWishlistCount.textContent =
+            count;
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER WISHLIST BUTTON
+========================================================= */
+
+function setupWishlistButton() {
+
+    const headerWishlistButton =
+        document.getElementById(
+            "headerWishlistButton"
+        );
+
+
+    if (!headerWishlistButton) return;
+
+
+    headerWishlistButton.addEventListener(
+        "click",
+        function () {
+
+            const wishlist =
+                getWishlist();
+
+
+            if (wishlist.length === 0) {
+
+                alert(
+                    "Your wishlist is empty."
+                );
+
+                return;
+
+            }
+
+
+            const wishlistProducts =
+                products.filter(function (product) {
+
+                    return wishlist.includes(
+                        String(product.id)
+                    );
+
+                });
+
+
+            displayProducts(
+                wishlistProducts
+            );
+
+
+            const productSection =
+                document.getElementById(
+                    "products"
+                );
+
+
+            if (productSection) {
+
+                productSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CART - SAVE
+========================================================= */
+
+function saveCart() {
+
+    localStorage.setItem(
+        "sheernCart",
+        JSON.stringify(cart)
+    );
+
+}
+
 
 /* =========================================================
    ADD TO CART
@@ -629,7 +687,8 @@ function addToCart(productId) {
     const product =
         products.find(function (item) {
 
-            return item.id == productId;
+            return String(item.id) ===
+                String(productId);
 
         });
 
@@ -646,11 +705,11 @@ function addToCart(productId) {
     }
 
 
-    // Check if already in cart
     const existingProduct =
         cart.find(function (item) {
 
-            return item.id == productId;
+            return String(item.id) ===
+                String(productId);
 
         });
 
@@ -674,8 +733,9 @@ function addToCart(productId) {
     }
 
 
-    updateCart();
+    saveCart();
 
+    updateCart();
 
     showAddedMessage(
         product.name
@@ -691,15 +751,21 @@ function addToCart(productId) {
 function updateCart() {
 
     const cartItems =
-        document.getElementById("cartItems");
+        document.getElementById(
+            "cartItems"
+        );
 
 
     const cartCount =
-        document.getElementById("headerCartCount");
+        document.getElementById(
+            "headerCartCount"
+        );
 
 
     const cartTotal =
-        document.getElementById("cartTotal");
+        document.getElementById(
+            "cartTotal"
+        );
 
 
     let totalItems = 0;
@@ -707,20 +773,18 @@ function updateCart() {
     let totalPrice = 0;
 
 
-    // Calculate totals
     cart.forEach(function (item) {
 
-        totalItems += item.quantity;
+        totalItems +=
+            Number(item.quantity) || 0;
 
 
         totalPrice +=
-            Number(item.price) *
-            item.quantity;
+            Number(item.price || 0) *
+            Number(item.quantity || 0);
 
     });
 
-
-    /* CART COUNT */
 
     if (cartCount) {
 
@@ -729,8 +793,6 @@ function updateCart() {
 
     }
 
-
-    /* CART TOTAL */
 
     if (cartTotal) {
 
@@ -744,25 +806,21 @@ function updateCart() {
     if (!cartItems) return;
 
 
-    /* EMPTY CART */
-
     if (cart.length === 0) {
 
         cartItems.innerHTML = `
 
-            < div class="empty-cart" >
+            <div class="empty-cart">
 
                 <i class="bi bi-cart-x"></i>
 
                 <p>
-
                     Your cart is empty.
-
                 </p>
 
-            </div >
+            </div>
 
-            `;
+        `;
 
         return;
 
@@ -772,100 +830,90 @@ function updateCart() {
     cartItems.innerHTML = "";
 
 
-    /* CART PRODUCTS */
-
     cart.forEach(function (item) {
 
         cartItems.insertAdjacentHTML(
             "beforeend",
             `
 
-            < div class="cart-product" >
-
+            <div class="cart-product">
 
                 <img
-                    src="${item.image}"
-                    alt="${item.name}"
+                    src="${escapeAttribute(item.image)}"
+                    alt="${escapeAttribute(item.name)}"
+                    onerror="this.src='Photos/Logo.png'"
                 >
 
 
-                    <div class="cart-product-info">
+                <div class="cart-product-info">
 
-                        <h6>
+                    <h6>
 
-                            ${item.name}
+                        ${escapeHTML(item.name)}
 
-                        </h6>
+                    </h6>
 
+                    <p>
 
-                        <p>
+                        ₹${Number(item.price || 0).toFixed(2)}
 
-                            ₹${item.price}
+                        ×
 
-                            ×
+                        ${Number(item.quantity)}
 
-                            ${item.quantity}
+                    </p>
 
-                        </p>
-
-                    </div>
-
-
-                    <!-- QUANTITY -->
-
-                    <div class="cart-quantity">
+                </div>
 
 
-                        <button
-                            class="btn btn-sm btn-light"
-                            type="button"
-                            onclick="changeQuantity(${item.id}, -1)"
-                        >
-
-                            −
-
-                        </button>
-
-
-                        <span class="mx-2">
-
-                            ${item.quantity}
-
-                        </span>
-
-
-                        <button
-                            class="btn btn-sm btn-light"
-                            type="button"
-                            onclick="changeQuantity(${item.id}, 1)"
-                        >
-
-                            +
-
-                        </button>
-
-
-                    </div>
-
-
-                    <!-- REMOVE -->
+                <div class="cart-quantity">
 
                     <button
-                        class="remove-cart"
+                        class="btn btn-sm btn-light"
                         type="button"
-                        onclick="removeFromCart(${item.id})"
+                        onclick="changeQuantity(${Number(item.id)}, -1)"
                     >
 
-                        <i class="bi bi-trash"></i>
-
-                        Remove
+                        −
 
                     </button>
 
 
+                    <span class="mx-2">
+
+                        ${Number(item.quantity)}
+
+                    </span>
+
+
+                    <button
+                        class="btn btn-sm btn-light"
+                        type="button"
+                        onclick="changeQuantity(${Number(item.id)}, 1)"
+                    >
+
+                        +
+
+                    </button>
+
                 </div>
 
-        `
+
+                <button
+                    class="remove-cart"
+                    type="button"
+                    onclick="removeFromCart(${Number(item.id)})"
+                >
+
+                    <i class="bi bi-trash"></i>
+
+                    Remove
+
+                </button>
+
+            </div>
+
+            `
         );
 
     });
@@ -882,7 +930,8 @@ function changeQuantity(productId, change) {
     const product =
         cart.find(function (item) {
 
-            return item.id == productId;
+            return String(item.id) ===
+                String(productId);
 
         });
 
@@ -890,21 +939,25 @@ function changeQuantity(productId, change) {
     if (!product) return;
 
 
-    product.quantity += change;
+    product.quantity =
+        Number(product.quantity) +
+        Number(change);
 
 
-    // Remove when quantity becomes zero
     if (product.quantity <= 0) {
 
         cart =
             cart.filter(function (item) {
 
-                return item.id != productId;
+                return String(item.id) !==
+                    String(productId);
 
             });
 
     }
 
+
+    saveCart();
 
     updateCart();
 
@@ -920,10 +973,13 @@ function removeFromCart(productId) {
     cart =
         cart.filter(function (item) {
 
-            return item.id != productId;
+            return String(item.id) !==
+                String(productId);
 
         });
 
+
+    saveCart();
 
     updateCart();
 
@@ -931,7 +987,7 @@ function removeFromCart(productId) {
 
 
 /* =========================================================
-   ADDED TO CART MESSAGE
+   CART MESSAGE
 ========================================================= */
 
 function showAddedMessage(productName) {
@@ -951,18 +1007,18 @@ function showAddedMessage(productName) {
 function searchProducts() {
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
 
     const searchResults =
-        document.getElementById("searchResults");
+        document.getElementById(
+            "searchResults"
+        );
 
 
-    if (!searchInput) {
-
-        return;
-
-    }
+    if (!searchInput) return;
 
 
     const searchText =
@@ -970,8 +1026,6 @@ function searchProducts() {
             .trim()
             .toLowerCase();
 
-
-    /* EMPTY SEARCH */
 
     if (searchText === "") {
 
@@ -982,13 +1036,14 @@ function searchProducts() {
 
             searchResults.innerHTML = `
 
-            < p class="search-hint" >
+                <p class="search-hint">
 
-                <i class="bi bi-info-circle"></i>
+                    <i class="bi bi-info-circle"></i>
 
-                    Search for your favorite dry fruits.
+                    Search for your favorite
+                    dry fruits.
 
-                </p >
+                </p>
 
             `;
 
@@ -998,8 +1053,6 @@ function searchProducts() {
 
     }
 
-
-    /* FILTER PRODUCTS */
 
     const results =
         products.filter(function (product) {
@@ -1039,12 +1092,8 @@ function searchProducts() {
         });
 
 
-    /* DISPLAY SEARCH RESULTS */
-
     displayProducts(results);
 
-
-    /* SEARCH MESSAGE */
 
     if (searchResults) {
 
@@ -1052,11 +1101,11 @@ function searchProducts() {
 
             searchResults.innerHTML = `
 
-            < p class="search-hint" >
+                <p class="search-hint">
 
-                No products found.
+                    No products found.
 
-                </p >
+                </p>
 
             `;
 
@@ -1066,13 +1115,12 @@ function searchProducts() {
 
             searchResults.innerHTML = `
 
-            < p class="search-result-title" >
+                <p class="search-result-title">
 
-                ${results.length}
+                    ${results.length}
+                    product(s) found.
 
-        product(s) found.
-
-                </p >
+                </p>
 
             `;
 
@@ -1093,17 +1141,13 @@ function filterByCategory(category) {
         products.filter(function (product) {
 
             return (
-
                 String(product.category || "")
                     .trim()
                     .toLowerCase()
-
                 ===
-
                 String(category || "")
                     .trim()
                     .toLowerCase()
-
             );
 
         });
@@ -1113,15 +1157,15 @@ function filterByCategory(category) {
 
 
     const productSection =
-        document.getElementById("products");
+        document.getElementById(
+            "products"
+        );
 
 
     if (productSection) {
 
         productSection.scrollIntoView({
-
             behavior: "smooth"
-
         });
 
     }
@@ -1130,271 +1174,360 @@ function filterByCategory(category) {
 
 
 /* =========================================================
-   CATEGORY CAROUSEL ARROWS
+   CATEGORY ARROWS
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function setupCategoryArrows() {
+
+    const categorySlider =
+        document.getElementById(
+            "categorySlider"
+        );
 
 
-        const categorySlider =
-            document.getElementById(
-                "categorySlider"
-            );
+    const categoryPrev =
+        document.getElementById(
+            "categoryPrev"
+        );
 
 
-        const categoryPrev =
-            document.getElementById(
-                "categoryPrev"
-            );
+    const categoryNext =
+        document.getElementById(
+            "categoryNext"
+        );
 
 
-        const categoryNext =
-            document.getElementById(
-                "categoryNext"
-            );
+    if (!categorySlider) return;
 
 
-        if (!categorySlider) {
+    if (categoryPrev) {
 
-            console.error(
-                "categorySlider not found"
-            );
+        categoryPrev.addEventListener(
+            "click",
+            function () {
 
-            return;
+                categorySlider.scrollBy({
 
-        }
+                    left: -450,
 
+                    behavior: "smooth"
 
-        /* LEFT ARROW */
+                });
 
-        if (categoryPrev) {
-
-            categoryPrev.addEventListener(
-                "click",
-                function () {
-
-                    categorySlider.scrollBy({
-
-                        left: -450,
-
-                        behavior: "smooth"
-
-                    });
-
-                }
-            );
-
-        }
-
-
-        /* RIGHT ARROW */
-
-        if (categoryNext) {
-
-            categoryNext.addEventListener(
-                "click",
-                function () {
-
-                    categorySlider.scrollBy({
-
-                        left: 450,
-
-                        behavior: "smooth"
-
-                    });
-
-                }
-            );
-
-        }
+            }
+        );
 
     }
-);
+
+
+    if (categoryNext) {
+
+        categoryNext.addEventListener(
+            "click",
+            function () {
+
+                categorySlider.scrollBy({
+
+                    left: 450,
+
+                    behavior: "smooth"
+
+                });
+
+            }
+        );
+
+    }
+
+}
 
 
 /* =========================================================
-   SIDEBAR TOGGLE
+   SEARCH BUTTON + ENTER + LIVE SEARCH
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+function setupSearch() {
 
-    const SIDE_toggle = document.getElementById("SIDE_toggle");
-    const sideNavbar = document.getElementById("sideNavbar");
-    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const searchButton =
+        document.getElementById(
+            "searchSubmitButton"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if (searchButton) {
+
+        searchButton.addEventListener(
+            "click",
+            searchProducts
+        );
+
+    }
+
+
+    if (!searchInput) return;
+
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                searchProducts();
+
+            }
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const value =
+                this.value.trim();
+
+
+            if (value.length >= 2) {
+
+                searchProducts();
+
+            }
+
+            else if (value === "") {
+
+                displayProducts(products);
+
+                const searchResults =
+                    document.getElementById(
+                        "searchResults"
+                    );
+
+                if (searchResults) {
+
+                    searchResults.innerHTML = `
+
+                        <p class="search-hint">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            Search for your favorite
+                            dry fruits.
+
+                        </p>
+
+                    `;
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function setupSidebar() {
+
+    const SIDE_toggle =
+        document.getElementById(
+            "SIDE_toggle"
+        );
+
+
+    const sideNavbar =
+        document.getElementById(
+            "sideNavbar"
+        );
+
+
+    const sidebarOverlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
 
     if (!SIDE_toggle || !sideNavbar) {
-        console.error("Sidebar elements not found.");
+
+        console.error(
+            "Sidebar elements not found."
+        );
+
         return;
-    }
-
-    /* OPEN / CLOSE SIDEBAR */
-    SIDE_toggle.addEventListener("click", function () {
-
-        const isOpen = sideNavbar.classList.toggle("open");
-
-        if (sidebarOverlay) {
-            sidebarOverlay.classList.toggle("show", isOpen);
-        }
-
-        SIDE_toggle.classList.toggle("menu-open", isOpen);
-
-    });
-
-
-    /* CLOSE WHEN CLICKING OUTSIDE */
-    if (sidebarOverlay) {
-
-        sidebarOverlay.addEventListener("click", function () {
-
-            sideNavbar.classList.remove("open");
-            sidebarOverlay.classList.remove("show");
-            SIDE_toggle.classList.remove("menu-open");
-
-        });
 
     }
 
-});
+
+    SIDE_toggle.addEventListener(
+        "click",
+        function () {
+
+            const isOpen =
+                sideNavbar.classList.toggle(
+                    "open"
+                );
 
 
-/* =========================================================
-   CATEGORY CARD CLICK
-========================================================= */
+            if (sidebarOverlay) {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const categoryCards =
-            document.querySelectorAll(
-                ".category-card"
-            );
-
-
-        categoryCards.forEach(
-            function (card) {
-
-                card.addEventListener(
-                    "click",
-                    function () {
-
-                        const category =
-                            this.getAttribute(
-                                "data-category"
-                            );
-
-
-                        if (category) {
-
-                            filterByCategory(
-                                category
-                            );
-
-                        }
-
-                    }
+                sidebarOverlay.classList.toggle(
+                    "show",
+                    isOpen
                 );
 
             }
-        );
-
-    }
-);
 
 
-/* =========================================================
-   SEARCH BUTTON
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const searchButton =
-            document.getElementById(
-                "searchSubmitButton"
+            SIDE_toggle.classList.toggle(
+                "menu-open",
+                isOpen
             );
 
 
-        if (searchButton) {
+            SIDE_toggle.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
 
-            searchButton.addEventListener(
+        }
+    );
+
+
+    if (sidebarOverlay) {
+
+        sidebarOverlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    /*
+        Close sidebar when clicking
+        a sidebar link.
+    */
+
+    document
+        .querySelectorAll(
+            ".sidebar-menu a, .sidebar-bottom a"
+        )
+        .forEach(function (link) {
+
+            link.addEventListener(
                 "click",
                 function () {
 
-                    searchProducts();
+                    /*
+                        Do not close the Shop button.
+                    */
+
+                    if (
+                        this.id ===
+                        "shopSideBtn"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    closeSidebar();
 
                 }
+            );
+
+        });
+
+
+    function closeSidebar() {
+
+        sideNavbar.classList.remove(
+            "open"
+        );
+
+
+        if (sidebarOverlay) {
+
+            sidebarOverlay.classList.remove(
+                "show"
             );
 
         }
 
+
+        SIDE_toggle.classList.remove(
+            "menu-open"
+        );
+
+
+        SIDE_toggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
     }
-);
+
+}
 
 
 /* =========================================================
-   SEARCH ENTER KEY + LIVE SEARCH
+   SIDEBAR SHOP DROPDOWN
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function setupShopSidebar() {
 
-        const searchInput =
-            document.getElementById(
-                "searchInput"
+    const shopSideBtn =
+        document.getElementById(
+            "shopSideBtn"
+        );
+
+
+    const shopSubmenu =
+        document.getElementById(
+            "shopSubmenu"
+        );
+
+
+    if (!shopSideBtn || !shopSubmenu) {
+        return;
+    }
+
+
+    shopSideBtn.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+
+            shopSubmenu.classList.toggle(
+                "active"
             );
 
 
-        if (!searchInput) return;
+            shopSideBtn.classList.toggle(
+                "active"
+            );
 
+        }
+    );
 
-        /* ENTER KEY */
-
-        searchInput.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (event.key === "Enter") {
-
-                    searchProducts();
-
-                }
-
-            }
-        );
-
-
-        /* LIVE SEARCH */
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                if (
-                    this.value.trim().length >= 2
-                ) {
-
-                    searchProducts();
-
-                }
-
-                else if (
-                    this.value.trim() === ""
-                ) {
-
-                    displayProducts(products);
-
-                }
-
-            }
-        );
-
-    }
-);
+}
 
 
 /* =========================================================
@@ -1414,27 +1547,58 @@ function checkout() {
     }
 
 
+    /*
+        Check login.
+    */
+
+    const user =
+        getLoggedInUser();
+
+
+    if (!user) {
+
+        alert(
+            "Please login to your account before checkout."
+        );
+
+
+        window.location.href =
+            "Login.html";
+
+        return;
+
+    }
+
+
     let total = 0;
 
 
     cart.forEach(function (item) {
 
         total +=
-            Number(item.price) *
-            item.quantity;
+            Number(item.price || 0) *
+            Number(item.quantity || 0);
 
     });
 
 
     alert(
 
-        "Thank you for shopping with Sheern!\n\n" +
+        "Thank you for shopping with Sheern!" +
+
+        "\n\n" +
+
+        "Welcome, " +
+        getUserName(user) +
+        "!" +
+
+        "\n\n" +
 
         "Your order total is ₹" +
-
         total.toFixed(2) +
+        "." +
 
-        ".\n\n" +
+        "\n\n" +
 
         "Your order has been received."
 
@@ -1442,89 +1606,517 @@ function checkout() {
 
 }
 
+
 /* =========================================================
    CHECKOUT BUTTON
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function setupCheckout() {
 
-        const CHEACKOUTBUTTON =
-            document.getElementById(
-                "CHEACKOUTBUTTON"
+    const checkoutButton =
+        document.getElementById(
+            "CHEACKOUTBUTTON"
+        );
+
+
+    if (checkoutButton) {
+
+        checkoutButton.addEventListener(
+            "click",
+            checkout
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+
+function getLoggedInUser() {
+
+    const possibleKeys = [
+
+        "sheernUser",
+        "loggedInUser",
+        "currentUser",
+        "user",
+        "userData"
+
+    ];
+
+
+    for (
+        let i = 0;
+        i < possibleKeys.length;
+        i++
+    ) {
+
+        const key =
+            possibleKeys[i];
+
+
+        const storedUser =
+            localStorage.getItem(key);
+
+
+        if (!storedUser) continue;
+
+
+        try {
+
+            const user =
+                JSON.parse(storedUser);
+
+
+            if (user) {
+
+                return user;
+
+            }
+
+        }
+
+        catch (error) {
+
+            /*
+                Ignore invalid localStorage
+                data and continue.
+            */
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   GET USER NAME
+========================================================= */
+
+function getUserName(user) {
+
+    if (!user) {
+
+        return "Login";
+
+    }
+
+
+    return (
+        user.name ||
+        user.fullName ||
+        user.username ||
+        user.firstName ||
+        user.email ||
+        "Account"
+    );
+
+}
+
+
+/* =========================================================
+   GET USER AVATAR
+========================================================= */
+
+function getUserAvatar(user) {
+
+    if (!user) return "";
+
+
+    return (
+        user.avatar ||
+        user.photo ||
+        user.profileImage ||
+        user.image ||
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE ACCOUNT UI
+========================================================= */
+
+function updateAccountUI() {
+
+    const accountButton =
+        document.getElementById(
+            "headerLoginButton"
+        );
+
+
+    const accountButtonName =
+        document.getElementById(
+            "accountButtonName"
+        );
+
+
+    const accountName =
+        document.getElementById(
+            "accountName"
+        );
+
+
+    const accountStatus =
+        document.getElementById(
+            "accountStatus"
+        );
+
+
+    const loginDropdownLink =
+        document.getElementById(
+            "loginDropdownLink"
+        );
+
+
+    const registerDropdownLink =
+        document.getElementById(
+            "registerDropdownLink"
+        );
+
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    if (!accountButton) return;
+
+
+    const user =
+        getLoggedInUser();
+
+
+    /*
+        USER IS LOGGED IN
+    */
+
+    if (user) {
+
+        const userName =
+            getUserName(user);
+
+
+        if (accountButtonName) {
+
+            accountButtonName.textContent =
+                userName;
+
+        }
+
+
+        if (accountName) {
+
+            accountName.textContent =
+                userName;
+
+        }
+
+
+        if (accountStatus) {
+
+            accountStatus.textContent =
+                "Welcome back!";
+
+        }
+
+
+        if (loginDropdownLink) {
+
+            loginDropdownLink.classList.add(
+                "d-none"
             );
 
-        if (CHEACKOUTBUTTON) {
+        }
 
-            CHEACKOUTBUTTON.addEventListener(
-                "click",
-                checkout
+
+        if (registerDropdownLink) {
+
+            registerDropdownLink.classList.add(
+                "d-none"
+            );
+
+        }
+
+
+        if (logoutButton) {
+
+            logoutButton.classList.remove(
+                "d-none"
             );
 
         }
 
     }
-);
-/* =========================================================
-   ACCOUNT BUTTON
-========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    else {
 
-        const headerACCOUNTBUTTON =
-            document.getElementById(
-                "headerACCOUNTBUTTON"
+        if (accountButtonName) {
+
+            accountButtonName.textContent =
+                "Login";
+
+        }
+
+
+        if (accountName) {
+
+            accountName.textContent =
+                "My Account";
+
+        }
+
+
+        if (accountStatus) {
+
+            accountStatus.textContent =
+                "Welcome to Sheern";
+
+        }
+
+
+        if (loginDropdownLink) {
+
+            loginDropdownLink.classList.remove(
+                "d-none"
             );
 
+        }
 
-        if (headerACCOUNTBUTTON) {
 
-            headerACCOUNTBUTTON.addEventListener(
-                "click",
-                function () {
+        if (registerDropdownLink) {
 
-                    alert(
-                        "Welcome to Sheern Premium Dry Fruit!"
-                    );
+            registerDropdownLink.classList.remove(
+                "d-none"
+            );
 
-                }
+        }
+
+
+        if (logoutButton) {
+
+            logoutButton.classList.add(
+                "d-none"
             );
 
         }
 
     }
-);
+
+}
+
+
 /* =========================================================
-   DROPDOWN SIDEBAR MENU - SHOP
+   ACCOUNT DROPDOWN
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+function setupAccountDropdown() {
 
-    const shopSideBtn = document.getElementById("shopSideBtn");
-    const shopSubmenu = document.getElementById("shopSubmenu");
+    const accountButton =
+        document.getElementById(
+            "headerLoginButton"
+        );
 
-    if (shopSideBtn && shopSubmenu) {
 
-        shopSideBtn.addEventListener("click", function () {
+    const accountDropdown =
+        document.getElementById(
+            "accountDropdown"
+        );
 
-            shopSubmenu.classList.toggle("active");
-            shopSideBtn.classList.toggle("active");
 
-        });
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+
+    if (!accountButton || !accountDropdown) {
+
+        console.error(
+            "Account elements not found."
+        );
+
+        return;
 
     }
 
-});
+    accountButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            const isOpen =
+                accountDropdown.classList.toggle(
+                    "show"
+                );
+
+
+            accountButton.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
+
+        }
+    );
+
+
+    /*
+        PREVENT DROPDOWN CLICKS
+        FROM CLOSING IT.
+    */
+
+    accountDropdown.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+        }
+    );
+
+
+    /*
+        CLOSE WHEN CLICKING OUTSIDE
+    */
+
+    document.addEventListener(
+        "click",
+        function () {
+
+            accountDropdown.classList.remove(
+                "show"
+            );
+
+
+            accountButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+    );
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+
+                localStorage.removeItem(
+                    "sheernUser"
+                );
+
+                localStorage.removeItem(
+                    "loggedInUser"
+                );
+
+                localStorage.removeItem(
+                    "currentUser"
+                );
+
+                localStorage.removeItem(
+                    "user"
+                );
+
+                localStorage.removeItem(
+                    "userData"
+                );
+
+
+                updateAccountUI();
+
+
+                accountDropdown.classList.remove(
+                    "show"
+                );
+
+
+                accountButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+
+                alert(
+                    "You have been logged out."
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
 /* =========================================================
-   LOAD PRODUCTS WHEN PAGE IS READY
+   HTML SAFETY HELPERS
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+}
+
+
+/* =========================================================
+   INITIALIZE WEBSITE
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+        console.log(
+            "Sheern website JavaScript started."
+        );
+
+
+        setupWishlistButton();
+
+        setupCategoryArrows();
+
+        setupSearch();
+
+        setupSidebar();
+
+        setupShopSidebar();
+
+        setupCheckout();
+
+        setupAccountDropdown();
+
+        updateAccountUI();
 
         loadProducts();
 

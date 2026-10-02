@@ -1,0 +1,1954 @@
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --green: #203517;
+
+    --dark-green: #1c2b16;
+
+    --gold: #b58a3a;
+
+    --light-gold: #d4b56a;
+
+    --cream: #f8f4eb;
+
+    --brown: #74553a;
+
+    --white: #ffffff;
+
+    --text: #333333;
+
+    --muted: #777777;
+
+    --border: #e5dfd2;
+
+    --light-bg: #faf8f2;
+
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    background: var(--cream);
+
+    color: var(--text);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+}
+
+
+button,
+input,
+select,
+textarea {
+
+    font-family: inherit;
+
+}
+
+
+a {
+
+    text-decoration: none;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.checkout-header {
+
+    min-height: 78px;
+
+    padding: 0 6%;
+
+    background: var(--green);
+
+    display: flex;
+
+    align-items: center;
+
+    position: relative;
+
+    z-index: 100;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.08);
+
+}
+
+
+/* =========================================================
+   CHECKOUT TOP
+========================================================= */
+
+.checkout-top {
+
+    width: 100%;
+
+    max-width: 1180px;
+
+    margin: 0 auto;
+
+    padding: 22px 20px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.checkout-logo {
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+}
+
+
+.checkout-logo:hover {
+
+    color: var(--green);
+
+}
+
+
+.checkout-logo span {
+
+    color: var(--gold);
+
+}
+
+
+.secure-checkout {
+
+    color: var(--green);
+
+    font-size: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.secure-checkout i {
+
+    color: var(--gold);
+
+    font-size: 16px;
+
+}
+
+
+/* =========================================================
+   CHECKOUT PROGRESS SECTION
+========================================================= */
+
+.checkout-progress-section {
+
+    width: 100%;
+
+    padding: 28px 20px 8px;
+
+}
+
+
+.checkout-progress {
+
+    width: 100%;
+
+    max-width: 680px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+}
+
+
+/* =========================================================
+   PROGRESS STEP
+========================================================= */
+
+.progress-step {
+
+    min-width: 80px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    color: #aaa;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    position: relative;
+
+}
+
+
+.progress-step.active {
+
+    color: var(--green);
+
+}
+
+
+/* =========================================================
+   PROGRESS CIRCLE
+========================================================= */
+
+.progress-circle {
+
+    width: 42px;
+
+    height: 42px;
+
+    margin-bottom: 7px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--border);
+
+    background: var(--white);
+
+    color: #aaa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 15px;
+
+    transition: 0.25s ease;
+
+}
+
+
+.progress-step.active .progress-circle {
+
+    border-color: var(--green);
+
+    background: var(--green);
+
+    color: var(--white);
+
+    box-shadow:
+        0 3px 8px rgba(32, 53, 23, 0.15);
+
+}
+
+
+/* =========================================================
+   PROGRESS LINE
+========================================================= */
+
+.progress-line {
+
+    flex: 1;
+
+    height: 2px;
+
+    max-width: 180px;
+
+    margin-top: 21px;
+
+    background: var(--border);
+
+}
+
+
+.progress-line.active {
+
+    background: var(--gold);
+
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.checkout-container {
+
+    width: 100%;
+
+    max-width: 1180px;
+
+    margin: 25px auto 60px;
+
+    padding: 0 20px;
+
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.checkout-title {
+
+    margin-bottom: 28px;
+
+}
+
+
+.checkout-title h1 {
+
+    margin-bottom: 5px;
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 34px;
+
+    font-weight: 600;
+
+}
+
+
+.checkout-title p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   CHECKOUT CARD
+========================================================= */
+
+.checkout-card {
+
+    margin-bottom: 20px;
+
+    padding: 25px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(50, 40, 20, 0.025);
+
+}
+
+
+.checkout-card-title {
+
+    margin-bottom: 20px;
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.checkout-card-title i {
+
+    color: var(--gold);
+
+    font-size: 19px;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-label {
+
+    margin-bottom: 6px;
+
+    color: var(--green);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.form-control,
+.form-select {
+
+    min-height: 43px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    background-color: var(--white);
+
+}
+
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color: var(--gold);
+
+    box-shadow:
+        0 0 0 3px rgba(181, 138, 58, 0.10);
+
+}
+
+
+textarea.form-control {
+
+    min-height: 90px;
+
+    resize: vertical;
+
+}
+
+
+.optional-text {
+
+    color: #999999;
+
+    font-weight: 400;
+
+}
+
+
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
+
+.payment-method {
+
+    position: relative;
+
+    margin-bottom: 10px;
+
+}
+
+
+.payment-method input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+
+.payment-method label {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--white);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.payment-method label:hover {
+
+    border-color: var(--gold);
+
+}
+
+
+.payment-method input:checked + label {
+
+    border-color: var(--gold);
+
+    background: #fcfaf5;
+
+    box-shadow:
+        0 0 0 2px rgba(181, 138, 58, 0.08);
+
+}
+
+
+/* =========================================================
+   PAYMENT ICON
+========================================================= */
+
+.payment-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--cream);
+
+    color: var(--gold);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+
+}
+
+
+.payment-text strong {
+
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--green);
+
+    font-size: 12px;
+
+}
+
+
+.payment-text span {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   PAYMENT DETAILS
+========================================================= */
+
+.payment-details {
+
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 18px;
+
+    background: var(--light-bg);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+}
+
+
+.payment-details.active {
+
+    display: block;
+
+}
+
+
+.payment-note {
+
+    margin-top: 8px;
+
+    margin-bottom: 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+}
+
+
+.payment-note i {
+
+    color: var(--gold);
+
+}
+
+
+.cash-note {
+
+    margin-top: 0;
+
+}
+
+
+/* =========================================================
+   UPI
+========================================================= */
+
+.upi-options {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+
+}
+
+
+.upi-option {
+
+    padding: 8px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    background: var(--white);
+
+    color: var(--green);
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.upi-option:hover {
+
+    border-color: var(--gold);
+
+    color: var(--gold);
+
+}
+
+
+.upi-option i {
+
+    margin-right: 3px;
+
+}
+
+
+/* =========================================================
+   PAYMENT ERROR
+========================================================= */
+
+.payment-error {
+
+    min-height: 16px;
+
+    margin-top: 10px;
+
+    color: #a34d43;
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+.order-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid #eee9df;
+
+}
+
+
+.order-item:first-child {
+
+    padding-top: 0;
+
+}
+
+
+.order-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.order-item-image {
+
+    width: 65px;
+
+    height: 65px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+}
+
+
+.order-item-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.order-item-name {
+
+    margin-bottom: 3px;
+
+    color: var(--green);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.order-item-weight {
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+.order-item-price {
+
+    color: var(--gold);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.quantity-control {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 7px;
+
+}
+
+
+.quantity-btn {
+
+    width: 25px;
+
+    height: 25px;
+
+    padding: 0;
+
+    border: 1px solid var(--border);
+
+    border-radius: 4px;
+
+    background: var(--white);
+
+    color: var(--green);
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.quantity-btn:hover {
+
+    background: var(--green);
+
+    color: var(--white);
+
+}
+
+
+.quantity-value {
+
+    min-width: 20px;
+
+    text-align: center;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-divider {
+
+    margin: 8px 0;
+
+    border-top: 1px solid var(--border);
+
+}
+
+
+.summary-row {
+
+    padding: 8px 0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+.summary-row span:last-child {
+
+    color: var(--text);
+
+    font-weight: 500;
+
+}
+
+
+.summary-total {
+
+    padding-top: 12px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+.summary-total span:first-child {
+
+    color: var(--green);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.summary-total span:last-child {
+
+    color: var(--gold);
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   PLACE ORDER
+========================================================= */
+
+.place-order-button {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-top: 18px;
+
+    border: 1px solid var(--green);
+
+    border-radius: 7px;
+
+    background: var(--green);
+
+    color: var(--white);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.place-order-button:hover {
+
+    border-color: var(--gold);
+
+    background: var(--gold);
+
+}
+
+
+.place-order-button i {
+
+    margin-right: 6px;
+
+}
+
+
+/* =========================================================
+   SECURE NOTE
+========================================================= */
+
+.secure-note {
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-align: center;
+
+}
+
+
+.secure-note i {
+
+    color: var(--gold);
+
+}
+
+
+/* =========================================================
+   CONTINUE SHOPPING
+========================================================= */
+
+.continue-shopping-wrapper {
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+}
+
+
+.continue-shopping {
+
+    padding: 10px 18px;
+
+    border-radius: 6px;
+
+    background: var(--green);
+
+    color: var(--white);
+
+    font-size: 11px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    transition: 0.2s ease;
+
+}
+
+
+.continue-shopping:hover {
+
+    background: var(--gold);
+
+    color: var(--white);
+
+}
+
+
+/* =========================================================
+   EMPTY CART
+========================================================= */
+
+.empty-cart {
+
+    display: none;
+
+    padding: 60px 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--white);
+
+    text-align: center;
+
+}
+
+
+.empty-cart i {
+
+    margin-bottom: 15px;
+
+    color: var(--gold);
+
+    font-size: 45px;
+
+}
+
+
+.empty-cart h3 {
+
+    margin-bottom: 8px;
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 24px;
+
+}
+
+
+.empty-cart p {
+
+    margin-bottom: 20px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   REVIEW SECTION
+========================================================= */
+
+.review-section {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 50px auto 0;
+
+    padding: 45px 30px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 18px rgba(50, 40, 20, 0.035);
+
+}
+
+
+.review-inner {
+
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+}
+
+
+/* =========================================================
+   REVIEW ICON
+========================================================= */
+
+.review-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    margin: 0 auto 13px;
+
+    border-radius: 50%;
+
+    background: var(--cream);
+
+    color: var(--gold);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+
+}
+
+
+/* =========================================================
+   REVIEW TITLE
+========================================================= */
+
+.review-section h2 {
+
+    margin-bottom: 6px;
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 26px;
+
+    font-weight: 600;
+
+}
+
+
+.review-subtitle {
+
+    margin-bottom: 20px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   REVIEW STARS
+========================================================= */
+
+.review-stars {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.review-star {
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #d6d0c3;
+
+    font-size: 29px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease;
+
+}
+
+
+.review-star:hover {
+
+    color: var(--gold);
+
+    transform: scale(1.08);
+
+}
+
+
+.review-star.active {
+
+    color: var(--gold);
+
+}
+
+
+.review-star.active i::before {
+
+    content: "\f586";
+
+}
+
+
+/* =========================================================
+   SELECTED RATING
+========================================================= */
+
+.selected-rating {
+
+    min-height: 18px;
+
+    margin-bottom: 17px;
+
+    color: var(--gold);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================================================
+   REVIEW TEXTAREA
+========================================================= */
+
+.review-textarea {
+
+    width: 100%;
+
+    min-height: 110px !important;
+
+    margin-bottom: 12px;
+
+    padding: 13px;
+
+    resize: vertical;
+
+    text-align: left;
+
+}
+
+
+/* =========================================================
+   REVIEW MESSAGE
+========================================================= */
+
+.review-message {
+
+    min-height: 18px;
+
+    margin-bottom: 8px;
+
+    color: var(--green);
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   REVIEW SUBMIT
+========================================================= */
+
+.review-submit-button {
+
+    min-width: 160px;
+
+    padding: 11px 22px;
+
+    border: 1px solid var(--green);
+
+    border-radius: 6px;
+
+    background: var(--green);
+
+    color: var(--white);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.review-submit-button:hover {
+
+    border-color: var(--gold);
+
+    background: var(--gold);
+
+}
+
+
+.review-submit-button i {
+
+    margin-right: 5px;
+
+}
+
+
+/* =========================================================
+   SUCCESS MODAL
+========================================================= */
+
+.order-success-modal {
+
+    border: none;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+.success-modal-body {
+
+    padding: 35px 25px;
+
+    text-align: center;
+
+}
+
+
+.success-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    color: var(--white);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+}
+
+
+.success-modal-body h3 {
+
+    margin-bottom: 8px;
+
+    color: var(--green);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 25px;
+
+}
+
+
+.success-modal-body p {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+}
+
+
+.order-number {
+
+    color: var(--gold);
+
+    font-weight: 700;
+
+}
+
+
+.success-close-button {
+
+    margin-top: 10px;
+
+    padding: 10px 22px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: var(--green);
+
+    color: var(--white);
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.success-close-button:hover {
+
+    background: var(--gold);
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+
+    .checkout-header {
+
+        padding: 0 4%;
+
+    }
+
+
+    .checkout-top {
+
+        padding-left: 25px;
+
+        padding-right: 25px;
+
+    }
+
+
+    .checkout-container {
+
+        padding: 0 20px;
+
+    }
+
+
+    .order-summary-card {
+
+        position: static;
+
+    }
+
+
+    .review-section {
+
+        max-width: 100%;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+
+    /* HEADER */
+
+    .checkout-header {
+
+        min-height: 70px;
+
+        padding: 0 20px;
+
+    }
+
+
+    /* TOP */
+
+    .checkout-top {
+
+        padding:
+
+            18px
+
+            15px
+
+            0;
+
+    }
+
+
+    .checkout-logo {
+
+        font-size: 21px;
+
+    }
+
+
+    .secure-checkout {
+
+        font-size: 10px;
+
+    }
+
+
+    /* PROGRESS */
+
+    .checkout-progress-section {
+
+        padding:
+
+            25px
+
+            12px
+
+            5px;
+
+    }
+
+
+    .checkout-progress {
+
+        max-width: 100%;
+
+    }
+
+
+    .progress-step {
+
+        min-width: 65px;
+
+        font-size: 9px;
+
+    }
+
+
+    .progress-circle {
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 13px;
+
+    }
+
+
+    .progress-line {
+
+        margin-top: 18px;
+
+        max-width: 100px;
+
+    }
+
+
+    /* MAIN */
+
+    .checkout-container {
+
+        margin: 25px auto 45px;
+
+        padding: 0 14px;
+
+    }
+
+
+    /* TITLE */
+
+    .checkout-title {
+
+        margin-bottom: 22px;
+
+    }
+
+
+    .checkout-title h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    .checkout-title p {
+
+        font-size: 11px;
+
+        line-height: 1.6;
+
+    }
+
+
+    /* CARDS */
+
+    .checkout-card {
+
+        padding: 18px;
+
+        margin-bottom: 16px;
+
+    }
+
+
+    .checkout-card-title {
+
+        font-size: 19px;
+
+    }
+
+
+    /* ORDER ITEMS */
+
+    .order-item-image {
+
+        width: 55px;
+
+        height: 55px;
+
+    }
+
+
+    .order-item {
+
+        gap: 8px;
+
+    }
+
+
+    /* REVIEW */
+
+    .review-section {
+
+        margin-top: 35px;
+
+        padding:
+
+            35px
+
+            18px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .review-section h2 {
+
+        font-size: 23px;
+
+    }
+
+
+    .review-subtitle {
+
+        font-size: 11px;
+
+    }
+
+
+    .review-star {
+
+        font-size: 27px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+
+    .checkout-top {
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
+
+    .checkout-logo {
+
+        font-size: 19px;
+
+    }
+
+
+    .checkout-logo span {
+
+        display: block;
+
+        font-size: 11px;
+
+        margin-top: 2px;
+
+    }
+
+
+    .secure-checkout span {
+
+        display: none;
+
+    }
+
+
+    /* PROGRESS */
+
+    .checkout-progress-section {
+
+        padding-top: 22px;
+
+    }
+
+
+    .progress-step {
+
+        min-width: 52px;
+
+    }
+
+
+    .progress-circle {
+
+        width: 32px;
+
+        height: 32px;
+
+        font-size: 11px;
+
+        margin-bottom: 6px;
+
+    }
+
+
+    .progress-line {
+
+        margin-top: 16px;
+
+    }
+
+
+    /* TITLE */
+
+    .checkout-title h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    /* CARD */
+
+    .checkout-card {
+
+        padding: 16px;
+
+    }
+
+
+    .checkout-card-title {
+
+        font-size: 18px;
+
+    }
+
+
+    /* PAYMENT */
+
+    .payment-method label {
+
+        padding: 12px;
+
+    }
+
+
+    .payment-icon {
+
+        width: 34px;
+
+        height: 34px;
+
+        font-size: 15px;
+
+    }
+
+
+    .payment-text strong {
+
+        font-size: 11px;
+
+    }
+
+
+    .payment-text span {
+
+        font-size: 8px;
+
+    }
+
+
+    /* ORDER */
+
+    .order-item-name {
+
+        font-size: 11px;
+
+    }
+
+
+    .quantity-control {
+
+        gap: 4px;
+
+    }
+
+
+    /* REVIEW */
+
+    .review-section {
+
+        padding:
+
+            30px
+
+            14px;
+
+    }
+
+
+    .review-section h2 {
+
+        font-size: 21px;
+
+    }
+
+
+    .review-stars {
+
+        gap: 4px;
+
+    }
+
+
+    .review-star {
+
+        font-size: 25px;
+
+    }
+
+
+    .review-submit-button {
+
+        width: 100%;
+
+    }
+
+}

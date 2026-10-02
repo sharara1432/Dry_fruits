@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sheern Premium Dry Fruit</title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         WEBSITE CSS
+    ====================================================== -->
+
+    <link rel="stylesheet" href="CSS/Style.css">
+
+    <link rel="stylesheet" href="CSS/AllProducts.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sheern-sidebar" id="sideNavbar">
+
+    <div class="sidebar-logo">
+
+        <img
+            src="Photos/Logo.png"
+            alt="Sheern Premium Dry Fruit">
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+
+        <div class="side-item">
+
+            <a
+                href="index.html"
+                class="side-link">
+
+                <i class="bi bi-house"></i>
+
+                <span>Home</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="side-item">
+
+            <a
+                href="javascript:void(0)"
+                class="side-link"
+                id="shopSideBtn">
+
+                <i class="bi bi-shop"></i>
+
+                <span>Shop</span>
+
+                <i class="bi bi-chevron-right side-arrow"></i>
+
+            </a>
+
+
+            <ul
+                class="side-submenu"
+                id="shopSubmenu">
+
+                <li>
+
+                    <a href="AllProduct.html">
+
+                        <i class="bi bi-grid"></i>
+
+                        <span>All Products</span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="#products">
+
+                        <i class="bi bi-star"></i>
+
+                        <span>Best Sellers</span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="#products">
+
+                        <i class="bi bi-tag"></i>
+
+                        <span>Special Offers</span>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="side-item">
+
+            <a
+                href="#categories"
+                class="side-link">
+
+                <i class="bi bi-collection"></i>
+
+                <span>Categories</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="side-item">
+
+            <a
+                href="About.html"
+                class="side-link">
+
+                <i class="bi bi-info-circle"></i>
+
+                <span>About Us</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="side-item">
+
+            <a
+                href="#feedback"
+                class="side-link">
+
+                <i class="bi bi-heart"></i>
+
+                <span>Customer Love</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="side-item">
+
+            <a
+                href="#contact"
+                class="side-link">
+
+                <i class="bi bi-envelope"></i>
+
+                <span>Contact</span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- SIDEBAR PROMOTION -->
+
+    <div class="Promo-sidebar">
+
+        <img
+            src="Photos/Afghani.jpg"
+            class="sidebar-promo-image"
+            alt="Afghani Dry Fruits">
+
+        <div class="sidebar-promo-overlay"></div>
+
+        <div class="sidebar-promo-content">
+
+            <span>Healthy</span>
+
+            <strong>Choices</strong>
+
+            <span>Better Life</span>
+
+            <small>
+                Premium quality dry fruits
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+        <a
+            href="#products"
+            class="side-bottom-link">
+
+            <i class="bi bi-heart"></i>
+
+            <span>Wishlist</span>
+
+            <span
+                class="status-dot"
+                id="sidebarWishlistCount">
+                0
+            </span>
+
+        </a>
+
+
+        <a
+            href="Login.html"
+            class="side-bottom-link">
+
+            <i class="bi bi-person"></i>
+
+            <span>Account</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- SIDEBAR OVERLAY -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay">
+</div>
+
+
+<!-- MOBILE MENU -->
+
+<button
+    class="sheern-menu-button"
+    id="SIDE_toggle"
+    type="button"
+    aria-label="Open Menu"
+    aria-expanded="false">
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+</button>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="sheern-main">
+
+
+    <!-- =====================================================
+         PROMOTION BAR
+    ====================================================== -->
+
+    <div class="sheern-promo-bar">
+
+        <div class="promo-track">
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-leaf"></i>
+
+                <span>
+                    100% Natural Dry Fruits
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-truck"></i>
+
+                <span>
+                    Free Delivery on Orders Over $50
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-award"></i>
+
+                <span>
+                    Premium Quality Guaranteed
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-heart"></i>
+
+                <span>
+                    Healthy &amp; Natural Choice
+                </span>
+
+            </div>
+
+
+            <!-- DUPLICATE -->
+
+            <div class="promo-item">
+
+                <i class="bi bi-leaf"></i>
+
+                <span>
+                    100% Natural Dry Fruits
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-truck"></i>
+
+                <span>
+                    Free Delivery on Orders Over $50
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-award"></i>
+
+                <span>
+                    Premium Quality Guaranteed
+                </span>
+
+            </div>
+
+
+            <div class="promo-item">
+
+                <i class="bi bi-heart"></i>
+
+                <span>
+                    Healthy &amp; Natural Choice
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="sheern-header">
+
+
+        <div class="header-decoration">
+
+            <span></span>
+            <span></span>
+
+        </div>
+
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="sheern-brand">
+
+            <img
+                src="Photos/Logo.png"
+                class="sheern-logo"
+                alt="Sheern Premium Dry Fruit">
+
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="navbar navbar-expand-lg sheern-navbar">
+
+            <div class="container-fluid">
+
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="mainNavbar">
+
+                    <ul class="navbar-nav">
+
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="index.html">
+                                HOME
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="About.html">
+                                ABOUT US
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#products"
+                                role="button"
+                                data-bs-toggle="dropdown">
+
+                                SHOP
+
+                            </a>
+
+
+                            <ul class="dropdown-menu">
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="AllProduct.html">
+
+                                        <i class="bi bi-grid"></i>
+
+                                        All Products
+
+                                    </a>
+
+                                </li>
+
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="#products">
+
+                                        <i class="bi bi-star"></i>
+
+                                        Best Sellers
+
+                                    </a>
+
+                                </li>
+
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="#products">
+
+                                        <i class="bi bi-tag"></i>
+
+                                        Special Offers
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#categories"
+                                role="button"
+                                data-bs-toggle="dropdown">
+
+                                CATEGORIES
+
+                            </a>
+
+
+                            <ul class="dropdown-menu">
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="#categories">
+
+                                        <i class="bi bi-grid-3x3-gap"></i>
+
+                                        Dry Fruits
+
+                                    </a>
+
+                                </li>
+
+
+                                <li>
+
+                                    <a
+                                        class="dropdown-item"
+                                        href="#categories">
+
+                                        <i class="bi bi-gem"></i>
+
+                                        Premium Collection
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="#benefits">
+
+                                BENEFITS
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="#contact">
+
+                                CONTACT
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+
+        <!-- HEADER ACTIONS -->
+
+        <div class="sheern-header-actions">
+
+
+            <button
+                type="button"
+                class="sheern-action search-action"
+                id="headerSearchButton"
+                data-bs-toggle="modal"
+                data-bs-target="#searchModal">
+
+                <i class="bi bi-search"></i>
+
+                <span class="action-label">
+                    Search
+                </span>
+
+            </button>
+
+
+            <!-- WISHLIST HEADER -->
+
+            <button
+                type="button"
+                class="sheern-action wishlist-action"
+                id="headerWishlistButton">
+
+                <i class="bi bi-heart"></i>
+
+                <span class="action-label">
+                    Wishlist
+                </span>
+
+                <span
+                    class="sheern-wishlist-count"
+                    id="headerWishlistCount">
+                    0
+                </span>
+
+            </button>
+
+
+            <!-- BASKET -->
+
+            <button
+                type="button"
+                class="sheern-action cart-action"
+                id="headerCartButton"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#cartCanvas">
+
+                <i class="bi bi-bag"></i>
+
+                <span class="action-label">
+                    Basket
+                </span>
+
+                <span
+                    class="sheern-cart-count"
+                    id="headerCartCount">
+                    0
+                </span>
+
+            </button>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="header-account">
+
+                <button
+                    type="button"
+                    class="account-button"
+                    id="headerLoginButton">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <span id="accountButtonName">
+                        Login
+                    </span>
+
+                    <i class="bi bi-chevron-down account-arrow"></i>
+
+                </button>
+
+
+                <div
+                    class="account-dropdown"
+                    id="accountDropdown">
+
+                    <div class="account-dropdown-header">
+
+                        <strong id="accountName">
+                            My Account
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-dropdown-divider"></div>
+
+
+                    <a
+                        href="Login.html"
+                        id="loginDropdownLink">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        <span>Login</span>
+
+                    </a>
+
+
+                    <a
+                        href="register.html"
+                        id="registerDropdownLink">
+
+                        <i class="bi bi-person-plus"></i>
+
+                        <span>Create Account</span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        id="logoutButton"
+                        class="d-none">
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        <span>Logout</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="products-hero">
+
+        <div class="products-hero-overlay"></div>
+
+        <div class="products-hero-content">
+
+            <span class="products-label">
+                SHEERN PREMIUM
+            </span>
+
+            <h1>
+                Our Premium Dry Fruits
+            </h1>
+
+            <p>
+                Discover our carefully selected collection of
+                premium, natural and healthy dry fruits.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRODUCTS
+    ====================================================== -->
+
+    <section
+        class="all-products-section"
+        id="products">
+
+
+        <div class="products-container">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="products-toolbar">
+
+                <div class="products-result">
+
+                    <span id="productsResult">
+                        Showing products
+                    </span>
+
+                </div>
+
+
+                <div class="products-sort">
+
+                    <label for="sortProducts">
+                        Sort:
+                    </label>
+
+                    <select id="sortProducts">
+
+                        <option value="default">
+                            Default
+                        </option>
+
+                        <option value="price-low">
+                            Price: Low to High
+                        </option>
+
+                        <option value="price-high">
+                            Price: High to Low
+                        </option>
+
+                        <option value="rating-high">
+                            Highest Rated
+                        </option>
+
+                        <option value="name">
+                            Name: A-Z
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="products-filters">
+
+
+                <div class="filter-box search-filter">
+
+                    <label for="productSearch">
+                        Search Products
+                    </label>
+
+                    <div class="filter-input">
+
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            id="productSearch"
+                            placeholder="Search dry fruits..."
+                            autocomplete="off">
+
+                    </div>
+
+                </div>
+
+
+                <div class="filter-box">
+
+                    <label for="categoryFilter">
+                        Category
+                    </label>
+
+                    <select id="categoryFilter">
+
+                        <option value="all">
+                            All Categories
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-box">
+
+                    <label>
+                        Rating
+                    </label>
+
+                    <div
+                        class="rating-filter"
+                        id="ratingFilter">
+
+                        <button
+                            type="button"
+                            data-rating="0"
+                            class="rating-filter-button active">
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            data-rating="5"
+                            class="rating-filter-button">
+                            5 ★
+                        </button>
+
+                        <button
+                            type="button"
+                            data-rating="4"
+                            class="rating-filter-button">
+                            4+ ★
+                        </button>
+
+                        <button
+                            type="button"
+                            data-rating="3"
+                            class="rating-filter-button">
+                            3+ ★
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="clearFilters"
+                    class="clear-filters-button">
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                    Clear Filters
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 PRODUCT GRID
+            ================================================== -->
+
+            <div
+                class="products-grid"
+                id="productsGrid">
+
+                <!-- Products generated by AllProducts.js -->
+
+            </div>
+
+
+            <!-- EMPTY -->
+
+            <div
+                class="products-empty"
+                id="productsEmpty"
+                hidden>
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-search"></i>
+
+                </div>
+
+                <h3>
+                    No Products Found
+                </h3>
+
+                <p>
+                    We couldn't find any products matching your search.
+                </p>
+
+                <button
+                    type="button"
+                    id="emptyClearButton"
+                    class="clear-filters-button">
+
+                    Clear Filters
+
+                </button>
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <nav
+                class="products-pagination"
+                id="productsPagination"
+                aria-label="Products pagination">
+
+                <button
+                    type="button"
+                    id="previousPage"
+                    class="pagination-button">
+
+                    <i class="bi bi-chevron-left"></i>
+
+                </button>
+
+
+                <div
+                    class="pagination-numbers"
+                    id="paginationNumbers">
+                </div>
+
+
+                <button
+                    type="button"
+                    id="nextPage"
+                    class="pagination-button">
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </button>
+
+            </nav>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CART
+    ====================================================== -->
+
+    <div
+        class="offcanvas offcanvas-end sheern-cart"
+        tabindex="-1"
+        id="cartCanvas"
+        aria-labelledby="cartCanvasLabel">
+
+
+        <div class="offcanvas-header">
+
+            <div>
+
+                <span class="cart-small-title">
+                    SHEERN
+                </span>
+
+                <h5 id="cartCanvasLabel">
+                    Your Basket
+                </h5>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close">
+            </button>
+
+        </div>
+
+
+        <div class="offcanvas-body">
+
+            <div id="cartItems">
+
+                <div class="cart-empty">
+
+                    <i class="bi bi-bag"></i>
+
+                    <h4>
+                        Your cart is empty
+                    </h4>
+
+                    <p>
+                        Add some premium dry fruits to your cart.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <div class="cart-total-row">
+
+                <span>Total</span>
+
+                <strong id="cartTotal">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="checkout-button"
+                id="checkoutButton">
+
+                Proceed to Checkout
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH MODAL
+    ====================================================== -->
+
+    <div
+        class="modal fade"
+        id="searchModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content search-modal">
+
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+
+                        <i class="bi bi-search"></i>
+
+                        Search Products
+
+                    </h5>
+
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="search-box">
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="form-control"
+                            placeholder="Search dry fruits..."
+                            autocomplete="off">
+
+
+                        <button
+                            type="button"
+                            class="search-submit"
+                            id="searchSubmitButton">
+
+                            <i class="bi bi-search"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="search-results"
+                        id="searchResults">
+
+                        <p class="search-hint">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            Search for your favorite dry fruits.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer id="contact">
+
+        <div class="container">
+
+            <div class="row g-4">
+
+
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="footer-logo">
+
+                        <img
+                            src="Photos/Logo.png"
+                            alt="Sheern">
+
+                    </div>
+
+                    <p>
+                        Premium dry fruits selected
+                        for quality, freshness, and
+                        natural goodness.
+                    </p>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-6">
+
+                    <h5>QUICK LINKS</h5>
+
+                    <ul>
+
+                        <li>
+                            <a href="index.html">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="About.html">
+                                About Us
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#products">
+                                Products
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="col-lg-2 col-md-6">
+
+                    <h5>SHOP</h5>
+
+                    <ul>
+
+                        <li>
+                            <a href="AllProduct.html">
+                                All Products
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#products">
+                                Best Sellers
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#products">
+                                Special Offers
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="col-lg-4 col-md-6">
+
+                    <h5>STAY CONNECTED</h5>
+
+                    <p>
+                        Subscribe for updates and
+                        special offers.
+                    </p>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Your email address">
+
+                    <button
+                        type="button"
+                        class="subscribe-btn">
+
+                        SUBSCRIBE
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="copyright">
+
+                © 2026 Sheern Premium Dry Fruit.
+                All Rights Reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="JS/AllProducts.js"></script>
+
+<script src="JS/login.js"></script>
+
+<script src="JS/Dry.js"></script>
+
+
+</body>
+
+</html>
