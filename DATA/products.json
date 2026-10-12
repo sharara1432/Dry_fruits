@@ -41,7 +41,7 @@
         "id": 4,
         "name": "Premium Mulberries",
         "image": "Photos/Toot.jpg",
-        "price": 750,
+        "price": 1500,
         "weight": "250g",
         "rating": 5,
         "reviews": 112,
@@ -76,7 +76,7 @@
     {
         "id": 7,
         "name": "Premium Apricot",
-        "image": "Photos/Apricote.jpg",
+        "image": "Photos/Apricots.jpg",
         "price": 449,
         "weight": "250g",
         "rating": 4,
@@ -113,7 +113,7 @@
         "id": 10,
         "name": "Premium Saffron ",
         "image": "Photos/Saffron.jpeg",
-        "price": 800,
+        "price": 2500,
         "weight": "250g",
         "rating": 5,
         "reviews": 105,
@@ -143,7 +143,7 @@
         "reviews": 105,
         "description": "Naturally sweet black raisins",
         "badge": "POPULAR",
-        "category": "black-raisins"
+        "category": "raisins"
     },
     {
         "id": 13,
@@ -155,7 +155,7 @@
         "reviews": 105,
         "description": "Naturally sweet sunflower seeds",
         "badge": "POPULAR",
-        "category": "sunflower-seeds"
+        "category": "seeds"
     },
     {
         "id": 14,
@@ -167,6 +167,120 @@
         "reviews": 103,
         "description": "Naturally sweet nuqol",
         "badge": "POPULAR",
-        "category": "nuqol"
+        "category": "sweets"
+    },
+     {
+        "id": 15,
+        "name": "Premium Pine Nut",
+        "image": "Photos/Pine Nuts.jpg",
+        "price": 750,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 200,
+        "description": "Naturally sweet pine nut",
+        "badge": "POPULAR",
+        "category": "pine-nuts"
+    }
+    ,
+     {
+        "id": 16,
+        "name": "Premium Pine Nuts",
+        "image": "Photos/Pine Nuts2.jpg",
+        "price": 600,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 200,
+        "description": "Naturally sweet pine nuts",
+        "badge": "POPULAR",
+        "category": "pine-nuts"
+    }
+    ,
+     {
+        "id": 17,
+        "name": "Premium Pine Nuts",
+        "image": "Photos/Pine Nuts2.jpg",
+        "price": 644,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 200,
+        "description": "Naturally sweet pine nuts2",
+        "badge": "POPULAR",
+        "category": "pine-nuts"
+    }
+      ,
+     {
+        "id": 18,
+        "name": "Premium Almond2",
+        "image": "Photos/Almond2.jpg",
+        "price": 800,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet almond",
+        "badge": "POPULAR",
+        "category": "almonds"
+    }
+    ,
+     {
+        "id": 19,
+        "name": "Premium Mulberries",
+        "image": "Photos/Mulberries.jpg",
+        "price": 980,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet mulberries",
+        "badge": "POPULAR",
+        "category": "mulberries"
+    }
+    ,
+     {
+        "id": 20,
+        "name": "Premium Baklava",
+        "image": "Photos/Baklava.jpg",
+        "price": 400,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet baklava",
+        "badge": "POPULAR",
+        "category": "sweets"
+    },
+     {
+        "id": 21,
+        "name": "Premium Russian_Olive",
+        "image": "Photos/Russian_Olive.jpg",
+        "price": 2000,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet russian olive",
+        "badge": "POPULAR",
+        "category": "Afghaistan-fruits"
+    },
+     {
+        "id": 22,
+        "name": "Premium Pamkin seeds",
+        "image": "Photos/pamkin seeds.jpg",
+        "price": 300,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet pumpkin seeds",
+        "badge": "POPULAR",
+        "category": "seeds"
+    }
+    ,
+     {
+        "id": 22,
+        "name": "Premium SheerPira",
+        "image": "Photos/Sheerpira.jpg",
+        "price": 800,
+        "weight": "150g",
+        "rating": 5,
+        "reviews": 400,
+        "description": "Naturally sweet sheerpira",
+        "badge": "POPULAR",
+        "category": "sweets"
     }
 ]

@@ -1,406 +1,423 @@
 "use strict";
-const loginForm = document.getElementById("loginForm");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const passwordToggle = document.getElementById("passwordToggle");
-const rememberMe = document.getElementById("rememberMe");
-const forgotPassword = document.getElementById("forgotPassword");
-const loginMessage = document.getElementById("loginMessage");
-
-
 /* =========================================================
-   LOGIN MESSAGES
+   SHEERN  login.js
+   Needs only auth.js loaded BEFORE it:
+     <script src="JS/auth.js"></script>
+     <script src="JS/login.js"></script>
+   Password hashing is built into this file.
+   auth.js keeps the session and the roles. This file only
+   handles the login form and a few helper functions that
+   your other pages already call (requireLogin, protect...).
+
+   Passwords are checked against the saved hash. An old
+   account that still has a plain-text password can log in
+   once and is upgraded to a hash automatically.
 ========================================================= */
+/* =====================================================
+   PASSWORD HASHING (PBKDF2-SHA256, random salt)
+   Stored value looks like: pbkdf2$150000$<salt>$<hash>
+   Also available to other scripts as window.SheernPassword
+   (hash / verify / isHashed) once login.js is loaded.
+===================================================== */
+(function () {
 
-function showMessage(message, type = "") {
-    if (!loginMessage) return;
-    loginMessage.textContent = message;
-    loginMessage.className = "login-message " + type;
-}
+    var PREFIX = "pbkdf2";
+    var ITERATIONS = 150000;
+    var SALT_BYTES = 16;
+    var HASH_BITS = 256;
 
-function clearMessage() {
-    if (!loginMessage) return;
-    loginMessage.textContent = "";
-    loginMessage.className = "login-message";
-}
+    var encoder = new TextEncoder();
 
 
-/* =========================================================
-   PASSWORD SHOW / HIDE
-========================================================= */
+    /* ---------- base64 helpers ---------- */
 
-if (passwordToggle && passwordInput) {
-    passwordToggle.addEventListener("click", function () {
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            passwordToggle.innerHTML = '<i class="bi bi-eye-slash"></i>';
-            passwordToggle.setAttribute("aria-label", "Hide password");
-        } else {
-            passwordInput.type = "password";
-            passwordToggle.innerHTML = '<i class="bi bi-eye"></i>';
-            passwordToggle.setAttribute("aria-label", "Show password");
+    function toBase64(bytes) {
+        var binary = "";
+        bytes = new Uint8Array(bytes);
+        for (var i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
         }
-    });
-}
-
-
-/* =========================================================
-   REMEMBERED USER
-========================================================= */
-
-const rememberedUser = localStorage.getItem("sheernRememberedUser");
-
-if (rememberedUser && usernameInput) {
-    usernameInput.value = rememberedUser;
-    if (rememberMe) rememberMe.checked = true;
-}
-
-
-/* =========================================================
-   ROLE
-========================================================= */
-
-function getSelectedRole() {
-    const selectedRole = document.querySelector('input[name="userRole"]:checked');
-    if (!selectedRole) return "customer";
-    return selectedRole.value;
-}
-
-
-/* =========================================================
-   USERS / LOGIN STATE (localStorage)
-========================================================= */
-
-function loadUsers() {
-    try {
-        const storedUsers = localStorage.getItem("sheernUsers");
-        if (!storedUsers) return [];
-        const users = JSON.parse(storedUsers);
-        if (!Array.isArray(users)) {
-            console.error("sheernUsers must contain an array.");
-            return [];
-        }
-        return users;
-    } catch (error) {
-        console.error("Error loading users from localStorage:", error);
-        return [];
-    }
-}
-
-function saveLoggedInUser(user) {
-    localStorage.setItem("sheernLoggedIn", "true");
-    localStorage.setItem("sheernUserRole", user.role || "customer");
-    localStorage.setItem("sheernUsername", user.username || user.email || "");
-    localStorage.setItem(
-        "sheernUserName",
-        user.fullName || user.name || user.username || user.email || "Sheern Customer"
-    );
-    localStorage.setItem("sheernLoggedInUser", JSON.stringify(user));
-}
-
-function isUserLoggedIn() {
-    return localStorage.getItem("sheernLoggedIn") === "true";
-}
-
-function getLoggedInUser() {
-    try {
-        const storedUser = localStorage.getItem("sheernLoggedInUser");
-        if (!storedUser) return null;
-        return JSON.parse(storedUser);
-    } catch (error) {
-        console.error("Error reading logged-in user:", error);
-        return null;
-    }
-}
-
-function getAccountName() {
-    return localStorage.getItem("sheernUserName") || "Login";
-}
-
-
-/* =========================================================
-   NEW: HEADER ACCOUNT UI
-   Works with the header ids used in your pages:
-   headerLoginButton, accountButtonName, accountName,
-   loginDropdownLink, registerDropdownLink, logoutButton
-========================================================= */
-
-function updateAccountUI() {
-
-    if (!isUserLoggedIn()) return;
-
-    const user = getLoggedInUser() || {};
-
-    const fullName =
-        user.fullName || user.name || user.username || user.email || getAccountName();
-
-    const firstName = String(fullName).split(" ")[0];
-
-    /* Button text + dropdown title */
-    const nameSpan = document.getElementById("accountButtonName");
-    const dropdownName = document.getElementById("accountName");
-
-    if (nameSpan) nameSpan.textContent = firstName;
-    if (dropdownName) dropdownName.textContent = fullName;
-
-    /* Avatar: picture if saved, otherwise first letter */
-    const icon = document.querySelector("#headerLoginButton .bi-person-circle");
-
-    if (icon) {
-
-        let avatar;
-
-        if (user.avatar) {
-            avatar = document.createElement("img");
-            avatar.src = user.avatar;
-            avatar.alt = "";
-            avatar.style.cssText =
-                "width:28px;height:28px;border-radius:50%;object-fit:cover;";
-        } else {
-            avatar = document.createElement("span");
-            avatar.textContent = String(fullName).charAt(0).toUpperCase();
-            avatar.style.cssText =
-                "width:28px;height:28px;border-radius:50%;background:#1f3a1f;" +
-                "color:#fff;display:inline-flex;align-items:center;" +
-                "justify-content:center;font-weight:600;";
-        }
-
-        icon.replaceWith(avatar);
+        return btoa(binary);
     }
 
-    /* Dropdown links: hide Login / Create Account, show Logout */
-    const loginLink = document.getElementById("loginDropdownLink");
-    const registerLink = document.getElementById("registerDropdownLink");
-    const logoutBtn = document.getElementById("logoutButton");
-
-    if (loginLink) loginLink.classList.add("d-none");
-    if (registerLink) registerLink.classList.add("d-none");
-    if (logoutBtn) logoutBtn.classList.remove("d-none");
-
-    /* Sidebar "Account" link */
-    const sideAccountText =
-        document.querySelector('.sidebar-bottom a[href="Login.html"] span');
-
-    if (sideAccountText) sideAccountText.textContent = firstName;
-}
-
-
-/* =========================================================
-   REQUIRE LOGIN (wishlist, cart, checkout, payment, order)
-========================================================= */
-
-function requireLogin(actionMessage = "continue") {
-
-    if (!isUserLoggedIn()) {
-
-        alert("Please login to your Sheern account to " + actionMessage + ".");
-
-        localStorage.setItem("sheernLoginRequiredAction", actionMessage);
-
-        window.location.href = "Login.html";
-
-        return false;
+    function fromBase64(text) {
+        var binary = atob(text);
+        var bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
     }
 
-    return true;
-}
 
+    /* ---------- core ---------- */
 
-/* =========================================================
-   LOGIN FORM
-========================================================= */
+    function derive(password, salt, iterations) {
 
-if (loginForm) {
+        return crypto.subtle
+            .importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"])
+            .then(function (key) {
+                return crypto.subtle.deriveBits(
+                    { name: "PBKDF2", salt: salt, iterations: iterations, hash: "SHA-256" },
+                    key,
+                    HASH_BITS
+                );
+            });
+    }
 
-    loginForm.addEventListener("submit", function (event) {
+    function isHashed(stored) {
+        return typeof stored === "string" && stored.indexOf(PREFIX + "$") === 0;
+    }
 
-        event.preventDefault();
-        clearMessage();
+    function hash(password) {
 
-        const username = usernameInput ? usernameInput.value.trim() : "";
-        const password = passwordInput ? passwordInput.value : "";
-        const selectedRole = getSelectedRole();
+        var salt = crypto.getRandomValues(new Uint8Array(SALT_BYTES));
 
-        if (username === "" || password === "") {
-            showMessage("Please fill in all fields.", "error");
-            return;
+        return derive(String(password), salt, ITERATIONS).then(function (bits) {
+            return [PREFIX, ITERATIONS, toBase64(salt), toBase64(bits)].join("$");
+        });
+    }
+
+    /* compares without stopping at the first different character */
+    function sameText(a, b) {
+
+        if (a.length !== b.length) return false;
+
+        var diff = 0;
+
+        for (var i = 0; i < a.length; i++) {
+            diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
         }
 
-        const users = loadUsers();
+        return diff === 0;
+    }
 
-        const user = users.find(function (account) {
+    function verify(password, stored) {
 
-            if (!account) return false;
+        /* old accounts that still have a plain-text password */
+        if (!isHashed(stored)) {
+            return Promise.resolve(
+                typeof stored === "string" && sameText(String(password), stored)
+            );
+        }
 
-            const emailMatch =
-                account.email &&
-                account.email.toLowerCase() === username.toLowerCase();
+        var parts = stored.split("$");
 
-            const usernameMatch =
-                account.username &&
-                account.username.toLowerCase() === username.toLowerCase();
+        if (parts.length !== 4) return Promise.resolve(false);
 
-            const passwordMatch = account.password === password;
+        var iterations = parseInt(parts[1], 10);
 
-            const roleMatch = account.role === selectedRole;
+        if (!iterations) return Promise.resolve(false);
 
-            return (emailMatch || usernameMatch) && passwordMatch && roleMatch;
+        return derive(String(password), fromBase64(parts[2]), iterations)
+            .then(function (bits) {
+                return sameText(toBase64(bits), parts[3]);
+            })
+            .catch(function () {
+                return false;
+            });
+    }
+
+
+    window.SheernPassword = {
+        hash: hash,
+        verify: verify,
+        isHashed: isHashed
+    };
+
+})();
+
+(function () {
+
+    if (!window.Sheern) {
+        console.error("login.js: auth.js must be loaded before login.js");
+        return;
+    }
+
+    var loginForm = document.getElementById("loginForm");
+    var usernameInput = document.getElementById("username");
+    var passwordInput = document.getElementById("password");
+    var passwordToggle = document.getElementById("passwordToggle");
+    var rememberMe = document.getElementById("rememberMe");
+    var loginMessage = document.getElementById("loginMessage");
+
+
+    /* =====================================================
+       LOGIN MESSAGES
+    ===================================================== */
+
+    function showMessage(message, type) {
+        if (!loginMessage) return;
+        loginMessage.textContent = message;
+        loginMessage.className = "login-message " + (type || "");
+    }
+
+    function clearMessage() {
+        if (!loginMessage) return;
+        loginMessage.textContent = "";
+        loginMessage.className = "login-message";
+    }
+
+
+    /* =====================================================
+       PASSWORD SHOW / HIDE
+    ===================================================== */
+
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener("click", function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordToggle.innerHTML = '<i class="bi bi-eye-slash"></i>';
+                passwordToggle.setAttribute("aria-label", "Hide password");
+            } else {
+                passwordInput.type = "password";
+                passwordToggle.innerHTML = '<i class="bi bi-eye"></i>';
+                passwordToggle.setAttribute("aria-label", "Show password");
+            }
+        });
+    }
+
+
+    /* =====================================================
+       REMEMBERED USER (only the username is remembered)
+    ===================================================== */
+
+    var rememberedUser = localStorage.getItem("sheernRememberedUser");
+
+    if (rememberedUser && usernameInput) {
+        usernameInput.value = rememberedUser;
+        if (rememberMe) rememberMe.checked = true;
+    }
+
+
+    /* =====================================================
+       UPGRADE AN OLD PLAIN-TEXT PASSWORD TO A HASH
+       Only runs after a correct login. It needs a save
+       function in auth.js (Sheern.saveUsers).
+    ===================================================== */
+
+    function upgradePassword(account, password) {
+
+        if (SheernPassword.isHashed(account.password)) {
+            return Promise.resolve();
+        }
+
+        if (typeof Sheern.saveUsers !== "function") {
+            console.warn(
+                "login.js: Sheern.saveUsers was not found in auth.js, " +
+                "so the old password could not be upgraded to a hash."
+            );
+            return Promise.resolve();
+        }
+
+        return SheernPassword.hash(password).then(function (hashed) {
+
+            var users = Sheern.getUsers();
+
+            var saved = users.find(function (item) {
+                return (item.id !== undefined && item.id === account.id) ||
+                    (item.username === account.username && item.email === account.email);
+            });
+
+            if (saved) {
+                saved.password = hashed;
+                Sheern.saveUsers(users);
+            }
+        });
+    }
+
+
+    /* =====================================================
+       HASH EVERY PASSWORD THAT IS STILL PLAIN TEXT
+       Runs once when the login page opens, so the demo admin /
+       manager and the old customer accounts are protected too.
+    ===================================================== */
+
+    function hashAllStoredPasswords() {
+
+        if (typeof Sheern.saveUsers !== "function") return;
+
+        var users = Sheern.getUsers();
+
+        var pending = users.filter(function (account) {
+            return typeof account.password === "string" &&
+                account.password !== "" &&
+                !SheernPassword.isHashed(account.password);
         });
 
-        if (!user) {
-            if (selectedRole === "admin") {
-                showMessage("Invalid admin username or password.", "error");
-            } else {
-                showMessage("Invalid customer username/email or password.", "error");
-            }
-            return;
-        }
+        if (pending.length === 0) return;
 
-        saveLoggedInUser(user);
+        Promise.all(pending.map(function (account) {
+            return SheernPassword.hash(account.password).then(function (hashed) {
+                account.password = hashed;
+            });
+        }))
+            .then(function () {
+                Sheern.saveUsers(users);
+            })
+            .catch(function (error) {
+                console.error("login.js: could not hash the saved passwords:", error);
+            });
+    }
 
-        if (rememberMe && rememberMe.checked) {
-            localStorage.setItem("sheernRememberedUser", username);
-        } else {
-            localStorage.removeItem("sheernRememberedUser");
-        }
+    hashAllStoredPasswords();
 
-        if (user.role === "admin") {
-            showMessage("Admin login successful! Redirecting...", "success");
-        } else {
-            showMessage("Customer login successful! Welcome to Sheern.", "success");
-        }
 
-        const requiredAction = localStorage.getItem("sheernLoginRequiredAction");
+    /* =====================================================
+       LOGIN FORM
+       The role (0 admin / 1 manager / 2 customer) is stored in
+       the account itself, so the form does not need a role choice.
+    ===================================================== */
 
-        setTimeout(function () {
+    if (loginForm) {
 
-            localStorage.removeItem("sheernLoginRequiredAction");
+        loginForm.addEventListener("submit", function (event) {
 
-            if (requiredAction === "access checkout") {
-                window.location.href = "Checkout.html";
+            event.preventDefault();
+            clearMessage();
+
+            var username = usernameInput ? usernameInput.value.trim() : "";
+            var password = passwordInput ? passwordInput.value : "";
+
+            if (username === "" || password === "") {
+                showMessage("Please fill in all fields.", "error");
                 return;
             }
 
-            window.location.href = "index.html";
+            var wanted = username.toLowerCase();
 
-        }, 1000);
-    });
-}
+            /* find the account by username or email first */
+            var account = Sheern.getUsers().find(function (item) {
 
+                var emailMatch = item.email &&
+                    String(item.email).toLowerCase() === wanted;
 
-/* =========================================================
-   FORGOT PASSWORD
-========================================================= */
+                var usernameMatch = item.username &&
+                    String(item.username).toLowerCase() === wanted;
 
-if (forgotPassword) {
-    forgotPassword.addEventListener("click", function (event) {
-        event.preventDefault();
-        showMessage("Please contact Sheern support to reset your password.", "error");
-    });
-}
+                return emailMatch || usernameMatch;
+            });
 
+            if (!account) {
+                showMessage("Invalid username/email or password.", "error");
+                return;
+            }
 
-/* =========================================================
-   SOCIAL LOGIN
-========================================================= */
+            /* then compare the password with the saved hash */
+            SheernPassword.verify(password, account.password)
+                .then(function (isCorrect) {
 
-document.querySelectorAll(".social-login button").forEach(function (button) {
-    button.addEventListener("click", function () {
-        showMessage("Social login will be available soon.", "error");
-    });
-});
+                    if (!isCorrect) {
+                        showMessage("Invalid username/email or password.", "error");
+                        return;
+                    }
 
+                    return upgradePassword(account, password).then(function () {
 
-/* =========================================================
-   ROLE SELECTION
-========================================================= */
+                        /* the session never needs the password */
+                        var safeUser = Object.assign({}, account);
+                        delete safeUser.password;
 
-document.querySelectorAll('input[name="userRole"]').forEach(function (input) {
-    input.addEventListener("change", function () {
-        clearMessage();
-        if (this.value === "admin") {
-            showMessage("Admin login selected.", "success");
-        }
-    });
-});
+                        /* one call: saves the session and the old login keys */
+                        Sheern.startSession(safeUser);
 
+                        if (rememberMe && rememberMe.checked) {
+                            localStorage.setItem("sheernRememberedUser", username);
+                        } else {
+                            localStorage.removeItem("sheernRememberedUser");
+                        }
 
-/* =========================================================
-   LOGOUT
-   Remember-me username is kept on purpose.
-========================================================= */
+                        showMessage("Login successful! Welcome to Sheern.", "success");
 
-function logoutUser() {
+                        /* go back to the page the person came from, else the home page */
+                        var returnTo = sessionStorage.getItem(Sheern.RETURN_KEY);
 
-    localStorage.removeItem("sheernLoggedIn");
-    localStorage.removeItem("sheernUserRole");
-    localStorage.removeItem("sheernUsername");
-    localStorage.removeItem("sheernUserName");
-    localStorage.removeItem("sheernLoggedInUser");
-
-    window.location.href = "index.html";
-}
-
-
-/* =========================================================
-   PROTECTION HELPERS
-========================================================= */
-
-function protectCheckoutPage() {
-
-    if (!isUserLoggedIn()) {
-
-        alert("Please login to access checkout.");
-
-        localStorage.setItem("sheernLoginRequiredAction", "access checkout");
-
-        window.location.href = "Login.html";
-
-        return false;
-    }
-
-    return true;
-}
-
-function protectWishlist() {
-    return requireLogin("add products to your wishlist");
-}
-
-function protectPurchase() {
-    return requireLogin("buy products");
-}
-
-function protectPayment() {
-    return requireLogin("make a payment");
-}
-
-function protectPlaceOrder() {
-    return requireLogin("place an order");
-}
-
-
-/* =========================================================
-   ON PAGE LOAD (runs on every page that loads login.js)
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    updateAccountUI();
-
-    const logoutBtn = document.getElementById("logoutButton");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-            logoutUser();
+                        setTimeout(function () {
+                            sessionStorage.removeItem(Sheern.RETURN_KEY);
+                            window.location.href = returnTo || "index.html";
+                        }, 1000);
+                    });
+                })
+                .catch(function (error) {
+                    console.error("Login error:", error);
+                    showMessage("Something went wrong. Please try again.", "error");
+                });
         });
     }
 
-    if (isUserLoggedIn()) {
-        console.log("Sheern user is logged in:", getAccountName());
-    } else {
-        console.log("No Sheern user is currently logged in.");
-    }
-});
 
-console.log("Sheern login.js loaded successfully.");
+    /* =====================================================
+       SOCIAL LOGIN
+       (Forgot Password is now handled by the modal and
+        JS/ForgotPassword.js, so there is no handler here.)
+    ===================================================== */
+
+    document.querySelectorAll(".social-login button").forEach(function (button) {
+        button.addEventListener("click", function () {
+            showMessage("Social login will be available soon.", "error");
+        });
+    });
+
+
+    /* =====================================================
+       HELPERS USED BY YOUR OTHER PAGES
+       (same names as before, now backed by auth.js)
+    ===================================================== */
+
+    function isUserLoggedIn() {
+        return Sheern.isLoggedIn();
+    }
+
+    function getLoggedInUser() {
+        var s = Sheern.getSession();
+        if (!s) return null;
+
+        return Object.assign({}, s, { role: Sheern.ROLE_TEXT[s.role] || "customer" });
+    }
+
+    function getAccountName() {
+        var s = Sheern.getSession();
+        return s ? (s.fullName || s.username || "Login") : "Login";
+    }
+
+    function requireLogin(actionMessage) {
+
+        if (!Sheern.isLoggedIn()) {
+            alert("Please login to your Sheern account to " + (actionMessage || "continue") + ".");
+            Sheern.goToLogin();      /* remembers this page, comes back after login */
+            return false;
+        }
+
+        return true;
+    }
+
+    function logoutUser() {
+        Sheern.logout();
+    }
+
+    function updateAccountUI() {
+        Sheern.updateAccountUI();
+    }
+
+    function protectCheckoutPage() { return requireLogin("access checkout"); }
+    function protectWishlist()     { return requireLogin("add products to your wishlist"); }
+    function protectPurchase()     { return requireLogin("buy products"); }
+    function protectPayment()      { return requireLogin("make a payment"); }
+    function protectPlaceOrder()   { return requireLogin("place an order"); }
+
+    /* make them available to every other script on the page */
+    window.isUserLoggedIn = isUserLoggedIn;
+    window.getLoggedInUser = getLoggedInUser;
+    window.getAccountName = getAccountName;
+    window.requireLogin = requireLogin;
+    window.logoutUser = logoutUser;
+    window.updateAccountUI = updateAccountUI;
+    window.protectCheckoutPage = protectCheckoutPage;
+    window.protectWishlist = protectWishlist;
+    window.protectPurchase = protectPurchase;
+    window.protectPayment = protectPayment;
+    window.protectPlaceOrder = protectPlaceOrder;
+
+    console.log("Sheern login.js loaded successfully.");
+
+})();

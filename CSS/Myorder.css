@@ -1,0 +1,668 @@
+/* =========================================================
+   SHEERN - MY ORDERS PAGE
+   Load AFTER CSS/Style.css
+========================================================= */
+
+:root {
+    --ord-green: #1c3320;
+    --ord-green-soft: #2a4a30;
+    --ord-gold: #b88a3b;
+    --ord-gold-dark: #9a722c;
+    --ord-cream: #faf6ee;
+    --ord-line: #e8dfcd;
+    --ord-text: #2b2b2b;
+    --ord-muted: #7a7466;
+    --ord-white: #ffffff;
+
+    --st-pending: #b7791f;
+    --st-pending-bg: #fdf3dc;
+    --st-processing: #2b6cb0;
+    --st-processing-bg: #e3effb;
+    --st-shipped: #6b46c1;
+    --st-shipped-bg: #efe9fb;
+    --st-delivered: #2f855a;
+    --st-delivered-bg: #e1f4e9;
+    --st-cancelled: #c0392b;
+    --st-cancelled-bg: #fbe6e3;
+}
+
+
+/* ---------------------------------------------------------
+   HERO
+--------------------------------------------------------- */
+
+.orders-hero {
+    background: linear-gradient(135deg, var(--ord-green) 0%, var(--ord-green-soft) 100%);
+    color: #fff;
+    padding: 56px 20px 64px;
+    text-align: center;
+}
+
+.orders-hero-content {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.orders-label {
+    display: inline-block;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #e3c27d;
+    margin-bottom: 10px;
+}
+
+.orders-hero h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(32px, 5vw, 46px);
+    font-weight: 600;
+    margin: 0 0 10px;
+}
+
+.orders-hero p {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    margin: 0;
+    opacity: .88;
+}
+
+
+/* ---------------------------------------------------------
+   SECTION
+--------------------------------------------------------- */
+
+.orders-section {
+    background: var(--ord-cream);
+    padding: 0 16px 70px;
+}
+
+.orders-container {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+
+/* ---------------------------------------------------------
+   STATS
+--------------------------------------------------------- */
+
+.orders-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: -34px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: var(--ord-white);
+    border: 1px solid var(--ord-line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 8px 22px rgba(28, 51, 32, .08);
+}
+
+.stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--ord-cream);
+    color: var(--ord-gold-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    flex-shrink: 0;
+}
+
+.stat-value {
+    font-family: "Playfair Display", serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ord-green);
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    color: var(--ord-muted);
+    margin-top: 3px;
+}
+
+
+/* ---------------------------------------------------------
+   TOOLBAR
+--------------------------------------------------------- */
+
+.orders-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 190px 190px;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.orders-search {
+    position: relative;
+}
+
+.orders-search i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ord-muted);
+}
+
+.orders-search input,
+.orders-toolbar select {
+    width: 100%;
+    height: 46px;
+    border: 1px solid var(--ord-line);
+    border-radius: 10px;
+    background: var(--ord-white);
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: var(--ord-text);
+    padding: 0 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.orders-search input {
+    padding-left: 40px;
+}
+
+.orders-search input:focus,
+.orders-toolbar select:focus {
+    border-color: var(--ord-gold);
+    box-shadow: 0 0 0 3px rgba(184, 138, 59, .18);
+}
+
+.orders-count {
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    color: var(--ord-muted);
+    margin: 0 0 14px;
+}
+
+
+/* ---------------------------------------------------------
+   ORDER CARD
+--------------------------------------------------------- */
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.order-card {
+    background: var(--ord-white);
+    border: 1px solid var(--ord-line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(28, 51, 32, .05);
+}
+
+.order-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px 22px;
+    background: #fdfaf3;
+    border-bottom: 1px solid var(--ord-line);
+}
+
+.order-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 34px;
+}
+
+.order-meta div span {
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: var(--ord-muted);
+}
+
+.order-meta div strong {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ord-green);
+}
+
+.order-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.order-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.status-pending    { color: var(--st-pending);    background: var(--st-pending-bg); }
+.status-processing { color: var(--st-processing); background: var(--st-processing-bg); }
+.status-shipped    { color: var(--st-shipped);    background: var(--st-shipped-bg); }
+.status-delivered  { color: var(--st-delivered);  background: var(--st-delivered-bg); }
+.status-cancelled  { color: var(--st-cancelled);  background: var(--st-cancelled-bg); }
+
+
+/* items */
+
+.order-items {
+    padding: 8px 22px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--ord-line);
+}
+
+.order-item:last-child {
+    border-bottom: 0;
+}
+
+.order-item img {
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: var(--ord-cream);
+    flex-shrink: 0;
+}
+
+.order-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.order-item-info h4 {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ord-text);
+    margin: 0 0 3px;
+}
+
+.order-item-info p {
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    color: var(--ord-muted);
+    margin: 0;
+}
+
+.order-item-total {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: var(--ord-green);
+}
+
+
+/* footer */
+
+.order-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 22px 20px;
+    border-top: 1px solid var(--ord-line);
+}
+
+.order-total {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: var(--ord-muted);
+}
+
+.order-total strong {
+    font-family: "Playfair Display", serif;
+    font-size: 22px;
+    color: var(--ord-green);
+    margin-left: 6px;
+}
+
+.order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-actions select {
+    height: 40px;
+    border: 1px solid var(--ord-line);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    background: var(--ord-white);
+}
+
+
+/* buttons */
+
+.orders-primary-btn,
+.orders-ghost-btn,
+.orders-danger-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.orders-primary-btn {
+    background: var(--ord-green);
+    color: #fff;
+    border: 1px solid var(--ord-green);
+}
+
+.orders-primary-btn:hover {
+    background: var(--ord-gold);
+    border-color: var(--ord-gold);
+    color: #fff;
+}
+
+.orders-ghost-btn {
+    background: transparent;
+    color: var(--ord-green);
+    border: 1px solid var(--ord-line);
+}
+
+.orders-ghost-btn:hover {
+    border-color: var(--ord-gold);
+    color: var(--ord-gold-dark);
+}
+
+.orders-danger-btn {
+    background: transparent;
+    color: var(--st-cancelled);
+    border: 1px solid #efc4be;
+}
+
+.orders-danger-btn:hover {
+    background: var(--st-cancelled-bg);
+}
+
+
+/* ---------------------------------------------------------
+   TRACKER
+--------------------------------------------------------- */
+
+.order-details {
+    padding: 4px 22px 22px;
+    background: #fdfaf3;
+    border-top: 1px solid var(--ord-line);
+}
+
+.order-details[hidden] {
+    display: none;
+}
+
+.order-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 30px;
+    margin: 16px 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+}
+
+.order-detail-grid span {
+    display: block;
+    color: var(--ord-muted);
+    font-size: 11px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.order-detail-grid strong {
+    color: var(--ord-text);
+    font-weight: 500;
+}
+
+.tracker {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 10px;
+}
+
+.tracker::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 8%;
+    right: 8%;
+    height: 3px;
+    background: var(--ord-line);
+}
+
+.track-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    color: var(--ord-muted);
+}
+
+.track-dot {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 6px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--ord-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: transparent;
+}
+
+.track-step.done .track-dot {
+    background: var(--ord-green);
+    border-color: var(--ord-green);
+    color: #fff;
+}
+
+.track-step.done {
+    color: var(--ord-green);
+    font-weight: 600;
+}
+
+.cancelled-note {
+    margin: 10px 0 0;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--st-cancelled-bg);
+    color: var(--st-cancelled);
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+}
+
+
+/* ---------------------------------------------------------
+   EMPTY + MORE + TOAST
+--------------------------------------------------------- */
+
+.orders-empty {
+    text-align: center;
+    background: var(--ord-white);
+    border: 1px dashed var(--ord-line);
+    border-radius: 16px;
+    padding: 56px 20px;
+}
+
+.orders-empty[hidden] {
+    display: none;
+}
+
+.empty-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--ord-cream);
+    color: var(--ord-gold-dark);
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.orders-empty h3 {
+    font-family: "Playfair Display", serif;
+    color: var(--ord-green);
+    margin-bottom: 6px;
+}
+
+.orders-empty p {
+    font-family: "Poppins", sans-serif;
+    color: var(--ord-muted);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.orders-more {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.orders-more button[hidden] {
+    display: none;
+}
+
+.orders-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 30px);
+    background: var(--ord-green);
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s;
+    z-index: 3000;
+}
+
+.orders-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------- */
+
+@media (max-width: 991px) {
+
+    .orders-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .orders-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .orders-search {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .orders-hero {
+        padding: 40px 16px 56px;
+    }
+
+    .orders-stats {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .stat-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+    }
+
+    .stat-value {
+        font-size: 19px;
+    }
+
+    .orders-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .order-head,
+    .order-items,
+    .order-foot,
+    .order-details {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .order-item {
+        flex-wrap: wrap;
+    }
+
+    .order-item-total {
+        width: 100%;
+        text-align: right;
+    }
+
+    .order-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .track-step {
+        font-size: 10px;
+    }
+}

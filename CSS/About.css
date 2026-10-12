@@ -1832,7 +1832,109 @@
     }
 
 }
+/* =====================================================
+   FAQ
+===================================================== */
 
+.faq-section {
+    background: #fff;
+}
+
+.faq-list {
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.faq-item {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.faq-item.active {
+    border-color: #c8a25a;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    background: none;
+    border: 0;
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #222;
+    cursor: pointer;
+}
+
+.faq-question:focus-visible {
+    outline: 2px solid #c8a25a;
+    outline-offset: -2px;
+}
+
+.faq-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(200, 162, 90, 0.15);
+    color: #c8a25a;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+    background: #c8a25a;
+    color: #fff;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.faq-answer p {
+    margin: 0;
+    padding: 0 24px 22px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #666;
+}
+
+.faq-answer a {
+    color: #c8a25a;
+    font-weight: 500;
+}
+
+@media (max-width: 576px) {
+    .faq-question {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer p {
+        padding: 0 18px 18px;
+    }
+}
 
 /* =========================================================
    TABLET / SMALL LAPTOP

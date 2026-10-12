@@ -1,0 +1,327 @@
+/* =========================================================
+   Contact.css  -  Sheern Premium Dry Fruit
+   All classes start with "ct-" so they never clash with
+   Style.css or Bootstrap.
+   ========================================================= */
+
+.ct-page {
+    --ct-green: #1f3a1f;
+    --ct-green-soft: #2f5a2f;
+    --ct-gold: #b8892f;
+    --ct-gold-dark: #8f6a1f;
+    --ct-cream: #f8f3ea;
+    --ct-ink: #2b2b26;
+    --ct-muted: #6b6b60;
+    --ct-line: #e7dec9;
+    --ct-red: #b3261e;
+
+    font-family: "Poppins", sans-serif;
+    color: var(--ct-ink);
+    line-height: 1.7;
+}
+
+.ct-page *,
+.ct-page *::before,
+.ct-page *::after {
+    box-sizing: border-box;
+}
+
+.ct-page h1,
+.ct-page h2 {
+    font-family: "Playfair Display", serif;
+    color: var(--ct-green);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.ct-page p {
+    margin: 0;
+}
+
+.ct-wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ct-page :focus-visible {
+    outline: 3px solid var(--ct-gold);
+    outline-offset: 3px;
+}
+
+/* ---------- Intro ---------- */
+.ct-intro {
+    background: var(--ct-cream);
+    padding: 64px 5vw 56px;
+}
+
+.ct-kicker {
+    color: var(--ct-gold-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.ct-intro h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 600;
+}
+
+.ct-lead {
+    margin-top: 16px;
+    max-width: 56ch;
+    font-size: 1.05rem;
+    color: var(--ct-muted);
+}
+
+/* ---------- Sections ---------- */
+.ct-section {
+    padding: 64px 5vw;
+    background: #fff;
+}
+
+.ct-section.ct-alt {
+    background: var(--ct-cream);
+}
+
+/* ---------- Ways to reach us ---------- */
+.ct-ways {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.ct-way {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px 22px;
+    background: #fff;
+    border: 1px solid var(--ct-line);
+    border-left: 4px solid var(--ct-gold);
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+a.ct-way:hover {
+    border-color: var(--ct-gold);
+    box-shadow: 0 8px 22px rgba(31, 58, 31, 0.1);
+}
+
+.ct-way i {
+    font-size: 1.5rem;
+    color: var(--ct-gold-dark);
+}
+
+.ct-way h2 {
+    font-size: 1.2rem;
+}
+
+.ct-way span {
+    font-size: 0.9rem;
+    color: var(--ct-muted);
+}
+
+/* ---------- Form + map ---------- */
+.ct-split {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
+    align-items: stretch;
+}
+
+.ct-formbox {
+    background: #fff;
+    border: 1px solid var(--ct-line);
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.ct-formbox h2 {
+    font-size: 1.7rem;
+}
+
+.ct-sub {
+    margin: 6px 0 22px;
+    color: var(--ct-muted);
+    font-size: 0.92rem;
+}
+
+.ct-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.ct-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.ct-field label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ct-green);
+    margin-bottom: 6px;
+}
+
+.ct-opt {
+    font-weight: 400;
+    color: var(--ct-muted);
+}
+
+.ct-field input,
+.ct-field select,
+.ct-field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ct-ink);
+    background: #fff;
+    border: 1px solid var(--ct-line);
+    border-radius: 10px;
+    transition: border-color 0.2s;
+}
+
+.ct-field textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.ct-field input:focus,
+.ct-field select:focus,
+.ct-field textarea:focus {
+    border-color: var(--ct-gold);
+    outline: none;
+}
+
+.ct-field.invalid input,
+.ct-field.invalid textarea {
+    border-color: var(--ct-red);
+}
+
+.ct-error {
+    min-height: 1.1em;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--ct-red);
+}
+
+.ct-count {
+    align-self: flex-end;
+    margin-top: 2px;
+    font-size: 0.75rem;
+    color: var(--ct-muted);
+}
+
+.ct-btn {
+    display: inline-block;
+    padding: 13px 30px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ct-green);
+    color: #fff;
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ct-btn:hover {
+    background: var(--ct-green-soft);
+}
+
+.ct-status {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    color: var(--ct-green-soft);
+}
+
+.ct-map {
+    min-height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--ct-line);
+}
+
+.ct-map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 420px;
+    border: 0;
+}
+
+/* ---------- FAQ ---------- */
+.ct-faq {
+    max-width: 760px;
+}
+
+.ct-faq h2 {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    margin-bottom: 20px;
+}
+
+.ct-faq details {
+    border-bottom: 1px solid var(--ct-line);
+    padding: 14px 0;
+}
+
+.ct-faq summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--ct-green);
+}
+
+.ct-faq details p {
+    margin-top: 10px;
+    color: var(--ct-muted);
+    font-size: 0.93rem;
+}
+
+.ct-faq a {
+    color: var(--ct-gold-dark);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+    .ct-split {
+        grid-template-columns: 1fr;
+    }
+
+    .ct-map,
+    .ct-map iframe {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 575px) {
+    .ct-row {
+        grid-template-columns: 1fr;
+    }
+
+    .ct-formbox {
+        padding: 22px 18px;
+    }
+
+    .ct-intro,
+    .ct-section {
+        padding-top: 44px;
+        padding-bottom: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ct-way,
+    .ct-btn,
+    .ct-field input,
+    .ct-field select,
+    .ct-field textarea {
+        transition: none;
+    }
+}

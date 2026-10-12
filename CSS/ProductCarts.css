@@ -1,0 +1,615 @@
+/* =========================================================
+   SHEERN  ProductCards.css
+   Product cards + product detail page, in Sheern green.
+   Link it AFTER your other CSS files so it wins:
+     <link rel="stylesheet" href="CSS/ProductCards.css">
+========================================================= */
+
+:root {
+    --pc-green: #1f3318;         /* dark green: buttons, strip, titles */
+    --pc-green-hover: #2c4a22;
+    --pc-green-soft: #5b7552;    /* small text */
+    --pc-brass: #b08a3e;         /* small headings, stars */
+    --pc-cream: #f7f4ec;
+    --pc-card: #ffffff;
+    --pc-text: #24332a;
+    --pc-muted: #6d7a70;
+    --pc-line: #e4e8de;
+}
+
+/* ---------- PRODUCT GRID (All Products page) ---------- */
+
+#productsGrid,
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 22px 18px;
+}
+
+/* ---------- CARD (compact) ---------- */
+
+.product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--pc-card);
+    border: 1px solid var(--pc-line);
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(31, 51, 24, .07);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(31, 51, 24, .15);
+}
+
+.product-card .pc-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-card .pc-image {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* photo fills the top of the card */
+.product-card .pc-image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    padding: 0;
+    background: #fff;
+    transition: transform .5s ease;
+}
+
+.product-card:hover .pc-image img {
+    transform: scale(1.05);
+}
+
+/* the "Premium Quality" strip is not shown on cards */
+.product-card .pc-quality {
+    display: none;
+}
+
+.product-card .pc-body {
+    padding: 10px 8px 0;
+}
+
+.product-card .pc-name {
+    margin: 0 0 2px;
+    color: var(--pc-green);
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.product-card .pc-brand {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--pc-brass);
+    font-size: .6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.product-card .pc-price {
+    color: var(--pc-green);
+    font-size: .98rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.product-card .pc-button {
+    display: block;
+    margin: 10px 10px 12px;
+    padding: 8px 8px;
+    border: 1px solid var(--pc-green);
+    border-radius: 8px;
+    background: var(--pc-green);
+    color: #fff;
+    font-weight: 600;
+    font-size: .72rem;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+}
+
+.product-card .pc-button:hover {
+    background: var(--pc-green-hover);
+    border-color: var(--pc-green-hover);
+    color: #fff;
+}
+
+/* wishlist heart on the image corner */
+.product-card .wishlist-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .94);
+    color: var(--pc-green);
+    font-size: .85rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+    cursor: pointer;
+    transition: transform .15s;
+}
+
+.product-card .wishlist-btn:hover { transform: scale(1.1); }
+.product-card .wishlist-btn.active { color: #b3402f; }
+
+/* =========================================================
+   PRODUCT DETAIL PAGE
+========================================================= */
+
+.pd-section {
+    background: var(--pc-cream);
+    padding: 40px 0 60px;
+}
+
+.pd-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.pd-breadcrumb {
+    margin-bottom: 22px;
+    color: var(--pc-muted);
+    font-size: .85rem;
+}
+
+.pd-breadcrumb a {
+    color: var(--pc-green);
+    text-decoration: none;
+}
+
+.pd-breadcrumb a:hover { text-decoration: underline; }
+
+.pd-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+}
+
+/* ----- picture ----- */
+
+.pd-left {
+    position: sticky;
+    top: 120px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.pd-gallery {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(31, 51, 24, .14);
+}
+
+.pd-gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    padding: 0;
+    background: #fff;
+}
+
+.pd-gallery .pc-quality {
+    display: block;
+    padding: 11px;
+    background: var(--pc-green);
+    color: #fff;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+/* wishlist heart on the detail picture */
+.pd-wish {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .95);
+    color: var(--pc-green);
+    font-size: 1.15rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .18);
+    cursor: pointer;
+    transition: transform .15s;
+}
+
+.pd-wish:hover { transform: scale(1.08); }
+.pd-wish.active { color: #b3402f; }
+
+/* ----- text column ----- */
+
+.pd-brand {
+    color: var(--pc-brass);
+    font-size: .78rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.pd-title {
+    margin: 6px 0 14px;
+    color: var(--pc-green);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.pd-price {
+    color: var(--pc-green);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.pd-tax {
+    margin: 2px 0 20px;
+    color: var(--pc-green-soft);
+    font-size: .8rem;
+}
+
+.pd-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--pc-green-soft);
+    font-size: .9rem;
+}
+
+/* weight buttons */
+.pd-weights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.pd-weight {
+    min-width: 76px;
+    padding: 9px 22px;
+    border: 1px solid var(--pc-line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--pc-green);
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, color .2s;
+}
+
+.pd-weight:hover { border-color: var(--pc-green); }
+
+.pd-weight.active {
+    background: var(--pc-green);
+    border-color: var(--pc-green);
+    color: #fff;
+}
+
+/* quantity box */
+.pd-qty {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid var(--pc-green-soft);
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.pd-qty button {
+    width: 46px;
+    height: 46px;
+    border: 0;
+    background: transparent;
+    color: var(--pc-green);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.pd-qty button:hover { background: #eef1e8; }
+
+.pd-qty input {
+    width: 54px;
+    height: 46px;
+    border: 0;
+    background: transparent;
+    color: var(--pc-green);
+    text-align: center;
+    font-size: 1rem;
+    -moz-appearance: textfield;
+}
+
+.pd-qty input::-webkit-outer-spin-button,
+.pd-qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Add to cart / Buy it now */
+.pd-buttons {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.pd-add,
+.pd-buy {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--pc-green);
+    font-weight: 600;
+    font-size: .95rem;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+}
+
+.pd-add {
+    background: #fff;
+    color: var(--pc-green);
+}
+
+.pd-add:hover {
+    background: var(--pc-green);
+    color: #fff;
+}
+
+.pd-buy {
+    background: var(--pc-green);
+    color: #fff;
+}
+
+.pd-buy:hover {
+    background: var(--pc-green-hover);
+    border-color: var(--pc-green-hover);
+}
+
+/* description + sections */
+.pd-desc {
+    margin: 0 0 8px;
+    color: var(--pc-text);
+    line-height: 1.6;
+}
+
+.pd-info h3 {
+    margin: 26px 0 10px;
+    color: var(--pc-brass);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.pd-info li {
+    margin: 0 0 10px;
+    color: var(--pc-green-soft);
+    letter-spacing: .3px;
+    line-height: 1.6;
+}
+
+.pd-info ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- YOU MAY ALSO LIKE ---------- */
+
+.pd-related {
+    padding: 50px 0 70px;
+    background: #eef1e8;
+}
+
+.pd-related h2 {
+    margin: 0 0 26px;
+    color: var(--pc-green);
+    font-size: 1.7rem;
+}
+
+.pd-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 20px;
+}
+
+.pd-notfound {
+    padding: 80px 0;
+    text-align: center;
+    color: var(--pc-muted);
+}
+
+.pd-notfound a { color: var(--pc-green); }
+
+/* ---------- toast ---------- */
+
+#pdToast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 9999;
+    padding: 12px 22px;
+    border-radius: 10px;
+    background: var(--pc-green);
+    color: #fff;
+    font-size: .92rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 16px);
+    transition: opacity .25s, transform .25s;
+}
+
+#pdToast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 800px) {
+    .pd-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .pd-left {
+        position: relative;
+        top: auto;
+        max-width: 340px;
+        margin: 0 auto;
+    }
+
+    .pd-gallery {
+        max-width: 340px;
+        margin: 0 auto;
+    }
+}
+
+
+/* ---------- Share button ---------- */
+
+.pd-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    padding: 9px 20px;
+    border: 1px solid var(--pc-brass);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--pc-brass);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.pd-share:hover {
+    background: var(--pc-brass);
+    color: #fff;
+}
+
+
+/* ---------- rating box under the picture card ---------- */
+
+.pd-rating {
+    margin-top: 16px;
+    padding: 16px 18px;
+    border: 1px solid var(--pc-line);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(31, 51, 24, .07);
+}
+
+.pd-rating-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--pc-line);
+}
+
+.pd-rating-stars {
+    color: var(--pc-brass);
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+}
+
+.pd-rating-text {
+    color: var(--pc-muted);
+    font-size: .85rem;
+}
+
+.pd-rate {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px;
+}
+
+.pd-rate-label {
+    color: var(--pc-green);
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.pd-rate-stars {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.pd-rate-stars button {
+    padding: 0 2px;
+    border: 0;
+    background: none;
+    color: var(--pc-brass);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .12s;
+}
+
+.pd-rate-stars button:hover {
+    transform: scale(1.2);
+}
+
+.pd-rate-btn {
+    margin-left: auto;
+    padding: 7px 20px;
+    border: 1px solid var(--pc-green);
+    border-radius: 999px;
+    background: var(--pc-green);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    cursor: pointer;
+    transition: background .2s, opacity .2s;
+}
+
+.pd-rate-btn:hover:not(:disabled) {
+    background: var(--pc-green-hover);
+}
+
+.pd-rate-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.pd-rate-msg {
+    min-height: 1em;
+    margin-top: 8px;
+    color: #2c6b2c;
+    font-size: .82rem;
+    font-weight: 600;
+}

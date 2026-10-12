@@ -1,0 +1,111 @@
+[
+  {
+    "id": "gh-001", "name": "Festive Royal Hamper",
+    "occasions": ["festival"],
+    "festivals": ["nowruz", "eid-fitr", "eid-adha"],
+    "desc": "Our most popular box for Diwali and Eid.",
+    "inside": "Almonds, cashews, pistachios and raisins, 200 g each",
+    "price": 1499, "oldPrice": 1799, "rating": 4.8, "reviews": 126,
+    "badge": "Best Seller", "image": "Photos/Ham4.jpg"
+  },
+  {
+    "id": "gh-002", "name": "Wedding Hamper",
+    "occasions": ["wedding"],
+    "desc": "A two-tier hamper for the bride and groom's families.",
+    "inside": "Almonds, cashews, walnuts, dates, figs and golden raisins",
+    "price": 1000, "oldPrice": 3499, "rating": 4.9, "reviews": 84,
+    "badge": "Premium", "image": "Photos/rap.jpg"
+  },
+  {
+    "id": "gh-003", "name": "Wedding Guest Favour Set",
+    "occasions": ["wedding", "thankyou"],
+    "desc": "Set of 10 small boxes for return gifts.",
+    "inside": "10 boxes, each with almonds, cashews and raisins",
+    "price": 2199, "oldPrice": null, "rating": 4.7, "reviews": 39,
+    "badge": "", "image": "Photos/Ham8.jpg"
+  },
+  {
+    "id": "gh-004", "name": "Executive Client Box",
+    "occasions": ["corporate"],
+    "desc": "A plain, elegant box for clients and partners.",
+    "inside": "Jumbo cashews, California almonds, pistachios and cranberries",
+    "price": 1200, "oldPrice": 2899, "rating": 4.9, "reviews": 47,
+    "badge": "Premium", "image": "Photos/Ham5.jpg"
+  },
+  {
+    "id": "gh-005", "name": "Team Appreciation Box",
+    "occasions": ["corporate", "thankyou"],
+    "desc": "A good size for sharing across a team.",
+    "inside": "Almonds, cashews, roasted pistachios and dried apricots",
+    "price": 1199, "oldPrice": null, "rating": 4.5, "reviews": 58,
+    "badge": "", "image": "Photos/Ham11.jpg"
+  },
+  {
+    "id": "gh-006", "name": "Birthday Treat Box",
+    "occasions": ["birthday"],
+    "desc": "A healthier gift than cake or sweets, with a message card.",
+    "inside": "Almonds, dates, dried berries and chocolate-coated nuts",
+    "price": 999, "oldPrice": 1199, "rating": 4.6, "reviews": 91,
+    "badge": "Popular", "image": "Photos/Ham6.jpg"
+  },
+  {
+    "id": "gh-007", "name": "Dates & Figs Festive Tray",
+    "occasions": ["festival", "housewarming"],
+    "festivals": ["eid-fitr", "eid-adha"],
+    "desc": "Soft Medjool dates and figs in a wooden tray.",
+    "inside": "Medjool dates, anjeer and walnut halves",
+    "price": 1799, "oldPrice": null, "rating": 4.7, "reviews": 73,
+    "badge": "New", "image": "Photos/Ham7.jpg"
+  },
+  {
+    "id": "gh-008", "name": "New Home Welcome Hamper",
+    "occasions": ["housewarming"],
+    "desc": "A useful gift for a family moving into a new home.",
+    "inside": "Almonds, walnuts, raisins, mixed seeds and honey",
+    "price": 1399, "oldPrice": 1599, "rating": 4.6, "reviews": 35,
+    "badge": "", "image": "Photos/Ham.jpg"
+  },
+  {
+    "id": "gh-009", "name": "Get Well Soon Basket",
+    "occasions": ["thankyou"],
+    "desc": "Light, nourishing snacks for someone who is recovering.",
+    "inside": "Dates, almonds, raisins, dried apricots and walnuts",
+    "price": 1099, "oldPrice": null, "rating": 4.5, "reviews": 28,
+    "badge": "", "image": "Photos/Ham 9.jpg"
+  },
+  {
+    "id": "gh-010", "name": "Anniversary Gold Box",
+    "occasions": ["birthday", "wedding"],
+    "desc": "A gold-finish box with a handwritten-style card.",
+    "inside": "Pistachios, cashews, almonds and stuffed dates",
+    "price": 1899, "oldPrice": 2199, "rating": 4.8, "reviews": 52,
+    "badge": "Best Seller", "image": "Photos/gift3.jpg"
+  },
+  {
+    "id": "gh-011", "name": "Nowruz Haft Mewa Box",
+    "occasions": ["festival"],
+    "festivals": ["nowruz"],
+    "desc": "A mix of dried fruits and nuts for the Nowruz table.",
+    "inside": "Raisins, dried apricots, figs, mulberries, almonds, pistachios and walnuts",
+    "price": 1599, "oldPrice": 1899, "rating": 4.8, "reviews": 31,
+    "badge": "New", "image": "Photos/Ham11.jpg"
+  },
+  {
+    "id": "gh-012", "name": "Eid Mubarak Gift Box",
+    "occasions": ["festival"],
+    "festivals": ["eid-fitr"],
+    "desc": "Dates and nuts, packed for sharing at Eid.",
+    "inside": "Ajwa dates, almonds, cashews, pistachios and raisins",
+    "price": 1699, "oldPrice": 1999, "rating": 4.9, "reviews": 64,
+    "badge": "Best Seller", "image": "Photos/gift2.jpg"
+  },
+  {
+    "id": "gh-013", "name": "Eid ul-Adha Family Box",
+    "occasions": ["festival"],
+    "festivals": ["eid-adha"],
+    "desc": "A large box for relatives and neighbours.",
+    "inside": "Almonds, cashews, dates, walnuts, apricots and raisins",
+    "price": 2299, "oldPrice": null, "rating": 4.7, "reviews": 22,
+    "badge": "", "image": "Photos/rap6.jpg"
+  }
+]

@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-            /* Smooth easing */
+
 
             const easedProgress =
                 1 - Math.pow(
@@ -441,6 +441,71 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+    /* =====================================================
+   FAQ ACCORDION
+===================================================== */
+
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    function closeFaq(item) {
+
+        const question = item.querySelector(".faq-question");
+        const answer = item.querySelector(".faq-answer");
+
+        item.classList.remove("active");
+        question.setAttribute("aria-expanded", "false");
+        answer.style.maxHeight = null;
+
+    }
+
+    function openFaq(item) {
+
+        const question = item.querySelector(".faq-question");
+        const answer = item.querySelector(".faq-answer");
+
+        item.classList.add("active");
+        question.setAttribute("aria-expanded", "true");
+        answer.style.maxHeight = answer.scrollHeight + "px";
+
+    }
+
+    faqItems.forEach(function (item) {
+
+        const question = item.querySelector(".faq-question");
+
+        question.addEventListener("click", function () {
+
+            const isOpen = item.classList.contains("active");
+
+            /* Close all other items */
+            faqItems.forEach(function (otherItem) {
+                if (otherItem !== item) {
+                    closeFaq(otherItem);
+                }
+            });
+
+            if (isOpen) {
+                closeFaq(item);
+            } else {
+                openFaq(item);
+            }
+
+        });
+
+    });
+
+    window.addEventListener("resize", function () {
+
+        faqItems.forEach(function (item) {
+
+            if (item.classList.contains("active")) {
+                item.querySelector(".faq-answer").style.maxHeight =
+                    item.querySelector(".faq-answer").scrollHeight + "px";
+            }
+
+        });
+
+    });
 
 
     /* =====================================================

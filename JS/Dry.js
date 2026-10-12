@@ -1,8 +1,20 @@
 let products = [];
 
-let cart = JSON.parse(
-    localStorage.getItem("sheernCart")
-) || [];
+let cart = [];
+
+try {
+    cart = JSON.parse(localStorage.getItem("sheernCart")) || [];
+} catch (error) {
+    cart = [];
+}
+
+/* repair old items saved with "qty" or without a quantity */
+cart = cart.map(function (item) {
+    return {
+        ...item,
+        quantity: Number(item.quantity ?? item.qty) || 1
+    };
+});
 
 
 /* =========================================================
@@ -16,53 +28,24 @@ async function loadProducts() {
         const response = await fetch("DATA/products.json");
 
         if (!response.ok) {
-
-            throw new Error(
-                "Could not load DATA/products.json"
-            );
-
+            throw new Error("Could not load DATA/products.json");
         }
 
         const data = await response.json();
 
         console.log("JSON DATA:", data);
 
-
-        /*
-            Supports BOTH formats:
-
-            1. [
-                {...},
-                {...}
-            ]
-
-            2. {
-                "products": [
-                    {...},
-                    {...}
-                ]
-            }
-        */
-
         products = Array.isArray(data)
             ? data
             : data.products;
 
-
         if (!Array.isArray(products)) {
-
             throw new Error(
                 "products.json must contain an array or a products array."
             );
-
         }
 
-
-        console.log(
-            "Products successfully loaded:",
-            products
-        );
-
+        console.log("Products successfully loaded:", products);
 
         displayCategories();
 
@@ -76,13 +59,9 @@ async function loadProducts() {
 
     catch (error) {
 
-        console.error(
-            "Error loading products:",
-            error
-        );
+        console.error("Error loading products:", error);
 
-        const productGrid =
-            document.getElementById("productGrid");
+        const productGrid = document.getElementById("productGrid");
 
         if (productGrid) {
 
@@ -107,26 +86,15 @@ async function loadProducts() {
 
 function displayCategories() {
 
-    const categorySlider =
-        document.getElementById("categorySlider");
-
+    const categorySlider = document.getElementById("categorySlider");
 
     if (!categorySlider) {
-
-        console.error(
-            "categorySlider not found."
-        );
-
         return;
-
     }
-
 
     categorySlider.innerHTML = "";
 
-
     const categories = [];
-
 
     products.forEach(function (product) {
 
@@ -135,18 +103,11 @@ function displayCategories() {
                 .trim()
                 .toLowerCase();
 
-
-        if (
-            category &&
-            !categories.includes(category)
-        ) {
-
+        if (category && !categories.includes(category)) {
             categories.push(category);
-
         }
 
     });
-
 
     categories.forEach(function (category) {
 
@@ -159,9 +120,7 @@ function displayCategories() {
 
             });
 
-
         if (!product) return;
-
 
         const categoryName =
             category
@@ -175,7 +134,6 @@ function displayCategories() {
 
                 })
                 .join(" ");
-
 
         categorySlider.insertAdjacentHTML(
             "beforeend",
@@ -206,7 +164,6 @@ function displayCategories() {
 
     });
 
-
     /*
         Add click events AFTER
         the cards have been created.
@@ -216,17 +173,13 @@ function displayCategories() {
         .querySelectorAll(".category-card")
         .forEach(function (card) {
 
-            card.addEventListener(
-                "click",
-                function () {
+            card.addEventListener("click", function () {
 
-                    const category =
-                        this.dataset.category;
+                const category = this.dataset.category;
 
-                    filterByCategory(category);
+                filterByCategory(category);
 
-                }
-            );
+            });
 
         });
 
@@ -239,28 +192,15 @@ function displayCategories() {
 
 function displayProducts(productList = products) {
 
-    const productGrid =
-        document.getElementById("productGrid");
-
+    const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
-
-        console.error(
-            "productGrid not found."
-        );
-
         return;
-
     }
-
 
     productGrid.innerHTML = "";
 
-
-    if (
-        !Array.isArray(productList) ||
-        productList.length === 0
-    ) {
+    if (!Array.isArray(productList) || productList.length === 0) {
 
         productGrid.innerHTML = `
             <div class="col-12 text-center">
@@ -272,23 +212,14 @@ function displayProducts(productList = products) {
 
     }
 
-
     productList.forEach(function (product) {
 
         const rating =
-            Math.max(
-                0,
-                Math.min(
-                    5,
-                    Number(product.rating) || 0
-                )
-            );
-
+            Math.max(0, Math.min(5, Number(product.rating) || 0));
 
         const stars =
             "★".repeat(rating) +
             "☆".repeat(5 - rating);
-
 
         const productHTML = `
 
@@ -296,18 +227,16 @@ function displayProducts(productList = products) {
 
                 <div
                     class="product-card"
-                    data-category="${escapeAttribute(
-            product.category || ""
-        )}"
+                    data-category="${escapeAttribute(product.category || "")}"
+                    data-detail-url="ProductDetail.html?id=${encodeURIComponent(product.id)}"
+                    style="cursor:pointer"
                 >
 
                     <!-- PRODUCT BADGE -->
 
                     <span class="product-badge">
 
-                        ${escapeHTML(
-            product.badge || "Premium"
-        )}
+                        ${escapeHTML(product.badge || "Premium")}
 
                     </span>
 
@@ -330,12 +259,18 @@ function displayProducts(productList = products) {
 
                     <div class="product-image">
 
-                        <img
-                            src="${escapeAttribute(product.image)}"
-                            alt="${escapeAttribute(product.name)}"
-                            loading="lazy"
-                            onerror="this.src='Photos/Logo.png'"
-                        >
+                        <a href="ProductDetail.html?id=${encodeURIComponent(product.id)}"
+                            style="display:block;color:inherit;text-decoration:none"
+                            aria-label="View ${escapeAttribute(product.name)}">
+
+                            <img
+                                src="${escapeAttribute(product.image)}"
+                                alt="${escapeAttribute(product.name)}"
+                                loading="lazy"
+                                onerror="this.src='Photos/Logo.png'"
+                            >
+
+                        </a>
 
                     </div>
 
@@ -346,7 +281,8 @@ function displayProducts(productList = products) {
 
                         <h4>
 
-                            ${escapeHTML(product.name)}
+                            <a href="ProductDetail.html?id=${encodeURIComponent(product.id)}"
+                                style="color:inherit;text-decoration:none">${escapeHTML(product.name)}</a>
 
                         </h4>
 
@@ -359,9 +295,7 @@ function displayProducts(productList = products) {
 
                             <span>
 
-                                (${escapeHTML(
-            product.reviews || 0
-        )})
+                                (${escapeHTML(product.reviews || 0)})
 
                             </span>
 
@@ -372,9 +306,7 @@ function displayProducts(productList = products) {
 
                         <p class="product-description">
 
-                            ${escapeHTML(
-            product.description || ""
-        )}
+                            ${escapeHTML(product.description || "")}
 
                         </p>
 
@@ -387,9 +319,7 @@ function displayProducts(productList = products) {
 
                             <small>
 
-                                / ${escapeHTML(
-            product.weight || ""
-        )}
+                                / ${escapeHTML(product.weight || "")}
 
                             </small>
 
@@ -401,7 +331,7 @@ function displayProducts(productList = products) {
                         <button
                             class="add-cart-btn"
                             type="button"
-                            onclick="addToCart(${Number(product.id)})"
+                            onclick="addToCart('${escapeAttribute(product.id)}')"
                         >
 
                             <i class="bi bi-cart-plus"></i>
@@ -418,16 +348,32 @@ function displayProducts(productList = products) {
 
         `;
 
-
-        productGrid.insertAdjacentHTML(
-            "beforeend",
-            productHTML
-        );
+        productGrid.insertAdjacentHTML("beforeend", productHTML);
 
     });
 
-
     loadWishlist();
+
+    /* clicking a card (not a button or link) opens the product details page */
+    if (!productGrid.dataset.detailClick) {
+
+        productGrid.dataset.detailClick = "true";
+
+        productGrid.addEventListener("click", function (event) {
+
+            const card = event.target.closest(".product-card");
+
+            if (
+                card &&
+                card.dataset.detailUrl &&
+                !event.target.closest("button, a")
+            ) {
+                window.location.href = card.dataset.detailUrl;
+            }
+
+        });
+
+    }
 
 }
 
@@ -440,9 +386,7 @@ function getWishlist() {
 
     try {
 
-        return JSON.parse(
-            localStorage.getItem("wishlist")
-        ) || [];
+        return JSON.parse(localStorage.getItem("wishlist")) || [];
 
     }
 
@@ -463,21 +407,17 @@ function loadWishlist() {
 
     const wishlist = getWishlist();
 
-
     document
         .querySelectorAll(".wishlist-btn")
         .forEach(function (btn) {
 
-            const productId =
-                String(btn.dataset.id);
-
+            const productId = String(btn.dataset.id);
 
             if (wishlist.includes(productId)) {
 
                 btn.classList.add("active");
 
-                btn.innerHTML =
-                    '<i class="bi bi-heart-fill"></i>';
+                btn.innerHTML = '<i class="bi bi-heart-fill"></i>';
 
             }
 
@@ -485,11 +425,9 @@ function loadWishlist() {
 
                 btn.classList.remove("active");
 
-                btn.innerHTML =
-                    '<i class="bi bi-heart"></i>';
+                btn.innerHTML = '<i class="bi bi-heart"></i>';
 
             }
-
 
             btn.onclick = function (event) {
 
@@ -503,10 +441,7 @@ function loadWishlist() {
 
         });
 
-
-    updateWishlistCount(
-        wishlist.length
-    );
+    updateWishlistCount(wishlist.length);
 
 }
 
@@ -519,21 +454,15 @@ function toggleWishlist(productId) {
 
     let wishlist = getWishlist();
 
-
     productId = String(productId);
 
-
-    const index =
-        wishlist.indexOf(productId);
-
+    const index = wishlist.indexOf(productId);
 
     if (index === -1) {
 
         wishlist.push(productId);
 
-        alert(
-            "Product added to your wishlist."
-        );
+        alert("Product added to your wishlist.");
 
     }
 
@@ -541,18 +470,11 @@ function toggleWishlist(productId) {
 
         wishlist.splice(index, 1);
 
-        alert(
-            "Product removed from your wishlist."
-        );
+        alert("Product removed from your wishlist.");
 
     }
 
-
-    localStorage.setItem(
-        "wishlist",
-        JSON.stringify(wishlist)
-    );
-
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
 
     loadWishlist();
 
@@ -566,30 +488,17 @@ function toggleWishlist(productId) {
 function updateWishlistCount(count) {
 
     const headerWishlistCount =
-        document.getElementById(
-            "headerWishlistCount"
-        );
-
+        document.getElementById("headerWishlistCount");
 
     const sidebarWishlistCount =
-        document.getElementById(
-            "sidebarWishlistCount"
-        );
-
+        document.getElementById("sidebarWishlistCount");
 
     if (headerWishlistCount) {
-
-        headerWishlistCount.textContent =
-            count;
-
+        headerWishlistCount.textContent = count;
     }
 
-
     if (sidebarWishlistCount) {
-
-        sidebarWishlistCount.textContent =
-            count;
-
+        sidebarWishlistCount.textContent = count;
     }
 
 }
@@ -602,64 +511,42 @@ function updateWishlistCount(count) {
 function setupWishlistButton() {
 
     const headerWishlistButton =
-        document.getElementById(
-            "headerWishlistButton"
-        );
-
+        document.getElementById("headerWishlistButton");
 
     if (!headerWishlistButton) return;
 
+    headerWishlistButton.addEventListener("click", function () {
 
-    headerWishlistButton.addEventListener(
-        "click",
-        function () {
+        const wishlist = getWishlist();
 
-            const wishlist =
-                getWishlist();
+        if (wishlist.length === 0) {
 
+            alert("Your wishlist is empty.");
 
-            if (wishlist.length === 0) {
-
-                alert(
-                    "Your wishlist is empty."
-                );
-
-                return;
-
-            }
-
-
-            const wishlistProducts =
-                products.filter(function (product) {
-
-                    return wishlist.includes(
-                        String(product.id)
-                    );
-
-                });
-
-
-            displayProducts(
-                wishlistProducts
-            );
-
-
-            const productSection =
-                document.getElementById(
-                    "products"
-                );
-
-
-            if (productSection) {
-
-                productSection.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-            }
+            return;
 
         }
-    );
+
+        const wishlistProducts =
+            products.filter(function (product) {
+
+                return wishlist.includes(String(product.id));
+
+            });
+
+        displayProducts(wishlistProducts);
+
+        const productSection = document.getElementById("products");
+
+        if (productSection) {
+
+            productSection.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+    });
 
 }
 
@@ -670,53 +557,47 @@ function setupWishlistButton() {
 
 function saveCart() {
 
-    localStorage.setItem(
-        "sheernCart",
-        JSON.stringify(cart)
-    );
+    localStorage.setItem("sheernCart", JSON.stringify(cart));
 
 }
 
 
 /* =========================================================
    ADD TO CART
+   Accepts either a product id or a whole product object
+   (the Hampers page sends an object).
 ========================================================= */
 
-function addToCart(productId) {
+function addToCart(productOrId) {
 
     const product =
-        products.find(function (item) {
+        (productOrId && typeof productOrId === "object")
+            ? productOrId
+            : products.find(function (item) {
 
-            return String(item.id) ===
-                String(productId);
+                return String(item.id) === String(productOrId);
 
-        });
-
+            });
 
     if (!product) {
 
-        console.error(
-            "Product not found:",
-            productId
-        );
+        console.error("Product not found:", productOrId);
 
         return;
 
     }
 
-
     const existingProduct =
         cart.find(function (item) {
 
-            return String(item.id) ===
-                String(productId);
+            return String(item.id) === String(product.id);
 
         });
 
-
     if (existingProduct) {
 
-        existingProduct.quantity += 1;
+        existingProduct.quantity =
+            (Number(existingProduct.quantity) || 0) + 1;
 
     }
 
@@ -732,14 +613,11 @@ function addToCart(productId) {
 
     }
 
-
     saveCart();
 
     updateCart();
 
-    showAddedMessage(
-        product.name
-    );
+    showAddedMessage(product.name);
 
 }
 
@@ -750,34 +628,19 @@ function addToCart(productId) {
 
 function updateCart() {
 
-    const cartItems =
-        document.getElementById(
-            "cartItems"
-        );
+    const cartItems = document.getElementById("cartItems");
 
+    const cartCount = document.getElementById("headerCartCount");
 
-    const cartCount =
-        document.getElementById(
-            "headerCartCount"
-        );
-
-
-    const cartTotal =
-        document.getElementById(
-            "cartTotal"
-        );
-
+    const cartTotal = document.getElementById("cartTotal");
 
     let totalItems = 0;
 
     let totalPrice = 0;
 
-
     cart.forEach(function (item) {
 
-        totalItems +=
-            Number(item.quantity) || 0;
-
+        totalItems += Number(item.quantity) || 0;
 
         totalPrice +=
             Number(item.price || 0) *
@@ -785,26 +648,15 @@ function updateCart() {
 
     });
 
-
     if (cartCount) {
-
-        cartCount.textContent =
-            totalItems;
-
+        cartCount.textContent = totalItems;
     }
-
 
     if (cartTotal) {
-
-        cartTotal.textContent =
-            "₹" +
-            totalPrice.toFixed(2);
-
+        cartTotal.textContent = "₹" + totalPrice.toFixed(2);
     }
 
-
     if (!cartItems) return;
-
 
     if (cart.length === 0) {
 
@@ -826,9 +678,7 @@ function updateCart() {
 
     }
 
-
     cartItems.innerHTML = "";
-
 
     cart.forEach(function (item) {
 
@@ -871,7 +721,7 @@ function updateCart() {
                     <button
                         class="btn btn-sm btn-light"
                         type="button"
-                        onclick="changeQuantity(${Number(item.id)}, -1)"
+                        onclick="changeQuantity('${escapeAttribute(item.id)}', -1)"
                     >
 
                         −
@@ -889,7 +739,7 @@ function updateCart() {
                     <button
                         class="btn btn-sm btn-light"
                         type="button"
-                        onclick="changeQuantity(${Number(item.id)}, 1)"
+                        onclick="changeQuantity('${escapeAttribute(item.id)}', 1)"
                     >
 
                         +
@@ -902,7 +752,7 @@ function updateCart() {
                 <button
                     class="remove-cart"
                     type="button"
-                    onclick="removeFromCart(${Number(item.id)})"
+                    onclick="removeFromCart('${escapeAttribute(item.id)}')"
                 >
 
                     <i class="bi bi-trash"></i>
@@ -930,32 +780,25 @@ function changeQuantity(productId, change) {
     const product =
         cart.find(function (item) {
 
-            return String(item.id) ===
-                String(productId);
+            return String(item.id) === String(productId);
 
         });
 
-
     if (!product) return;
 
-
     product.quantity =
-        Number(product.quantity) +
-        Number(change);
-
+        Number(product.quantity) + Number(change);
 
     if (product.quantity <= 0) {
 
         cart =
             cart.filter(function (item) {
 
-                return String(item.id) !==
-                    String(productId);
+                return String(item.id) !== String(productId);
 
             });
 
     }
-
 
     saveCart();
 
@@ -973,11 +816,9 @@ function removeFromCart(productId) {
     cart =
         cart.filter(function (item) {
 
-            return String(item.id) !==
-                String(productId);
+            return String(item.id) !== String(productId);
 
         });
-
 
     saveCart();
 
@@ -992,10 +833,7 @@ function removeFromCart(productId) {
 
 function showAddedMessage(productName) {
 
-    alert(
-        productName +
-        " has been added to your cart."
-    );
+    alert(productName + " has been added to your cart.");
 
 }
 
@@ -1006,31 +844,17 @@ function showAddedMessage(productName) {
 
 function searchProducts() {
 
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
+    const searchInput = document.getElementById("searchInput");
 
-
-    const searchResults =
-        document.getElementById(
-            "searchResults"
-        );
-
+    const searchResults = document.getElementById("searchResults");
 
     if (!searchInput) return;
 
-
-    const searchText =
-        searchInput.value
-            .trim()
-            .toLowerCase();
-
+    const searchText = searchInput.value.trim().toLowerCase();
 
     if (searchText === "") {
 
         displayProducts(products);
-
 
         if (searchResults) {
 
@@ -1053,47 +877,34 @@ function searchProducts() {
 
     }
 
-
     const results =
         products.filter(function (product) {
 
             return (
 
-                String(product.name || "")
-                    .toLowerCase()
-                    .includes(searchText)
+                String(product.name || "").toLowerCase().includes(searchText)
 
                 ||
 
-                String(product.description || "")
-                    .toLowerCase()
-                    .includes(searchText)
+                String(product.description || "").toLowerCase().includes(searchText)
 
                 ||
 
-                String(product.badge || "")
-                    .toLowerCase()
-                    .includes(searchText)
+                String(product.badge || "").toLowerCase().includes(searchText)
 
                 ||
 
-                String(product.weight || "")
-                    .toLowerCase()
-                    .includes(searchText)
+                String(product.weight || "").toLowerCase().includes(searchText)
 
                 ||
 
-                String(product.category || "")
-                    .toLowerCase()
-                    .includes(searchText)
+                String(product.category || "").toLowerCase().includes(searchText)
 
             );
 
         });
 
-
     displayProducts(results);
-
 
     if (searchResults) {
 
@@ -1141,26 +952,16 @@ function filterByCategory(category) {
         products.filter(function (product) {
 
             return (
-                String(product.category || "")
-                    .trim()
-                    .toLowerCase()
+                String(product.category || "").trim().toLowerCase()
                 ===
-                String(category || "")
-                    .trim()
-                    .toLowerCase()
+                String(category || "").trim().toLowerCase()
             );
 
         });
 
-
     displayProducts(results);
 
-
-    const productSection =
-        document.getElementById(
-            "products"
-        );
-
+    const productSection = document.getElementById("products");
 
     if (productSection) {
 
@@ -1179,63 +980,43 @@ function filterByCategory(category) {
 
 function setupCategoryArrows() {
 
-    const categorySlider =
-        document.getElementById(
-            "categorySlider"
-        );
+    const categorySlider = document.getElementById("categorySlider");
 
+    const categoryPrev = document.getElementById("categoryPrev");
 
-    const categoryPrev =
-        document.getElementById(
-            "categoryPrev"
-        );
-
-
-    const categoryNext =
-        document.getElementById(
-            "categoryNext"
-        );
-
+    const categoryNext = document.getElementById("categoryNext");
 
     if (!categorySlider) return;
 
-
     if (categoryPrev) {
 
-        categoryPrev.addEventListener(
-            "click",
-            function () {
+        categoryPrev.addEventListener("click", function () {
 
-                categorySlider.scrollBy({
+            categorySlider.scrollBy({
 
-                    left: -450,
+                left: -450,
 
-                    behavior: "smooth"
+                behavior: "smooth"
 
-                });
+            });
 
-            }
-        );
+        });
 
     }
 
-
     if (categoryNext) {
 
-        categoryNext.addEventListener(
-            "click",
-            function () {
+        categoryNext.addEventListener("click", function () {
 
-                categorySlider.scrollBy({
+            categorySlider.scrollBy({
 
-                    left: 450,
+                left: 450,
 
-                    behavior: "smooth"
+                behavior: "smooth"
 
-                });
+            });
 
-            }
-        );
+        });
 
     }
 
@@ -1248,91 +1029,66 @@ function setupCategoryArrows() {
 
 function setupSearch() {
 
-    const searchButton =
-        document.getElementById(
-            "searchSubmitButton"
-        );
+    const searchButton = document.getElementById("searchSubmitButton");
 
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
+    const searchInput = document.getElementById("searchInput");
 
     if (searchButton) {
 
-        searchButton.addEventListener(
-            "click",
-            searchProducts
-        );
+        searchButton.addEventListener("click", searchProducts);
 
     }
 
-
     if (!searchInput) return;
 
+    searchInput.addEventListener("keydown", function (event) {
 
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
+        if (event.key === "Enter") {
 
-            if (event.key === "Enter") {
+            event.preventDefault();
 
-                event.preventDefault();
+            searchProducts();
 
-                searchProducts();
+        }
+
+    });
+
+    searchInput.addEventListener("input", function () {
+
+        const value = this.value.trim();
+
+        if (value.length >= 2) {
+
+            searchProducts();
+
+        }
+
+        else if (value === "") {
+
+            displayProducts(products);
+
+            const searchResults = document.getElementById("searchResults");
+
+            if (searchResults) {
+
+                searchResults.innerHTML = `
+
+                    <p class="search-hint">
+
+                        <i class="bi bi-info-circle"></i>
+
+                        Search for your favorite
+                        dry fruits.
+
+                    </p>
+
+                `;
 
             }
 
         }
-    );
 
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            const value =
-                this.value.trim();
-
-
-            if (value.length >= 2) {
-
-                searchProducts();
-
-            }
-
-            else if (value === "") {
-
-                displayProducts(products);
-
-                const searchResults =
-                    document.getElementById(
-                        "searchResults"
-                    );
-
-                if (searchResults) {
-
-                    searchResults.innerHTML = `
-
-                        <p class="search-hint">
-
-                            <i class="bi bi-info-circle"></i>
-
-                            Search for your favorite
-                            dry fruits.
-
-                        </p>
-
-                    `;
-
-                }
-
-            }
-
-        }
-    );
+    });
 
 }
 
@@ -1343,79 +1099,41 @@ function setupSearch() {
 
 function setupSidebar() {
 
-    const SIDE_toggle =
-        document.getElementById(
-            "SIDE_toggle"
-        );
+    const SIDE_toggle = document.getElementById("SIDE_toggle");
 
+    const sideNavbar = document.getElementById("sideNavbar");
 
-    const sideNavbar =
-        document.getElementById(
-            "sideNavbar"
-        );
-
-
-    const sidebarOverlay =
-        document.getElementById(
-            "sidebarOverlay"
-        );
-
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
 
     if (!SIDE_toggle || !sideNavbar) {
 
-        console.error(
-            "Sidebar elements not found."
-        );
+        console.error("Sidebar elements not found.");
 
         return;
 
     }
 
+    SIDE_toggle.addEventListener("click", function () {
 
-    SIDE_toggle.addEventListener(
-        "click",
-        function () {
+        const isOpen = sideNavbar.classList.toggle("open");
 
-            const isOpen =
-                sideNavbar.classList.toggle(
-                    "open"
-                );
+        if (sidebarOverlay) {
 
-
-            if (sidebarOverlay) {
-
-                sidebarOverlay.classList.toggle(
-                    "show",
-                    isOpen
-                );
-
-            }
-
-
-            SIDE_toggle.classList.toggle(
-                "menu-open",
-                isOpen
-            );
-
-
-            SIDE_toggle.setAttribute(
-                "aria-expanded",
-                isOpen
-            );
+            sidebarOverlay.classList.toggle("show", isOpen);
 
         }
-    );
 
+        SIDE_toggle.classList.toggle("menu-open", isOpen);
+
+        SIDE_toggle.setAttribute("aria-expanded", isOpen);
+
+    });
 
     if (sidebarOverlay) {
 
-        sidebarOverlay.addEventListener(
-            "click",
-            closeSidebar
-        );
+        sidebarOverlay.addEventListener("click", closeSidebar);
 
     }
-
 
     /*
         Close sidebar when clicking
@@ -1423,62 +1141,38 @@ function setupSidebar() {
     */
 
     document
-        .querySelectorAll(
-            ".sidebar-menu a, .sidebar-bottom a"
-        )
+        .querySelectorAll(".sidebar-menu a, .sidebar-bottom a")
         .forEach(function (link) {
 
-            link.addEventListener(
-                "click",
-                function () {
+            link.addEventListener("click", function () {
 
-                    /*
-                        Do not close the Shop button.
-                    */
+                /*
+                    Do not close the Shop button.
+                */
 
-                    if (
-                        this.id ===
-                        "shopSideBtn"
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    closeSidebar();
-
+                if (this.id === "shopSideBtn") {
+                    return;
                 }
-            );
+
+                closeSidebar();
+
+            });
 
         });
 
-
     function closeSidebar() {
 
-        sideNavbar.classList.remove(
-            "open"
-        );
-
+        sideNavbar.classList.remove("open");
 
         if (sidebarOverlay) {
 
-            sidebarOverlay.classList.remove(
-                "show"
-            );
+            sidebarOverlay.classList.remove("show");
 
         }
 
+        SIDE_toggle.classList.remove("menu-open");
 
-        SIDE_toggle.classList.remove(
-            "menu-open"
-        );
-
-
-        SIDE_toggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+        SIDE_toggle.setAttribute("aria-expanded", "false");
 
     }
 
@@ -1491,41 +1185,23 @@ function setupSidebar() {
 
 function setupShopSidebar() {
 
-    const shopSideBtn =
-        document.getElementById(
-            "shopSideBtn"
-        );
+    const shopSideBtn = document.getElementById("shopSideBtn");
 
-
-    const shopSubmenu =
-        document.getElementById(
-            "shopSubmenu"
-        );
-
+    const shopSubmenu = document.getElementById("shopSubmenu");
 
     if (!shopSideBtn || !shopSubmenu) {
         return;
     }
 
+    shopSideBtn.addEventListener("click", function (event) {
 
-    shopSideBtn.addEventListener(
-        "click",
-        function (event) {
+        event.preventDefault();
 
-            event.preventDefault();
+        shopSubmenu.classList.toggle("active");
 
+        shopSideBtn.classList.toggle("active");
 
-            shopSubmenu.classList.toggle(
-                "active"
-            );
-
-
-            shopSideBtn.classList.toggle(
-                "active"
-            );
-
-        }
-    );
+    });
 
 }
 
@@ -1538,71 +1214,32 @@ function checkout() {
 
     if (cart.length === 0) {
 
-        alert(
-            "Your cart is empty."
-        );
+        alert("Your cart is empty.");
 
         return;
 
     }
-
 
     /*
         Check login.
     */
 
-    const user =
-        getLoggedInUser();
-
+    const user = getLoggedInUser();
 
     if (!user) {
 
-        alert(
-            "Please login to your account before checkout."
-        );
+        alert("Please login to your account before checkout.");
 
-
-        window.location.href =
-            "Login.html";
+        window.location.href = "Login.html";
 
         return;
 
     }
 
+    /* make sure the checkout page receives the current cart */
+    saveCart();
 
-    let total = 0;
-
-
-    cart.forEach(function (item) {
-
-        total +=
-            Number(item.price || 0) *
-            Number(item.quantity || 0);
-
-    });
-
-
-    alert(
-
-        "Thank you for shopping with Sheern!" +
-
-        "\n\n" +
-
-        "Welcome, " +
-        getUserName(user) +
-        "!" +
-
-        "\n\n" +
-
-        "Your order total is ₹" +
-        total.toFixed(2) +
-        "." +
-
-        "\n\n" +
-
-        "Your order has been received."
-
-    );
+    window.location.href = "CheckOut.html";
 
 }
 
@@ -1614,17 +1251,12 @@ function checkout() {
 function setupCheckout() {
 
     const checkoutButton =
-        document.getElementById(
-            "CHEACKOUTBUTTON"
-        );
-
+        document.getElementById("checkoutButton") ||
+        document.getElementById("CHEACKOUTBUTTON");
 
     if (checkoutButton) {
 
-        checkoutButton.addEventListener(
-            "click",
-            checkout
-        );
+        checkoutButton.addEventListener("click", checkout);
 
     }
 
@@ -1635,11 +1267,23 @@ function setupCheckout() {
    ACCOUNT
 ========================================================= */
 
-
 function getLoggedInUser() {
+
+    /* auth.js keeps the login in sessionStorage ("sheernSession") */
+    if (window.Sheern && typeof Sheern.getSession === "function") {
+
+        const session = Sheern.getSession();
+
+        if (session) {
+            return session;
+        }
+
+    }
 
     const possibleKeys = [
 
+        "sheernSession",
+        "sheernLoggedInUser",
         "sheernUser",
         "loggedInUser",
         "currentUser",
@@ -1648,29 +1292,19 @@ function getLoggedInUser() {
 
     ];
 
+    for (let i = 0; i < possibleKeys.length; i++) {
 
-    for (
-        let i = 0;
-        i < possibleKeys.length;
-        i++
-    ) {
-
-        const key =
-            possibleKeys[i];
-
+        const key = possibleKeys[i];
 
         const storedUser =
-            localStorage.getItem(key);
-
+            localStorage.getItem(key) ||
+            sessionStorage.getItem(key);
 
         if (!storedUser) continue;
 
-
         try {
 
-            const user =
-                JSON.parse(storedUser);
-
+            const user = JSON.parse(storedUser);
 
             if (user) {
 
@@ -1682,15 +1316,9 @@ function getLoggedInUser() {
 
         catch (error) {
 
-            /*
-                Ignore invalid localStorage
-                data and continue.
-            */
-
         }
 
     }
-
 
     return null;
 
@@ -1708,7 +1336,6 @@ function getUserName(user) {
         return "Login";
 
     }
-
 
     return (
         user.name ||
@@ -1730,7 +1357,6 @@ function getUserAvatar(user) {
 
     if (!user) return "";
 
-
     return (
         user.avatar ||
         user.photo ||
@@ -1748,54 +1374,32 @@ function getUserAvatar(user) {
 
 function updateAccountUI() {
 
-    const accountButton =
-        document.getElementById(
-            "headerLoginButton"
-        );
+    const accountButton = document.getElementById("headerLoginButton");
 
+    const accountButtonName = document.getElementById("accountButtonName");
 
-    const accountButtonName =
-        document.getElementById(
-            "accountButtonName"
-        );
+    const accountName = document.getElementById("accountName");
 
+    const accountStatus = document.getElementById("accountStatus");
 
-    const accountName =
-        document.getElementById(
-            "accountName"
-        );
+    const loginDropdownLink = document.getElementById("loginDropdownLink");
 
+    const registerDropdownLink = document.getElementById("registerDropdownLink");
 
-    const accountStatus =
-        document.getElementById(
-            "accountStatus"
-        );
-
-
-    const loginDropdownLink =
-        document.getElementById(
-            "loginDropdownLink"
-        );
-
-
-    const registerDropdownLink =
-        document.getElementById(
-            "registerDropdownLink"
-        );
-
-
-    const logoutButton =
-        document.getElementById(
-            "logoutButton"
-        );
-
+    const logoutButton = document.getElementById("logoutButton");
 
     if (!accountButton) return;
 
+    const user = getLoggedInUser();
 
-    const user =
-        getLoggedInUser();
+    /* logged in through auth.js: let it draw the avatar and the name */
+    if (user && window.Sheern && typeof Sheern.updateAccountUI === "function") {
 
+        Sheern.updateAccountUI();
+
+        return;
+
+    }
 
     /*
         USER IS LOGGED IN
@@ -1803,58 +1407,30 @@ function updateAccountUI() {
 
     if (user) {
 
-        const userName =
-            getUserName(user);
-
+        const userName = getUserName(user);
 
         if (accountButtonName) {
-
-            accountButtonName.textContent =
-                userName;
-
+            accountButtonName.textContent = userName;
         }
-
 
         if (accountName) {
-
-            accountName.textContent =
-                userName;
-
+            accountName.textContent = userName;
         }
-
 
         if (accountStatus) {
-
-            accountStatus.textContent =
-                "Welcome back!";
-
+            accountStatus.textContent = "Welcome back!";
         }
-
 
         if (loginDropdownLink) {
-
-            loginDropdownLink.classList.add(
-                "d-none"
-            );
-
+            loginDropdownLink.classList.add("d-none");
         }
-
 
         if (registerDropdownLink) {
-
-            registerDropdownLink.classList.add(
-                "d-none"
-            );
-
+            registerDropdownLink.classList.add("d-none");
         }
 
-
         if (logoutButton) {
-
-            logoutButton.classList.remove(
-                "d-none"
-            );
-
+            logoutButton.classList.remove("d-none");
         }
 
     }
@@ -1862,53 +1438,27 @@ function updateAccountUI() {
     else {
 
         if (accountButtonName) {
-
-            accountButtonName.textContent =
-                "Login";
-
+            accountButtonName.textContent = "Login";
         }
-
 
         if (accountName) {
-
-            accountName.textContent =
-                "My Account";
-
+            accountName.textContent = "My Account";
         }
-
 
         if (accountStatus) {
-
-            accountStatus.textContent =
-                "Welcome to Sheern";
-
+            accountStatus.textContent = "Welcome to Sheern";
         }
-
 
         if (loginDropdownLink) {
-
-            loginDropdownLink.classList.remove(
-                "d-none"
-            );
-
+            loginDropdownLink.classList.remove("d-none");
         }
-
 
         if (registerDropdownLink) {
-
-            registerDropdownLink.classList.remove(
-                "d-none"
-            );
-
+            registerDropdownLink.classList.remove("d-none");
         }
 
-
         if (logoutButton) {
-
-            logoutButton.classList.add(
-                "d-none"
-            );
-
+            logoutButton.classList.add("d-none");
         }
 
     }
@@ -1922,144 +1472,85 @@ function updateAccountUI() {
 
 function setupAccountDropdown() {
 
-    const accountButton =
-        document.getElementById(
-            "headerLoginButton"
-        );
+    const accountButton = document.getElementById("headerLoginButton");
 
+    const accountDropdown = document.getElementById("accountDropdown");
 
-    const accountDropdown =
-        document.getElementById(
-            "accountDropdown"
-        );
-
-
-    const logoutButton =
-        document.getElementById(
-            "logoutButton"
-        );
-
+    const logoutButton = document.getElementById("logoutButton");
 
     if (!accountButton || !accountDropdown) {
 
-        console.error(
-            "Account elements not found."
-        );
+        console.error("Account elements not found.");
 
         return;
 
     }
 
-    accountButton.addEventListener(
-        "click",
-        function (event) {
+    accountButton.addEventListener("click", function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-            event.stopPropagation();
+        event.stopPropagation();
 
+        const isOpen = accountDropdown.classList.toggle("show");
 
-            const isOpen =
-                accountDropdown.classList.toggle(
-                    "show"
-                );
+        accountButton.setAttribute("aria-expanded", isOpen);
 
-
-            accountButton.setAttribute(
-                "aria-expanded",
-                isOpen
-            );
-
-        }
-    );
-
+    });
 
     /*
         PREVENT DROPDOWN CLICKS
         FROM CLOSING IT.
     */
 
-    accountDropdown.addEventListener(
-        "click",
-        function (event) {
+    accountDropdown.addEventListener("click", function (event) {
 
-            event.stopPropagation();
+        event.stopPropagation();
 
-        }
-    );
-
+    });
 
     /*
         CLOSE WHEN CLICKING OUTSIDE
     */
 
-    document.addEventListener(
-        "click",
-        function () {
+    document.addEventListener("click", function () {
 
-            accountDropdown.classList.remove(
-                "show"
-            );
+        accountDropdown.classList.remove("show");
 
+        accountButton.setAttribute("aria-expanded", "false");
 
-            accountButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
+    });
 
-        }
-    );
+    /* when auth.js is on the page, it already handles the logout button */
+    if (logoutButton && !window.Sheern) {
 
-    if (logoutButton) {
+        logoutButton.addEventListener("click", function (event) {
 
-        logoutButton.addEventListener(
-            "click",
-            function (event) {
+            event.preventDefault();
 
-                event.preventDefault();
+            [
+                "sheernUser",
+                "loggedInUser",
+                "currentUser",
+                "user",
+                "userData"
+            ].forEach(function (key) {
 
+                localStorage.removeItem(key);
 
-                localStorage.removeItem(
-                    "sheernUser"
-                );
+                sessionStorage.removeItem(key);
 
-                localStorage.removeItem(
-                    "loggedInUser"
-                );
+            });
 
-                localStorage.removeItem(
-                    "currentUser"
-                );
+            updateAccountUI();
 
-                localStorage.removeItem(
-                    "user"
-                );
+            accountDropdown.classList.remove("show");
 
-                localStorage.removeItem(
-                    "userData"
-                );
+            accountButton.setAttribute("aria-expanded", "false");
 
+            alert("You have been logged out.");
 
-                updateAccountUI();
-
-
-                accountDropdown.classList.remove(
-                    "show"
-                );
-
-
-                accountButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-
-                alert(
-                    "You have been logged out."
-                );
-
-            }
-        );
+        });
 
     }
 
@@ -2093,32 +1584,278 @@ function escapeAttribute(value) {
    INITIALIZE WEBSITE
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        console.log(
-            "Sheern website JavaScript started."
-        );
+    console.log("Sheern website JavaScript started.");
 
+    setupWishlistButton();
 
-        setupWishlistButton();
+    setupCategoryArrows();
 
-        setupCategoryArrows();
+    setupSearch();
 
-        setupSearch();
+    setupSidebar();
 
-        setupSidebar();
+    setupShopSidebar();
 
-        setupShopSidebar();
+    setupCheckout();
 
-        setupCheckout();
+    setupAccountDropdown();
 
-        setupAccountDropdown();
+    updateAccountUI();
 
-        updateAccountUI();
+    loadProducts();
 
-        loadProducts();
+});
+(function () {
+    const feedbacks = [
+        {
+            title: "Premium Quality in Every Bite",
+            text: "The quality and freshness of Sheern's dry fruits make every bite special. Truly a premium experience.",
+            name: "Sharara Naderi",
+            job: "Verified Customer",
+            rating: 5,
+            image: "Photos/flag.png",
+            profile: "Photos/feedback2.jpeg"
+        },
+        {
+            title: "Fresh and Beautifully Packed",
+            text: "Everything arrived fresh, crunchy and neatly packed. The almonds and cashews are the best I have bought online.",
 
+            name: "Anahita Samadi",
+            job: "Verified Customer",
+            rating: 5,
+            image: "Photos/flag.png",
+            profile: "Photos/feedback1.jpeg"
+        },
+        {
+            title: "My Family's Favourite",
+            text: "We order Sheern every month now. The taste is natural, the delivery is quick, and the prices are fair for this quality.",
+            name: "Madhina Qazizada",
+            job: "Verified Customer",
+            rating: 4,
+            image: "Photos/flag.png",
+            profile: "Photos/feedback3.jpeg"
+        }
+    ];
+
+    const box = document.getElementById("fbContent");
+    if (!box) return;
+
+    const el = id => document.getElementById(id);
+    let index = 0;
+    let timer;
+
+    function show(i) {
+        index = (i + feedbacks.length) % feedbacks.length;
+        const f = feedbacks[index];
+
+        box.classList.add("fade");
+
+        setTimeout(() => {
+            el("fbImage").src = f.image;
+            el("fbProfile").src = f.profile;
+            el("fbTitle").textContent = f.title;
+            el("fbDescription").textContent = f.text;
+            el("fbName").textContent = f.name;
+            el("fbJob").textContent = f.job;
+            el("fbStars").textContent = "★".repeat(f.rating) + "☆".repeat(5 - f.rating);
+            box.classList.remove("fade");
+        }, 250);
     }
-);
+
+    function restart() {
+        clearInterval(timer);
+        timer = setInterval(() => show(index + 1), 7000);
+    }
+
+    el("fbPrev").addEventListener("click", () => { show(index - 1); restart(); });
+    el("fbNext").addEventListener("click", () => { show(index + 1); restart(); });
+
+    show(0);
+    restart();
+})();
+
+/* =========================================================
+   SHEERN - PRODUCT PAGINATION
+   Load AFTER Dry.js:  <script src="JS/Pagination.js"></script>
+========================================================= */
+
+(function () {
+    "use strict";
+
+    var grid = document.getElementById("productGrid");
+    if (!grid) return;
+
+    function perPage() {
+        return window.innerWidth >= 992 ? 10 : 6;
+    }
+
+    var nav = document.getElementById("productPagination");
+
+    if (!nav) {
+        nav = document.createElement("nav");
+        nav.id = "productPagination";
+        nav.className = "product-pagination";
+        nav.setAttribute("aria-label", "Product pages");
+
+        var holder = grid.closest(".container-fluid") || grid.parentElement;
+        holder.insertAdjacentElement("beforeend", nav);
+    }
+
+    var currentPage = 1;
+    var lastSignature = "";
+    var queued = false;
+
+    function visibleItems() {
+        return Array.prototype.filter.call(grid.children, function (el) {
+            return !el.hidden &&
+                el.style.display !== "none" &&
+                !el.classList.contains("d-none");
+        });
+    }
+
+    function pageList(current, total) {
+        var pages = [];
+        for (var i = 1; i <= total; i++) {
+            if (i === 1 || i === total || Math.abs(i - current) <= 1) {
+                pages.push(i);
+            } else if (pages[pages.length - 1] !== "...") {
+                pages.push("...");
+            }
+        }
+        return pages;
+    }
+
+    function scrollToProducts() {
+        var section = document.getElementById("products");
+        if (!section) return;
+
+        var promo = document.querySelector(".sheern-promo-bar");
+        var header = document.querySelector(".sheern-header");
+        var offset = (promo ? promo.offsetHeight : 0) + (header ? header.offsetHeight : 0);
+
+        var top = section.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: top, behavior: "smooth" });
+    }
+
+    function goTo(page) {
+        currentPage = page;
+        render();
+        scrollToProducts();
+    }
+
+    function render() {
+        queued = false;
+
+        var items = visibleItems();
+        var size = perPage();
+        var total = Math.max(1, Math.ceil(items.length / size));
+
+        // new result set (filter / search / fresh load) -> back to page 1
+        var signature = items.length + "|" +
+            (items[0] ? items[0].textContent.replace(/\s+/g, " ").trim().slice(0, 40) : "");
+
+        if (signature !== lastSignature) {
+            currentPage = 1;
+            lastSignature = signature;
+        }
+
+        if (currentPage > total) currentPage = total;
+
+        var start = (currentPage - 1) * size;
+        var end = start + size;
+
+        items.forEach(function (el, index) {
+            el.classList.toggle("page-hidden", index < start || index >= end);
+        });
+
+        buildNav(items.length, total, start, Math.min(end, items.length));
+    }
+
+    function buildNav(count, total, start, end) {
+        nav.innerHTML = "";
+
+        if (total <= 1) {
+            nav.style.display = "none";
+            return;
+        }
+
+        nav.style.display = "";
+
+        var info = document.createElement("p");
+        info.className = "pagination-info";
+        info.textContent = "Showing " + (start + 1) + "-" + end + " of " + count + " products";
+
+        var list = document.createElement("ul");
+        list.className = "pagination-list";
+
+        function addButton(label, page, options) {
+            options = options || {};
+
+            var li = document.createElement("li");
+            var btn = document.createElement("button");
+
+            btn.type = "button";
+            btn.className = "page-btn" + (options.active ? " active" : "");
+            btn.innerHTML = label;
+            btn.disabled = !!options.disabled;
+
+            if (options.aria) btn.setAttribute("aria-label", options.aria);
+            if (options.active) btn.setAttribute("aria-current", "page");
+
+            if (!options.disabled && !options.active) {
+                btn.addEventListener("click", function () { goTo(page); });
+            }
+
+            li.appendChild(btn);
+            list.appendChild(li);
+        }
+
+        addButton('<i class="bi bi-chevron-left"></i>', currentPage - 1, {
+            disabled: currentPage === 1, aria: "Previous page"
+        });
+
+        pageList(currentPage, total).forEach(function (p) {
+            if (p === "...") {
+                var li = document.createElement("li");
+                li.className = "page-dots";
+                li.textContent = "...";
+                list.appendChild(li);
+            } else {
+                addButton(String(p), p, { active: p === currentPage, aria: "Page " + p });
+            }
+        });
+
+        addButton('<i class="bi bi-chevron-right"></i>', currentPage + 1, {
+            disabled: currentPage === total, aria: "Next page"
+        });
+
+        nav.appendChild(list);
+        nav.appendChild(info);
+    }
+
+    /* ---------- keep in sync with Dry.js ---------- */
+
+    function queueRender() {
+        if (queued) return;
+        queued = true;
+        window.requestAnimationFrame(render);
+    }
+
+    new MutationObserver(queueRender).observe(grid, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["style", "hidden"]
+    });
+
+    // page size changes between desktop and mobile
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(render, 150);
+    });
+
+    render();
+})();

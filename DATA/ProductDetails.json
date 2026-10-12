@@ -1,0 +1,486 @@
+[
+  {
+    "match": [
+      "pistachio",
+      "pista"
+    ],
+    "shortName": "Pistachio",
+    "description": "Pistachio (Pista Magaj) are nuts. They are an anytime snack and can be added to food.",
+    "parameters": {
+      "Color": "Green",
+      "Size": "Medium",
+      "Taste": "Mild Sweet and Crunchy",
+      "Texture": "Smooth",
+      "Country of Produce": "Iran",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "They are a good source of fiber, nutrients and antioxidants",
+      "Good for eyes",
+      "Assist in weight loss",
+      "Boost immunity"
+    ],
+    "funFacts": [
+      "26th February is celebrated as National Pistachio Day",
+      "It is known as “Happy Nut” in China and “Smiling Nut” in Iran",
+      "They have as much protein as an egg"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Perfect for gifting",
+      "Pistachio butter",
+      "Salad dressing",
+      "Desserts",
+      "Traditional sweets",
+      "Best for cooking"
+    ]
+  },
+  {
+    "match": [
+      "almond",
+      "badam"
+    ],
+    "shortName": "Almond",
+    "description": "Almonds (Badam) are crunchy, mildly sweet nuts. They make a filling anytime snack and go into many sweets and drinks.",
+    "parameters": {
+      "Color": "Brown",
+      "Size": "Medium",
+      "Taste": "Mild Sweet and Nutty",
+      "Texture": "Crunchy",
+      "Country of Produce": "USA (California)",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Rich in vitamin E and healthy fats",
+      "Good for heart health",
+      "Supports healthy skin",
+      "Keeps you full for longer"
+    ],
+    "funFacts": [
+      "Botanically, an almond is the seed of a fruit, not a true nut",
+      "California grows most of the world’s almonds",
+      "Almond trees are among the first to bloom at the end of winter"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Almond milk",
+      "Almond butter",
+      "Baking and desserts",
+      "Traditional sweets",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "cashew",
+      "kaju"
+    ],
+    "shortName": "Cashew",
+    "description": "Cashews (Kaju) are soft, buttery nuts with a gentle sweetness. They are enjoyed as a snack and used to make gravies and sweets rich and creamy.",
+    "parameters": {
+      "Color": "Cream",
+      "Size": "Medium",
+      "Taste": "Mild Sweet and Buttery",
+      "Texture": "Soft and Creamy",
+      "Country of Produce": "India",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Source of magnesium and copper",
+      "Good fats that support the heart",
+      "Supports strong bones",
+      "Gives quick energy"
+    ],
+    "funFacts": [
+      "Cashews grow at the bottom of a fruit called the cashew apple",
+      "Raw cashew shells hold a harsh oil, so cashews are always shelled before sale",
+      "Cashew trees are native to Brazil"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Cashew butter",
+      "Creamy curries and gravies",
+      "Kaju katli",
+      "Desserts",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "mulberr",
+      "shahtoot"
+    ],
+    "shortName": "Mulberry",
+    "description": "Dried Mulberries are small, soft and naturally sweet. A handful makes a tasty, chewy snack.",
+    "parameters": {
+      "Color": "Golden Brown",
+      "Size": "Small",
+      "Taste": "Sweet and Chewy",
+      "Texture": "Soft and Chewy",
+      "Country of Produce": "Turkey",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Good source of iron and vitamin C",
+      "Rich in fiber",
+      "Contains antioxidants",
+      "A naturally sweet snack"
+    ],
+    "funFacts": [
+      "Silkworms feed on mulberry leaves",
+      "Mulberries belong to the same plant family as figs",
+      "Mulberry trees have been grown for thousands of years"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Trail mix",
+      "Muesli and yogurt topping",
+      "Baking",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "walnut",
+      "akhrot"
+    ],
+    "shortName": "Walnut",
+    "description": "Walnuts (Akhrot) are crunchy nuts with a rich, slightly earthy taste. They are a favourite snack and a great addition to desserts and salads.",
+    "parameters": {
+      "Color": "Light Brown",
+      "Size": "Medium",
+      "Taste": "Mild and Earthy",
+      "Texture": "Crunchy",
+      "Country of Produce": "USA",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Plant source of omega-3 fats",
+      "Good for heart health",
+      "Rich in antioxidants",
+      "Supports brain health"
+    ],
+    "funFacts": [
+      "Walnuts have been eaten by people for thousands of years",
+      "A walnut kernel looks like a tiny brain",
+      "Walnut trees can live for hundreds of years"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Salads",
+      "Baking and brownies",
+      "Walnut butter",
+      "Traditional sweets",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "anjeer",
+      "fig"
+    ],
+    "shortName": "Anjeer",
+    "description": "Anjeer (Dried Fig) is soft, naturally sweet and full of tiny crunchy seeds. It is a classic dry fruit for snacking and desserts.",
+    "parameters": {
+      "Color": "Light Brown",
+      "Size": "Medium",
+      "Taste": "Naturally Sweet",
+      "Texture": "Soft with crunchy seeds",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Rich in fiber that supports digestion",
+      "Source of calcium and potassium",
+      "A natural, healthier sweetener",
+      "Gives lasting energy"
+    ],
+    "funFacts": [
+      "Figs are among the oldest fruits grown by people",
+      "A fig is actually a cluster of tiny flowers inside a soft skin",
+      "Soaking anjeer overnight makes it softer and sweeter"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Soaked overnight in water or milk",
+      "Anjeer milkshake",
+      "Desserts and barfi",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "apricot",
+      "jardalu"
+    ],
+    "shortName": "Apricot",
+    "description": "Apricot (Jardalu) is a sweet and tangy dried fruit. It is soft, chewy and a favourite anytime snack.",
+    "parameters": {
+      "Color": "Orange",
+      "Size": "Medium",
+      "Taste": "Sweet and Tangy",
+      "Texture": "Soft and Chewy",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Good source of vitamin A",
+      "Rich in fiber",
+      "Contains potassium",
+      "Good for eyes and skin"
+    ],
+    "funFacts": [
+      "The apricot belongs to the same family as peach, plum and almond",
+      "Its botanical name means “Armenian plum”",
+      "Apricots dry well, so they keep their sweetness for months"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Soaked in water or milk",
+      "Apricot jam and chutney",
+      "Desserts and puddings",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "black raisin",
+      "kali kishmish",
+      "munakka"
+    ],
+    "shortName": "Black Raisin",
+    "description": "Black Raisins (Kali Kishmish) are sweet, dark and juicy dried grapes. They are loved as a snack and in sweets.",
+    "parameters": {
+      "Color": "Dark Brown",
+      "Size": "Small",
+      "Taste": "Naturally Sweet",
+      "Texture": "Soft and Juicy",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Source of iron",
+      "Rich in fiber",
+      "Gives quick natural energy",
+      "Good for digestion when soaked overnight"
+    ],
+    "funFacts": [
+      "Black raisins are grapes dried in the sun or shade",
+      "It takes several kilos of grapes to make one kilo of raisins",
+      "Soaked black raisin water is a popular morning drink"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Soaked overnight",
+      "Kheer and sweets",
+      "Cakes and cookies",
+      "Rice dishes and pulao"
+    ]
+  },
+  {
+    "match": [
+      "raisin",
+      "kishmish"
+    ],
+    "shortName": "Raisin",
+    "description": "Golden Raisins (Kishmish) are sweet, soft and golden dried grapes. A small handful is a great pick-me-up snack.",
+    "parameters": {
+      "Color": "Golden",
+      "Size": "Medium",
+      "Taste": "Sweet",
+      "Texture": "Soft and Chewy",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Natural source of energy",
+      "Contains fiber",
+      "Provides iron and potassium",
+      "A healthy replacement for sugary snacks"
+    ],
+    "funFacts": [
+      "Raisins are simply grapes that have been dried",
+      "It takes about four kilos of grapes to make one kilo of raisins",
+      "Golden raisins are often dried in the shade to keep their colour"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Kheer and sweets",
+      "Cakes, cookies and bread",
+      "Pulao and biryani",
+      "Trail mix"
+    ]
+  },
+  {
+    "match": [
+      "date",
+      "khajoor"
+    ],
+    "shortName": "Dates",
+    "description": "Premium Dates (Khajoor) are soft, sticky and caramel sweet. They give quick energy and are a staple at every celebration.",
+    "parameters": {
+      "Color": "Dark Brown",
+      "Size": "Large",
+      "Taste": "Very Sweet, Caramel-like",
+      "Texture": "Soft and Sticky",
+      "Country of Produce": "Saudi Arabia",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Natural source of energy",
+      "Rich in fiber",
+      "Contains potassium and magnesium",
+      "A healthy sweetener for desserts and shakes"
+    ],
+    "funFacts": [
+      "Date palms have been grown for thousands of years",
+      "Dates are traditionally used to break the fast in Ramadan",
+      "The date palm is often called the “Tree of Life”"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Date shakes and smoothies",
+      "Stuffed with nuts",
+      "Desserts and energy balls",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "saffron",
+      "kesar",
+      "zafran"
+    ],
+    "shortName": "Saffron",
+    "description": "Premium Saffron (Kesar) is made of deep red threads that give food a golden colour and a rich aroma. A few strands are enough.",
+    "parameters": {
+      "Color": "Deep Red",
+      "Size": "Thin Threads",
+      "Taste": "Floral, Rich and Slightly Bitter",
+      "Texture": "Delicate Threads",
+      "Country of Produce": "Iran",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Full of natural antioxidants",
+      "Adds natural colour and aroma to food",
+      "Traditionally used in warm saffron milk",
+      "Needed only in very small amounts"
+    ],
+    "funFacts": [
+      "Saffron is one of the most expensive spices in the world",
+      "Each crocus flower has only three red threads, picked by hand",
+      "The threads turn water or milk golden within minutes"
+    ],
+    "uses": [
+      "Saffron milk and tea",
+      "Biryani and pulao",
+      "Kheer and desserts",
+      "Traditional sweets",
+      "Perfect for gifting"
+    ]
+  },
+  {
+    "match": [
+      "sunflower"
+    ],
+    "shortName": "Sunflower Seeds",
+    "description": "Premium Sunflower Seeds are mild, nutty and crunchy. They are a light snack that is easy to add to any meal.",
+    "parameters": {
+      "Color": "Grey-Green",
+      "Size": "Small",
+      "Taste": "Mild and Nutty",
+      "Texture": "Crunchy",
+      "Country of Produce": "India",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Rich in vitamin E",
+      "Source of magnesium and healthy fats",
+      "Contains plant protein",
+      "Keeps you full between meals"
+    ],
+    "funFacts": [
+      "Young sunflowers turn their heads to follow the sun",
+      "One sunflower head holds hundreds of seeds",
+      "Sunflowers are native to North America"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Salads and soups",
+      "Bread and granola",
+      "Yogurt and oats topping",
+      "Trail mix"
+    ]
+  },
+  {
+    "match": [
+      "nuqol",
+      "nuql",
+      "noql"
+    ],
+    "shortName": "Nuqol",
+    "description": "Nuqol is a traditional sweet treat made with a sugar coating around a crunchy centre. It is served at celebrations and with tea.",
+    "parameters": {
+      "Color": "White and Pastel",
+      "Size": "Small",
+      "Taste": "Sweet",
+      "Texture": "Crunchy",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "A treat for festivals and guests",
+      "Gives quick energy",
+      "Light and easy to share",
+      "Goes well with tea"
+    ],
+    "funFacts": [
+      "Nuqol is a popular sweet at weddings and festivals in Afghanistan and Iran",
+      "It is often served in small bowls to guests with tea",
+      "Its coloured coating makes it a favourite for gift boxes"
+    ],
+    "uses": [
+      "Served with tea",
+      "Perfect for gifting",
+      "Wedding and festival sweets",
+      "Dessert platters",
+      "Sweet snacks"
+    ]
+  },
+  {
+    "match": [
+      "pine nut",
+      "chilgoza",
+      "pine"
+    ],
+    "shortName": "Pine Nut",
+    "description": "Pine Nuts (Chilgoza) are small, creamy seeds with a soft, buttery and mildly sweet taste. They are a premium nut for cooking and gifting.",
+    "parameters": {
+      "Color": "Cream",
+      "Size": "Small",
+      "Taste": "Mild Sweet and Buttery",
+      "Texture": "Soft and Buttery",
+      "Country of Produce": "Afghanistan",
+      "Best before": "4 months"
+    },
+    "benefits": [
+      "Source of healthy fats",
+      "Contains vitamin E and magnesium",
+      "Gives lasting energy",
+      "Supports a healthy heart"
+    ],
+    "funFacts": [
+      "Pine nuts are the seeds hidden inside pine cones",
+      "They take years to grow, which is why they are rare",
+      "Pine nuts are the key ingredient in pesto"
+    ],
+    "uses": [
+      "Healthy snacks",
+      "Pesto and sauces",
+      "Salads and rice dishes",
+      "Baking and desserts",
+      "Perfect for gifting"
+    ]
+  }
+]

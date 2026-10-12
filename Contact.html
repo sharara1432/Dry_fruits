@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us | Sheern Premium Dry Fruit</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/Style.css" />
+    <link rel="stylesheet" href="CSS/Contact.css" />
+</head>
+
+<body>
+
+     <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
+
+        <aside class="sheern-sidebar" id="sideNavbar">
+
+        <!-- SIDEBAR LOGO -->
+        <div class="sidebar-logo">
+            <a href="index.html">
+                <img src="Photos/Logo.png" alt="Sheern Premium Dry Fruit">
+            </a>
+        </div>
+
+        <!-- SIDEBAR MENU -->
+        <nav class="sidebar-menu">
+
+            <!-- DASHBOARD: admin and manager only -->
+            <div class="side-item">
+                <a href="dashboard.html" class="side-link" data-login-required="0,1">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <!-- MY ORDERS: any logged-in user -->
+            <div class="side-item">
+                <a href="Myorders.html" class="side-link" data-login-required>
+                    <i class="bi bi-bag-check"></i>
+                    <span>My Orders</span>
+                </a>
+            </div>
+
+            <!-- INVOICES: admin and manager only -->
+            <div class="side-item">
+                <a href="invoices.html" class="side-link" data-login-required="0,1">
+                    <i class="bi bi-receipt"></i>
+                    <span>Invoices</span>
+                </a>
+            </div>
+
+            <!-- MY ACCOUNT: any logged-in user -->
+            <div class="side-item">
+                <a href="account.html" class="side-link" data-login-required>
+                    <i class="bi bi-person-circle"></i>
+                    <span>My Account</span>
+                </a>
+            </div>
+
+            <!-- SETTINGS: admin and manager only -->
+            <div class="side-item">
+                <a href="settings.html" class="side-link" data-login-required="0,1">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+        </nav>
+
+        <!-- SIDEBAR PROMOTION -->
+        <div class="Promo-sidebar">
+            <img src="Photos/Afghani.jpg" class="sidebar-promo-image" alt="Afghani Dry Fruits">
+            <div class="sidebar-promo-overlay"></div>
+            <div class="sidebar-promo-content">
+                <span>Healthy</span>
+                <strong>Choices</strong>
+                <span>Better Life</span>
+                <small>Premium quality dry fruits</small>
+            </div>
+        </div>
+
+        <!-- SIDEBAR BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <a href="#products" class="side-bottom-link">
+                <i class="bi bi-heart"></i>
+                <span>Wishlist</span>
+                <span class="status-dot" id="sidebarWishlistCount">0</span>
+            </a>
+
+            <a href="Login.html" class="side-bottom-link">
+                <i class="bi bi-person"></i>
+                <span>Account</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <button class="sheern-menu-button" id="SIDE_toggle" type="button" aria-label="Open Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+
+    <!-- MAIN -->
+    <main class="sheern-main">
+
+        <!-- PROMOTION BAR -->
+        <div class="sheern-promo-bar">
+            <div class="promo-track">
+                <div class="promo-item"><i class="bi bi-leaf"></i><span>100% Natural Dry Fruits</span></div>
+                <div class="promo-item"><i class="bi bi-truck"></i><span>Free Delivery on Orders Over $50</span></div>
+                <div class="promo-item"><i class="bi bi-award"></i><span>Premium Quality Guaranteed</span></div>
+                <div class="promo-item"><i class="bi bi-heart"></i><span>Healthy &amp; Natural Choice</span></div>
+
+                <div class="promo-item"><i class="bi bi-leaf"></i><span>100% Natural Dry Fruits</span></div>
+                <div class="promo-item"><i class="bi bi-truck"></i><span>Free Delivery on Orders Over $50</span></div>
+                <div class="promo-item"><i class="bi bi-award"></i><span>Premium Quality Guaranteed</span></div>
+                <div class="promo-item"><i class="bi bi-heart"></i><span>Healthy &amp; Natural Choice</span></div>
+            </div>
+        </div>
+
+
+        <!-- HEADER / NAVBAR -->
+        <header class="sheern-header">
+
+            <div class="header-decoration">
+                <span></span>
+                <span></span>
+            </div>
+
+            <a href="index.html#home" class="sheern-brand">
+                <img src="Photos/Logo.png" class="sheern-logo" alt="Sheern Premium Dry Fruit">
+            </a>
+
+            <nav class="navbar navbar-expand-lg sheern-navbar">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="mainNavbar">
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item"><a class="nav-link" href="index.html">HOME</a></li>
+                            <li class="nav-item"><a class="nav-link" href="About.html">ABOUT US</a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">SHOP</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="AllProduct.html"><i class="bi bi-grid"></i> All
+                                            Products</a></li>
+                                    <li><a class="dropdown-item" href="BestSeller.html"><i class="bi bi-star"></i> Best
+                                            Sellers</a></li>
+                                    <li><a class="dropdown-item" href="SpecialOffer.html"><i class="bi bi-tag"></i>
+                                            Special Offers</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">CATEGORIES</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="Hampers.html"><i class="bi bi-gift"></i>
+                                            Gift Hampers</a></li>
+                                    <li><a class="dropdown-item" href="PremiumCollection.html"><i class="bi bi-gem"></i>
+                                            Premium Collection</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- BENEFITS (current page, so it is highlighted) -->
+                            <li class="nav-item"><a class="nav-link" href="Benefits.html">BENEFITS</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="Contact.html">CONTACT</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- HEADER ACTIONS -->
+            <div class="sheern-header-actions">
+
+                <button type="button" class="sheern-action search-action" id="headerSearchButton" data-bs-toggle="modal"
+                    data-bs-target="#searchModal" aria-label="Search">
+                    <i class="bi bi-search"></i>
+                    <span class="action-label">Search</span>
+                </button>
+
+                <button type="button" class="sheern-action wishlist-action" id="headerWishlistButton"
+                    aria-label="Wishlist">
+                    <i class="bi bi-heart"></i>
+                    <span class="action-label">Wishlist</span>
+                    <span class="sheern-wishlist-count" id="headerWishlistCount">0</span>
+                </button>
+
+                <button type="button" class="sheern-action cart-action" id="headerCartButton" data-bs-toggle="offcanvas"
+                    data-bs-target="#cartCanvas" aria-label="Shopping Basket">
+                    <i class="bi bi-bag"></i>
+                    <span class="action-label">Basket</span>
+                    <span class="sheern-cart-count" id="headerCartCount">0</span>
+                </button>
+
+                <div class="header-account">
+                    <button type="button" class="account-button" id="headerLoginButton" aria-label="Account"
+                        aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <span id="accountButtonName">Login</span>
+                        <i class="bi bi-chevron-down account-arrow"></i>
+                    </button>
+
+                    <div class="account-dropdown" id="accountDropdown">
+                        <div class="account-dropdown-header"><strong id="accountName">My Account</strong></div>
+                        <div class="account-dropdown-divider"></div>
+                        <a href="Login.html" id="loginDropdownLink"><i
+                                class="bi bi-box-arrow-in-right"></i><span>Login</span></a>
+                        <a href="Registration.html" id="registerDropdownLink"><i
+                                class="bi bi-person-plus"></i><span>Create Account</span></a>
+                        <a href="#" id="logoutButton" class="d-none"><i
+                                class="bi bi-box-arrow-right"></i><span>Logout</span></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= PAGE CONTENT ================= -->
+        <div class="ct-page">
+
+            <!-- INTRO -->
+            <section class="ct-intro">
+                <div class="ct-wrap">
+                    <p class="ct-kicker">Contact us</p>
+                    <h1>We're happy to help</h1>
+                    <p class="ct-lead">Questions about an order, a gift hamper or buying in bulk? Call us, message us
+                        on WhatsApp, visit the store or send the form below.</p>
+                </div>
+            </section>
+
+            <!-- WAYS TO REACH US -->
+            <section class="ct-section">
+                <div class="ct-wrap ct-ways">
+                    <a class="ct-way" href="tel:+919953827976">
+                        <i class="bi bi-telephone"></i>
+                        <h2>Call us</h2>
+                        <span>+91 99538 27976</span>
+                    </a>
+                    <a class="ct-way" href="https://wa.me/919953827976" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp"></i>
+                        <h2>WhatsApp</h2>
+                        <span>Chat with us</span>
+                    </a>
+                    <a class="ct-way" target="_blank" rel="noopener"
+                        href="https://www.google.com/maps/search/?api=1&query=Sheern+Dry+Fruit+Bhogal+Jangpura+New+Delhi">
+                        <i class="bi bi-geo-alt"></i>
+                        <h2>Visit us</h2>
+                        <span>Saman Bazar Road, Bhogal, Jangpura, New Delhi - 110014</span>
+                    </a>
+                    <div class="ct-way">
+                        <i class="bi bi-clock"></i>
+                        <h2>Store hours</h2>
+                        <span>10:00 AM – 9:00 PM</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORM + MAP -->
+            <section class="ct-section ct-alt">
+                <div class="ct-wrap ct-split">
+
+                    <div class="ct-formbox">
+                        <h2>Send us a message</h2>
+                        <p class="ct-sub">Fill in the form and it opens in WhatsApp, ready to send.</p>
+
+                        <form id="contactForm" novalidate>
+                            <div class="ct-row">
+                                <div class="ct-field">
+                                    <label for="cName">Your name</label>
+                                    <input id="cName" name="name" type="text" autocomplete="name" required>
+                                    <small class="ct-error" id="errName"></small>
+                                </div>
+                                <div class="ct-field">
+                                    <label for="cPhone">Phone number</label>
+                                    <input id="cPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                                        placeholder="10-digit mobile number" required>
+                                    <small class="ct-error" id="errPhone"></small>
+                                </div>
+                            </div>
+
+                            <div class="ct-row">
+                                <div class="ct-field">
+                                    <label for="cEmail">Email <span class="ct-opt">(optional)</span></label>
+                                    <input id="cEmail" name="email" type="email" autocomplete="email">
+                                    <small class="ct-error" id="errEmail"></small>
+                                </div>
+                                <div class="ct-field">
+                                    <label for="cTopic">What is it about?</label>
+                                    <select id="cTopic" name="topic">
+                                        <option>My order</option>
+                                        <option>Gift hampers</option>
+                                        <option>Bulk or corporate order</option>
+                                        <option>Product question</option>
+                                        <option>Something else</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="ct-field">
+                                <label for="cMessage">Your message</label>
+                                <textarea id="cMessage" name="message" rows="5" maxlength="600" required></textarea>
+                                <small class="ct-count"><span id="msgCount">0</span>/600</small>
+                                <small class="ct-error" id="errMessage"></small>
+                            </div>
+
+                            <button type="submit" class="ct-btn">Send on WhatsApp</button>
+                            <p class="ct-status" id="formStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+
+                    <div class="ct-map">
+                        <iframe title="Sheern store location map" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q=Saman+Bazar+Road+Bhogal+Jangpura+New+Delhi+110014&output=embed"></iframe>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="ct-section">
+                <div class="ct-wrap ct-faq">
+                    <h2>Quick answers</h2>
+                    <details>
+                        <summary>Where is the store?</summary>
+                        <p>Shop No. 10, Saman Bazar Road, Bhogal, Jangpura, New Delhi - 110014. We are open from
+                            10:00 AM to 9:00 PM.</p>
+                    </details>
+                    <details>
+                        <summary>Can I ask about an order by phone or WhatsApp?</summary>
+                        <p>Yes. Call or message +91 99538 27976 and we will help you.</p>
+                    </details>
+                    <details>
+                        <summary>Do you make gift hampers?</summary>
+                        <p>Yes, see our <a href="Hampers.html">Gift Hampers</a> page. For custom or bulk hampers,
+                            send us a message with what you need.</p>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+        <!-- ================= END PAGE CONTENT ================= -->
+
+
+        <!-- FOOTER -->
+        <footer id="contact">
+            <div class="container">
+                <div class="row g-4">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-logo"><img src="Photos/Logo.png" alt="Sheern"></div>
+                        <p>Premium dry fruits selected for quality, freshness, and natural goodness.</p>
+                        <div class="footer-social">
+                            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <h5>QUICK LINKS</h5>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="About.html">About Us</a></li>
+                            <li><a href="AllProduct.html">Products</a></li>
+                            <li><a href="Hampers.html">Gift Hampers</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <h5>SHOP</h5>
+                        <ul>
+                            <li><a href="AllProduct.html">All Products</a></li>
+                            <li><a href="BestSeller.html">Best Sellers</a></li>
+                            <li><a href="SpecialOffer.html">Special Offers</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <h5>STAY CONNECTED</h5>
+                        <p>Subscribe for updates and special offers.</p>
+                        <input type="email" class="form-control" placeholder="Your email address">
+                        <button type="button" class="subscribe-btn">SUBSCRIBE</button>
+                    </div>
+
+                </div>
+
+                <div class="copyright">© <span id="year">2026</span> Sheern Premium Dry Fruit. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+
+    <!-- SEARCH MODAL -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content search-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-search"></i> Search Products</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search dry fruits...">
+                        <button type="button" class="search-submit" id="searchSubmitButton"><i
+                                class="bi bi-search"></i></button>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <p class="search-hint"><i class="bi bi-info-circle"></i> Search for your favorite dry fruits.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CART OFFCANVAS -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title"><i class="bi bi-bag"></i> Your Basket</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cartItems">
+                <div class="empty-cart"><i class="bi bi-cart-x"></i>
+                    <p>Your cart is empty.</p>
+                </div>
+            </div>
+            <div class="cart-summary">
+                <div class="d-flex justify-content-between">
+                    <strong>Total</strong>
+                    <strong id="cartTotal">₹0.00</strong>
+                </div>
+                <button type="button" class="checkout-btn" id="CHEACKOUTBUTTON">CHECKOUT</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JS/auth.js"></script>
+    <script src="JS/Dry.js"></script>
+    <script src="JS/Contact.js"></script>
+
+</body>
+
+</html>

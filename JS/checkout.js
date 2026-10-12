@@ -1,6 +1,19 @@
 "use strict";
 
 /* =========================================================
+   SHEERN - CHECKOUT
+   - needs a logged-in user (session from auth.js)
+   - saves the order in localStorage "sheernOrders" with the
+     customer's email, so it shows on the My Orders page
+
+   Load order on checkout.html:
+   <script src="JS/auth.js"></script>
+   <script src="JS/Dry.js"></script>
+   <script src="JS/checkout.js"></script>
+========================================================= */
+
+
+/* =========================================================
    LOCAL STORAGE KEYS
 ========================================================= */
 
@@ -9,6 +22,9 @@ const OLD_CHECKOUT_CART_KEY = "cart";
 const ORDERS_KEY = "sheernOrders";
 const REVIEWS_KEY = "sheernReviews";
 
+const LOGIN_PAGE = "Login.html";
+const ORDERS_PAGE = "myorders.html";
+
 
 /* =========================================================
    GLOBAL VARIABLES
@@ -16,6 +32,173 @@ const REVIEWS_KEY = "sheernReviews";
 
 let checkoutCart = [];
 let selectedRating = 0;
+let checkoutUser = null;
+let orderIsPlacing = false;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function checkoutEscape(value) {
+
+    return String(value === null || value === undefined ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function formatPrice(price) {
+
+    const number = Number(price) || 0;
+
+    return "₹" + number.toFixed(2);
+}
+
+function getItemQuantity(item) {
+
+    const quantity =
+        Number(item.quantity) ||
+        Number(item.qty) ||
+        1;
+
+    return quantity > 0 ? quantity : 1;
+}
+
+function fieldValue(id) {
+
+    const element = document.getElementById(id);
+
+    return element ? String(element.value || "").trim() : "";
+}
+
+
+/* =========================================================
+   LOGGED IN USER
+   (looks in sessionStorage and localStorage)
+========================================================= */
+
+function getCheckoutUser() {
+
+    function asUser(value) {
+
+        if (!value || typeof value !== "object" || Array.isArray(value)) {
+            return null;
+        }
+
+        if (value.email || value.name || value.fullName ||
+            value.username || value.firstName) {
+            return value;
+        }
+
+        const keys = Object.keys(value);
+
+        for (let i = 0; i < keys.length; i++) {
+
+            const inner = value[keys[i]];
+
+            if (inner && typeof inner === "object" && !Array.isArray(inner) &&
+                (inner.email || inner.name || inner.fullName || inner.username)) {
+                return inner;
+            }
+        }
+
+        return null;
+    }
+
+    function read(storage, key) {
+
+        try {
+            return JSON.parse(storage.getItem(key));
+        } catch (error) {
+            return null;
+        }
+    }
+
+    const skip = [
+        "sheernUsers", CHECKOUT_CART_KEY, OLD_CHECKOUT_CART_KEY,
+        ORDERS_KEY, "orders", REVIEWS_KEY, "wishlist", "sheernWishlist"
+    ];
+
+    const preferred = [
+        "sheernUser", "sheernSession", "sheernCurrentUser",
+        "loggedInUser", "currentUser", "user", "userData"
+    ];
+
+    const stores = [sessionStorage, localStorage];
+
+
+    /* known key names first */
+
+    for (let s = 0; s < stores.length; s++) {
+
+        for (let i = 0; i < preferred.length; i++) {
+
+            const found = asUser(read(stores[s], preferred[i]));
+
+            if (found) return found;
+        }
+    }
+
+
+    /* then every other key */
+
+    for (let s = 0; s < stores.length; s++) {
+
+        for (let k = 0; k < stores[s].length; k++) {
+
+            const key = stores[s].key(k);
+
+            if (skip.indexOf(key) !== -1) continue;
+
+            const found = asUser(read(stores[s], key));
+
+            if (found) return found;
+        }
+    }
+
+
+    /* session may only hold an email or an id */
+
+    const users = read(localStorage, "sheernUsers");
+
+    if (Array.isArray(users)) {
+
+        for (let s = 0; s < stores.length; s++) {
+
+            for (let k = 0; k < stores[s].length; k++) {
+
+                const key = stores[s].key(k);
+
+                if (skip.indexOf(key) !== -1) continue;
+
+                const raw = String(stores[s].getItem(key) || "")
+                    .replace(/^"|"$/g, "")
+                    .trim()
+                    .toLowerCase();
+
+                if (!raw) continue;
+
+                for (let u = 0; u < users.length; u++) {
+
+                    if (String(users[u].email || "").toLowerCase() === raw ||
+                        String(users[u].id) === raw) {
+                        return users[u];
+                    }
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+function getCheckoutUserName(user) {
+
+    return user.name || user.fullName || user.username || user.firstName || "";
+}
 
 
 /* =========================================================
@@ -24,15 +207,10 @@ let selectedRating = 0;
 
 function getCartFromStorage() {
 
-    let savedCart =
-        localStorage.getItem(CHECKOUT_CART_KEY);
+    let savedCart = localStorage.getItem(CHECKOUT_CART_KEY);
 
     if (!savedCart) {
-
-        savedCart =
-            localStorage.getItem(
-                OLD_CHECKOUT_CART_KEY
-            );
+        savedCart = localStorage.getItem(OLD_CHECKOUT_CART_KEY);
     }
 
     if (!savedCart) {
@@ -41,19 +219,13 @@ function getCartFromStorage() {
 
     try {
 
-        const parsedCart =
-            JSON.parse(savedCart);
+        const parsedCart = JSON.parse(savedCart);
 
-        return Array.isArray(parsedCart)
-            ? parsedCart
-            : [];
+        return Array.isArray(parsedCart) ? parsedCart : [];
 
     } catch (error) {
 
-        console.error(
-            "Could not read cart:",
-            error
-        );
+        console.error("Could not read cart:", error);
 
         return [];
     }
@@ -74,73 +246,25 @@ function saveCheckoutCart() {
 
 
 /* =========================================================
-   FORMAT PRICE
-========================================================= */
-
-function formatPrice(price) {
-
-    const number =
-        Number(price) || 0;
-
-    return "₹" + number.toFixed(2);
-}
-
-
-/* =========================================================
-   GET QUANTITY
-========================================================= */
-
-function getItemQuantity(item) {
-
-    const quantity =
-        Number(item.quantity) ||
-        Number(item.qty) ||
-        1;
-
-    return quantity > 0
-        ? quantity
-        : 1;
-}
-
-
-/* =========================================================
    RENDER CHECKOUT
 ========================================================= */
 
 function renderCheckout() {
 
-    const checkoutContent =
-        document.getElementById(
-            "checkoutContent"
-        );
+    const checkoutContent = document.getElementById("checkoutContent");
+    const emptyCart = document.getElementById("emptyCart");
+    const checkoutItems = document.getElementById("checkoutItems");
 
-    const emptyCart =
-        document.getElementById(
-            "emptyCart"
-        );
-
-    const checkoutItems =
-        document.getElementById(
-            "checkoutItems"
-        );
-
-    if (
-        !checkoutContent ||
-        !emptyCart ||
-        !checkoutItems
-    ) {
+    if (!checkoutContent || !emptyCart || !checkoutItems) {
         return;
     }
 
 
-    /* =====================================================
-       EMPTY CART
-    ====================================================== */
+    /* empty cart */
 
     if (checkoutCart.length === 0) {
 
         checkoutContent.style.display = "none";
-
         emptyCart.style.display = "block";
 
         return;
@@ -148,7 +272,6 @@ function renderCheckout() {
 
 
     checkoutContent.style.display = "flex";
-
     emptyCart.style.display = "none";
 
     checkoutItems.innerHTML = "";
@@ -156,174 +279,84 @@ function renderCheckout() {
     let subtotal = 0;
 
 
-    /* =====================================================
-       PRODUCTS
-    ====================================================== */
+    /* products */
 
-    checkoutCart.forEach(
-        (item, index) => {
+    checkoutCart.forEach(function (item, index) {
 
-            const price =
-                Number(item.price) || 0;
+        const price = Number(item.price) || 0;
+        const quantity = getItemQuantity(item);
+        const itemTotal = price * quantity;
 
-            const quantity =
-                getItemQuantity(item);
+        subtotal += itemTotal;
 
-            const itemTotal =
-                price * quantity;
+        const image = item.image || "Photos/MIX.jpg";
+        const name = item.name || "Dry Fruit";
+        const weight = item.weight || "";
 
-            subtotal += itemTotal;
+        const orderItem = document.createElement("div");
 
+        orderItem.className = "order-item";
 
-            const orderItem =
-                document.createElement("div");
+        orderItem.innerHTML = `
 
-            orderItem.className =
-                "order-item";
+            <img
+                src="${checkoutEscape(image)}"
+                alt="${checkoutEscape(name)}"
+                class="order-item-image"
+                onerror="this.onerror=null;this.src='Photos/MIX.jpg'"
+            >
 
+            <div class="order-item-info">
 
-            const image =
-                item.image ||
-                "Photos/MIX.jpg";
+                <div class="order-item-name">${checkoutEscape(name)}</div>
 
+                <div class="order-item-weight">${checkoutEscape(weight)}</div>
 
-            const name =
-                item.name ||
-                "Dry Fruit";
+                <div class="order-item-price">${formatPrice(price)}</div>
 
+            </div>
 
-            const weight =
-                item.weight ||
-                "";
+            <div>
 
+                <div class="quantity-control">
 
-            orderItem.innerHTML = `
+                    <button type="button" class="quantity-btn"
+                        onclick="changeCheckoutQuantity(${index}, -1)">−</button>
 
-                <img
-                    src="${image}"
-                    alt="${name}"
-                    class="order-item-image"
-                    onerror="this.src='Photos/MIX.jpg'"
+                    <span class="quantity-value">${quantity}</span>
+
+                    <button type="button" class="quantity-btn"
+                        onclick="changeCheckoutQuantity(${index}, 1)">+</button>
+
+                </div>
+
+                <div
+                    class="checkout-item-total"
+                    style="text-align:right;margin-top:6px;color:#203517;font-size:10px;font-weight:600;"
                 >
-
-                <div class="order-item-info">
-
-                    <div class="order-item-name">
-                        ${name}
-                    </div>
-
-                    <div class="order-item-weight">
-                        ${weight}
-                    </div>
-
-                    <div class="order-item-price">
-                        ${formatPrice(price)}
-                    </div>
-
+                    ${formatPrice(itemTotal)}
                 </div>
 
+            </div>
 
-                <div>
+        `;
 
-                    <div class="quantity-control">
-
-                        <button
-                            type="button"
-                            class="quantity-btn"
-                            onclick="changeCheckoutQuantity(${index}, -1)"
-                        >
-                            −
-                        </button>
+        checkoutItems.appendChild(orderItem);
+    });
 
 
-                        <span class="quantity-value">
-                            ${quantity}
-                        </span>
-
-
-                        <button
-                            type="button"
-                            class="quantity-btn"
-                            onclick="changeCheckoutQuantity(${index}, 1)"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="checkout-item-total"
-                        style="
-                            text-align:right;
-                            margin-top:6px;
-                            color:#203517;
-                            font-size:10px;
-                            font-weight:600;
-                        "
-                    >
-                        ${formatPrice(itemTotal)}
-                    </div>
-
-                </div>
-
-            `;
-
-
-            checkoutItems.appendChild(
-                orderItem
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       TOTALS
-    ====================================================== */
+    /* totals */
 
     const shipping = 0;
+    const total = subtotal + shipping;
 
-    const total =
-        subtotal + shipping;
+    const subtotalElement = document.getElementById("checkoutSubtotal");
+    const shippingElement = document.getElementById("checkoutShipping");
+    const totalElement = document.getElementById("checkoutTotal");
 
-
-    const subtotalElement =
-        document.getElementById(
-            "checkoutSubtotal"
-        );
-
-    const shippingElement =
-        document.getElementById(
-            "checkoutShipping"
-        );
-
-    const totalElement =
-        document.getElementById(
-            "checkoutTotal"
-        );
-
-
-    if (subtotalElement) {
-
-        subtotalElement.textContent =
-            formatPrice(subtotal);
-    }
-
-
-    if (shippingElement) {
-
-        shippingElement.textContent =
-            "Free";
-    }
-
-
-    if (totalElement) {
-
-        totalElement.textContent =
-            formatPrice(total);
-    }
-
+    if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
+    if (shippingElement) shippingElement.textContent = "Free";
+    if (totalElement) totalElement.textContent = formatPrice(total);
 }
 
 
@@ -331,42 +364,30 @@ function renderCheckout() {
    CHANGE QUANTITY
 ========================================================= */
 
-function changeCheckoutQuantity(
-    index,
-    change
-) {
+function changeCheckoutQuantity(index, change) {
 
     if (!checkoutCart[index]) {
         return;
     }
 
-
-    let quantity =
-        getItemQuantity(
-            checkoutCart[index]
-        );
-
+    let quantity = getItemQuantity(checkoutCart[index]);
 
     quantity += change;
 
-
     if (quantity <= 0) {
 
-        checkoutCart.splice(
-            index,
-            1
-        );
+        checkoutCart.splice(index, 1);
 
     } else {
 
-        checkoutCart[index].quantity =
-            quantity;
+        checkoutCart[index].quantity = quantity;
     }
-
 
     saveCheckoutCart();
 
     renderCheckout();
+
+    updateHeaderCartCount();
 }
 
 
@@ -377,286 +398,92 @@ function changeCheckoutQuantity(
 function setupPaymentMethods() {
 
     const paymentInputs =
-        document.querySelectorAll(
-            'input[name="paymentMethod"]'
-        );
+        document.querySelectorAll('input[name="paymentMethod"]');
 
+    paymentInputs.forEach(function (input) {
 
-    paymentInputs.forEach(
-        input => {
+        input.addEventListener("change", function () {
 
-            input.addEventListener(
-                "change",
-                function () {
+            const cardDetails = document.getElementById("cardDetails");
+            const upiDetails = document.getElementById("upiDetails");
+            const cashDetails = document.getElementById("cashDetails");
 
-                    const cardDetails =
-                        document.getElementById(
-                            "cardDetails"
-                        );
+            [cardDetails, upiDetails, cashDetails].forEach(function (box) {
+                if (box) box.classList.remove("active");
+            });
 
-                    const upiDetails =
-                        document.getElementById(
-                            "upiDetails"
-                        );
-
-                    const cashDetails =
-                        document.getElementById(
-                            "cashDetails"
-                        );
-
-
-                    if (cardDetails) {
-
-                        cardDetails.classList.remove(
-                            "active"
-                        );
-                    }
-
-
-                    if (upiDetails) {
-
-                        upiDetails.classList.remove(
-                            "active"
-                        );
-                    }
-
-
-                    if (cashDetails) {
-
-                        cashDetails.classList.remove(
-                            "active"
-                        );
-                    }
-
-
-                    if (
-                        this.value === "card" &&
-                        cardDetails
-                    ) {
-
-                        cardDetails.classList.add(
-                            "active"
-                        );
-                    }
-
-
-                    if (
-                        this.value === "upi" &&
-                        upiDetails
-                    ) {
-
-                        upiDetails.classList.add(
-                            "active"
-                        );
-                    }
-
-
-                    if (
-                        this.value === "cash" &&
-                        cashDetails
-                    ) {
-
-                        cashDetails.classList.add(
-                            "active"
-                        );
-                    }
-
-                }
-            );
-
-        }
-    );
-
+            if (this.value === "card" && cardDetails) cardDetails.classList.add("active");
+            if (this.value === "upi" && upiDetails) upiDetails.classList.add("active");
+            if (this.value === "cash" && cashDetails) cashDetails.classList.add("active");
+        });
+    });
 }
 
 
 /* =========================================================
-   CARD NUMBER FORMATTING
+   INPUT FORMATTING
 ========================================================= */
 
 function setupCardFormatting() {
 
-    const cardNumber =
-        document.getElementById(
-            "cardNumber"
-        );
-
+    const cardNumber = document.getElementById("cardNumber");
 
     if (cardNumber) {
 
-        cardNumber.addEventListener(
-            "input",
-            function () {
+        cardNumber.addEventListener("input", function () {
 
-                let value =
-                    this.value.replace(
-                        /\D/g,
-                        ""
-                    );
+            let value = this.value.replace(/\D/g, "").substring(0, 16);
 
-
-                value =
-                    value.substring(
-                        0,
-                        16
-                    );
-
-
-                value =
-                    value
-                        .replace(
-                            /(.{4})/g,
-                            "$1 "
-                        )
-                        .trim();
-
-
-                this.value =
-                    value;
-
-            }
-        );
-
+            this.value = value.replace(/(.{4})/g, "$1 ").trim();
+        });
     }
 
 
-    const cardExpiry =
-        document.getElementById(
-            "cardExpiry"
-        );
-
+    const cardExpiry = document.getElementById("cardExpiry");
 
     if (cardExpiry) {
 
-        cardExpiry.addEventListener(
-            "input",
-            function () {
+        cardExpiry.addEventListener("input", function () {
 
-                let value =
-                    this.value.replace(
-                        /\D/g,
-                        ""
-                    );
+            let value = this.value.replace(/\D/g, "").substring(0, 4);
 
-
-                value =
-                    value.substring(
-                        0,
-                        4
-                    );
-
-
-                if (
-                    value.length > 2
-                ) {
-
-                    value =
-                        value.substring(
-                            0,
-                            2
-                        ) +
-                        "/" +
-                        value.substring(
-                            2
-                        );
-                }
-
-
-                this.value =
-                    value;
-
+            if (value.length > 2) {
+                value = value.substring(0, 2) + "/" + value.substring(2);
             }
-        );
 
+            this.value = value;
+        });
     }
 
 
-    const phone =
-        document.getElementById(
-            "customerPhone"
-        );
-
+    const phone = document.getElementById("customerPhone");
 
     if (phone) {
 
-        phone.addEventListener(
-            "input",
-            function () {
-
-                this.value =
-                    this.value
-                        .replace(
-                            /\D/g,
-                            ""
-                        )
-                        .substring(
-                            0,
-                            10
-                        );
-
-            }
-        );
-
+        phone.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "").substring(0, 10);
+        });
     }
 
 
-    const pincode =
-        document.getElementById(
-            "customerPincode"
-        );
-
+    const pincode = document.getElementById("customerPincode");
 
     if (pincode) {
 
-        pincode.addEventListener(
-            "input",
-            function () {
-
-                this.value =
-                    this.value
-                        .replace(
-                            /\D/g,
-                            ""
-                        )
-                        .substring(
-                            0,
-                            6
-                        );
-
-            }
-        );
-
+        pincode.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "").substring(0, 6);
+        });
     }
 
 
-    const cardCVV =
-        document.getElementById(
-            "cardCVV"
-        );
-
+    const cardCVV = document.getElementById("cardCVV");
 
     if (cardCVV) {
 
-        cardCVV.addEventListener(
-            "input",
-            function () {
-
-                this.value =
-                    this.value
-                        .replace(
-                            /\D/g,
-                            ""
-                        )
-                        .substring(
-                            0,
-                            4
-                        );
-
-            }
-        );
-
+        cardCVV.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "").substring(0, 4);
+        });
     }
-
 }
 
 
@@ -666,69 +493,34 @@ function setupCardFormatting() {
 
 function setupUPIOptions() {
 
-    const options =
-        document.querySelectorAll(
-            ".upi-option"
-        );
+    const options = document.querySelectorAll(".upi-option");
+    const upiInput = document.getElementById("upiId");
 
+    options.forEach(function (option) {
 
-    const upiInput =
-        document.getElementById(
-            "upiId"
-        );
+        option.addEventListener("click", function () {
 
+            const provider = this.dataset.upi;
 
-    options.forEach(
-        option => {
+            if (!upiInput) {
+                return;
+            }
 
-            option.addEventListener(
-                "click",
-                function () {
+            if (provider === "Paytm") {
+                upiInput.placeholder = "Enter your Paytm UPI ID";
+            }
 
-                    const provider =
-                        this.dataset.upi;
+            if (provider === "Google Pay") {
+                upiInput.placeholder = "Enter your Google Pay UPI ID";
+            }
 
+            if (provider === "PhonePe") {
+                upiInput.placeholder = "Enter your PhonePe UPI ID";
+            }
 
-                    if (!upiInput) {
-                        return;
-                    }
-
-
-                    if (
-                        provider === "Paytm"
-                    ) {
-
-                        upiInput.placeholder =
-                            "Enter your Paytm UPI ID";
-                    }
-
-
-                    if (
-                        provider === "Google Pay"
-                    ) {
-
-                        upiInput.placeholder =
-                            "Enter your Google Pay UPI ID";
-                    }
-
-
-                    if (
-                        provider === "PhonePe"
-                    ) {
-
-                        upiInput.placeholder =
-                            "Enter your PhonePe UPI ID";
-                    }
-
-
-                    upiInput.focus();
-
-                }
-            );
-
-        }
-    );
-
+            upiInput.focus();
+        });
+    });
 }
 
 
@@ -738,172 +530,67 @@ function setupUPIOptions() {
 
 function validateCustomerInformation() {
 
-    const name =
-        document.getElementById(
-            "customerName"
-        );
-
-    const email =
-        document.getElementById(
-            "customerEmail"
-        );
-
-    const phone =
-        document.getElementById(
-            "customerPhone"
-        );
-
-    const address =
-        document.getElementById(
-            "customerAddress"
-        );
-
-    const city =
-        document.getElementById(
-            "customerCity"
-        );
-
-    const state =
-        document.getElementById(
-            "customerState"
-        );
-
-    const pincode =
-        document.getElementById(
-            "customerPincode"
-        );
-
+    const name = document.getElementById("customerName");
+    const email = document.getElementById("customerEmail");
+    const phone = document.getElementById("customerPhone");
+    const address = document.getElementById("customerAddress");
+    const city = document.getElementById("customerCity");
+    const state = document.getElementById("customerState");
+    const pincode = document.getElementById("customerPincode");
 
     if (!name || !name.value.trim()) {
-
-        alert(
-            "Please enter your full name."
-        );
-
-        if (name) {
-            name.focus();
-        }
-
+        alert("Please enter your full name.");
+        if (name) name.focus();
         return false;
     }
-
 
     if (!email || !email.value.trim()) {
-
-        alert(
-            "Please enter your email address."
-        );
-
-        if (email) {
-            email.focus();
-        }
-
+        alert("Please enter your email address.");
+        if (email) email.focus();
         return false;
     }
-
 
     if (!email.checkValidity()) {
-
-        alert(
-            "Please enter a valid email address."
-        );
-
+        alert("Please enter a valid email address.");
         email.focus();
-
         return false;
     }
-
 
     if (!phone || !phone.value.trim()) {
-
-        alert(
-            "Please enter your phone number."
-        );
-
-        if (phone) {
-            phone.focus();
-        }
-
+        alert("Please enter your phone number.");
+        if (phone) phone.focus();
         return false;
     }
 
-
-    if (
-        !/^\d{10}$/.test(
-            phone.value.trim()
-        )
-    ) {
-
-        alert(
-            "Please enter a valid 10-digit phone number."
-        );
-
+    if (!/^\d{10}$/.test(phone.value.trim())) {
+        alert("Please enter a valid 10-digit phone number.");
         phone.focus();
-
         return false;
     }
-
 
     if (!address || !address.value.trim()) {
-
-        alert(
-            "Please enter your delivery address."
-        );
-
-        if (address) {
-            address.focus();
-        }
-
+        alert("Please enter your delivery address.");
+        if (address) address.focus();
         return false;
     }
-
 
     if (!city || !city.value.trim()) {
-
-        alert(
-            "Please enter your city."
-        );
-
-        if (city) {
-            city.focus();
-        }
-
+        alert("Please enter your city.");
+        if (city) city.focus();
         return false;
     }
-
 
     if (!state || !state.value.trim()) {
-
-        alert(
-            "Please enter your state."
-        );
-
-        if (state) {
-            state.focus();
-        }
-
+        alert("Please enter your state.");
+        if (state) state.focus();
         return false;
     }
 
-
-    if (
-        !pincode ||
-        !/^\d{6}$/.test(
-            pincode.value.trim()
-        )
-    ) {
-
-        alert(
-            "Please enter a valid 6-digit PIN code."
-        );
-
-        if (pincode) {
-            pincode.focus();
-        }
-
+    if (!pincode || !/^\d{6}$/.test(pincode.value.trim())) {
+        alert("Please enter a valid 6-digit PIN code.");
+        if (pincode) pincode.focus();
         return false;
     }
-
 
     return true;
 }
@@ -916,172 +603,75 @@ function validateCustomerInformation() {
 function validatePayment() {
 
     const selectedPayment =
-        document.querySelector(
-            'input[name="paymentMethod"]:checked'
-        );
+        document.querySelector('input[name="paymentMethod"]:checked');
 
+    const paymentError = document.getElementById("paymentError");
 
-    const paymentError =
-        document.getElementById(
-            "paymentError"
-        );
-
-
-    if (paymentError) {
-
-        paymentError.textContent = "";
-    }
-
-
-    if (!selectedPayment) {
+    function fail(message, field) {
 
         if (paymentError) {
-
-            paymentError.textContent =
-                "Please select a payment method.";
+            paymentError.textContent = message;
+        } else {
+            alert(message);
         }
+
+        if (field) field.focus();
 
         return false;
     }
 
+    if (paymentError) {
+        paymentError.textContent = "";
+    }
 
-    /* =====================================================
-       CARD
-    ====================================================== */
-
-    if (
-        selectedPayment.value === "card"
-    ) {
-
-        const cardNumber =
-            document.getElementById(
-                "cardNumber"
-            );
-
-        const cardName =
-            document.getElementById(
-                "cardName"
-            );
-
-        const cardExpiry =
-            document.getElementById(
-                "cardExpiry"
-            );
-
-        const cardCVV =
-            document.getElementById(
-                "cardCVV"
-            );
+    if (!selectedPayment) {
+        return fail("Please select a payment method.", null);
+    }
 
 
-        const cleanCardNumber =
-            cardNumber.value.replace(
-                /\s/g,
-                ""
-            );
+    /* card */
 
+    if (selectedPayment.value === "card") {
 
-        if (
-            !/^\d{16}$/.test(
-                cleanCardNumber
-            )
-        ) {
+        const cardNumber = document.getElementById("cardNumber");
+        const cardName = document.getElementById("cardName");
+        const cardExpiry = document.getElementById("cardExpiry");
+        const cardCVV = document.getElementById("cardCVV");
 
-            paymentError.textContent =
-                "Please enter a valid 16-digit card number.";
+        const cleanCardNumber = cardNumber.value.replace(/\s/g, "");
 
-            cardNumber.focus();
-
-            return false;
+        if (!/^\d{16}$/.test(cleanCardNumber)) {
+            return fail("Please enter a valid 16-digit card number.", cardNumber);
         }
 
-
-        if (
-            !cardName.value.trim()
-        ) {
-
-            paymentError.textContent =
-                "Please enter the name on the card.";
-
-            cardName.focus();
-
-            return false;
+        if (!cardName.value.trim()) {
+            return fail("Please enter the name on the card.", cardName);
         }
 
-
-        if (
-            !/^\d{2}\/\d{2}$/.test(
-                cardExpiry.value
-            )
-        ) {
-
-            paymentError.textContent =
-                "Please enter the card expiry as MM/YY.";
-
-            cardExpiry.focus();
-
-            return false;
+        if (!/^\d{2}\/\d{2}$/.test(cardExpiry.value)) {
+            return fail("Please enter the card expiry as MM/YY.", cardExpiry);
         }
 
-
-        if (
-            !/^\d{3,4}$/.test(
-                cardCVV.value
-            )
-        ) {
-
-            paymentError.textContent =
-                "Please enter a valid CVV.";
-
-            cardCVV.focus();
-
-            return false;
+        if (!/^\d{3,4}$/.test(cardCVV.value)) {
+            return fail("Please enter a valid CVV.", cardCVV);
         }
     }
 
 
-    /* =====================================================
-       UPI
-    ====================================================== */
+    /* upi */
 
-    if (
-        selectedPayment.value === "upi"
-    ) {
+    if (selectedPayment.value === "upi") {
 
-        const upiId =
-            document.getElementById(
-                "upiId"
-            );
+        const upiId = document.getElementById("upiId");
 
-
-        if (
-            !upiId.value.trim()
-        ) {
-
-            paymentError.textContent =
-                "Please enter your UPI ID.";
-
-            upiId.focus();
-
-            return false;
+        if (!upiId.value.trim()) {
+            return fail("Please enter your UPI ID.", upiId);
         }
 
-
-        if (
-            !/^[\w.-]+@[\w.-]+$/.test(
-                upiId.value.trim()
-            )
-        ) {
-
-            paymentError.textContent =
-                "Please enter a valid UPI ID.";
-
-            upiId.focus();
-
-            return false;
+        if (!/^[\w.-]+@[\w.-]+$/.test(upiId.value.trim())) {
+            return fail("Please enter a valid UPI ID.", upiId);
         }
     }
-
 
     return true;
 }
@@ -1093,12 +683,7 @@ function validatePayment() {
 
 function createOrderNumber() {
 
-    const randomNumber =
-        Math.floor(
-            100000 +
-            Math.random() * 900000
-        );
-
+    const randomNumber = Math.floor(100000 + Math.random() * 900000);
 
     return "SHRN-" + randomNumber;
 }
@@ -1110,340 +695,202 @@ function createOrderNumber() {
 
 function placeOrder() {
 
-    if (
-        checkoutCart.length === 0
-    ) {
+    if (orderIsPlacing) {
+        return;
+    }
 
-        alert(
-            "Your cart is empty. Please add a product first."
-        );
+
+    /* login */
+
+    const user = checkoutUser || getCheckoutUser();
+
+    if (!user) {
+
+        alert("Please login before placing your order.");
+
+        window.location.href = LOGIN_PAGE;
 
         return;
     }
 
 
-    if (
-        !validateCustomerInformation()
-    ) {
+    /* cart */
+
+    if (checkoutCart.length === 0) {
+
+        alert("Your cart is empty. Please add a product first.");
 
         return;
     }
 
 
-    if (
-        !validatePayment()
-    ) {
+    /* validation */
 
+    if (!validateCustomerInformation()) {
+        return;
+    }
+
+    if (!validatePayment()) {
         return;
     }
 
 
     const selectedPayment =
-        document.querySelector(
-            'input[name="paymentMethod"]:checked'
-        );
+        document.querySelector('input[name="paymentMethod"]:checked');
 
+    let paymentName = "Cash on Delivery";
 
-    let paymentName =
-        "Cash on Delivery";
+    if (selectedPayment.value === "card") {
+        paymentName = "Debit / Credit Card";
+    }
 
-
-    if (
-        selectedPayment.value === "card"
-    ) {
-
-        paymentName =
-            "Debit / Credit Card";
+    if (selectedPayment.value === "upi") {
+        paymentName = "UPI / Paytm";
     }
 
 
-    if (
-        selectedPayment.value === "upi"
-    ) {
-
-        paymentName =
-            "UPI / Paytm";
-    }
-
-
-    /* =====================================================
-       CALCULATE TOTAL
-    ====================================================== */
+    /* total */
 
     let subtotal = 0;
 
+    checkoutCart.forEach(function (item) {
 
-    checkoutCart.forEach(
-        item => {
-
-            const price =
-                Number(item.price) || 0;
-
-
-            const quantity =
-                getItemQuantity(item);
-
-
-            subtotal +=
-                price * quantity;
-        }
-    );
-
+        subtotal += (Number(item.price) || 0) * getItemQuantity(item);
+    });
 
     const shipping = 0;
-
-    const total =
-        subtotal + shipping;
+    const total = subtotal + shipping;
 
 
-    /* =====================================================
-       ORDER NUMBER
-    ====================================================== */
+    /* order */
 
-    const orderNumber =
-        createOrderNumber();
+    const orderNumber = createOrderNumber();
 
-
-    /* =====================================================
-       ORDER OBJECT
-    ====================================================== */
+    const addressLine = fieldValue("customerAddress");
+    const city = fieldValue("customerCity");
+    const state = fieldValue("customerState");
+    const pincode = fieldValue("customerPincode");
 
     const order = {
 
-        orderNumber:
-            orderNumber,
+        /* fields read by the My Orders page */
 
-        orderDate:
-            new Date().toISOString(),
+        id: orderNumber,
+        orderNumber: orderNumber,
+        date: new Date().toISOString(),
+        orderDate: new Date().toISOString(),
+        status: "Pending",
 
+        customerId: user.id !== undefined ? user.id : "",
+        customerEmail: user.email || fieldValue("customerEmail"),
+        customerName: fieldValue("customerName"),
+        phone: fieldValue("customerPhone"),
+        address: [addressLine, city, state, pincode].filter(Boolean).join(", "),
+        payment: paymentName,
+        note: fieldValue("deliveryNote"),
+
+
+        /* extra details */
 
         customer: {
-
-            name:
-                document
-                    .getElementById(
-                        "customerName"
-                    )
-                    .value
-                    .trim(),
-
-            email:
-                document
-                    .getElementById(
-                        "customerEmail"
-                    )
-                    .value
-                    .trim(),
-
-            phone:
-                document
-                    .getElementById(
-                        "customerPhone"
-                    )
-                    .value
-                    .trim(),
-
-            address:
-                document
-                    .getElementById(
-                        "customerAddress"
-                    )
-                    .value
-                    .trim(),
-
-            city:
-                document
-                    .getElementById(
-                        "customerCity"
-                    )
-                    .value
-                    .trim(),
-
-            state:
-                document
-                    .getElementById(
-                        "customerState"
-                    )
-                    .value
-                    .trim(),
-
-            pincode:
-                document
-                    .getElementById(
-                        "customerPincode"
-                    )
-                    .value
-                    .trim(),
-
-            deliveryNote:
-                document
-                    .getElementById(
-                        "deliveryNote"
-                    )
-                    .value
-                    .trim()
-
+            name: fieldValue("customerName"),
+            email: user.email || fieldValue("customerEmail"),
+            phone: fieldValue("customerPhone"),
+            address: addressLine,
+            city: city,
+            state: state,
+            pincode: pincode,
+            deliveryNote: fieldValue("deliveryNote")
         },
 
-
-        payment: {
-
-            method:
-                selectedPayment.value,
-
-            methodName:
-                paymentName
-
+        paymentInfo: {
+            method: selectedPayment.value,
+            methodName: paymentName
         },
 
+        items: checkoutCart.map(function (item) {
 
-        items:
-            checkoutCart.map(
-                item => ({
+            return {
+                id: item.id,
+                name: item.name,
+                image: item.image,
+                price: Number(item.price) || 0,
+                weight: item.weight || "",
+                quantity: getItemQuantity(item)
+            };
+        }),
 
-                    id:
-                        item.id,
-
-                    name:
-                        item.name,
-
-                    image:
-                        item.image,
-
-                    price:
-                        Number(item.price) || 0,
-
-                    weight:
-                        item.weight || "",
-
-                    quantity:
-                        getItemQuantity(item)
-
-                })
-            ),
-
-
-        subtotal:
-            subtotal,
-
-        shipping:
-            shipping,
-
-        total:
-            total,
-
-        status:
-            "Order Placed"
-
+        subtotal: subtotal,
+        shipping: shipping,
+        total: total
     };
 
 
-    /* =====================================================
-       GET EXISTING ORDERS
-    ====================================================== */
+    /* save */
 
     let orders = [];
 
-
     try {
 
-        orders =
-            JSON.parse(
-                localStorage.getItem(
-                    ORDERS_KEY
-                )
-            ) || [];
+        orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+
+        if (!Array.isArray(orders)) orders = [];
 
     } catch (error) {
 
         orders = [];
     }
 
-
-    /* =====================================================
-       SAVE ORDER
-    ====================================================== */
-
     orders.push(order);
 
+    try {
 
-    localStorage.setItem(
-        ORDERS_KEY,
-        JSON.stringify(orders)
-    );
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+
+    } catch (error) {
+
+        console.error("Could not save order:", error);
+
+        alert("Sorry, your order could not be saved. Please try again.");
+
+        return;
+    }
+
+    orderIsPlacing = true;
 
 
-    /* =====================================================
-       CLEAR CART
-    ====================================================== */
+    /* clear cart (only after the order is saved) */
 
     checkoutCart = [];
 
-
-    localStorage.removeItem(
-        CHECKOUT_CART_KEY
-    );
-
-
-    localStorage.removeItem(
-        OLD_CHECKOUT_CART_KEY
-    );
-
-
-    /* =====================================================
-       UPDATE CART COUNTERS
-    ====================================================== */
+    localStorage.removeItem(CHECKOUT_CART_KEY);
+    localStorage.removeItem(OLD_CHECKOUT_CART_KEY);
 
     updateHeaderCartCount();
 
 
-    /* =====================================================
-       SUCCESS MODAL
-    ====================================================== */
+    /* success */
 
-    const orderNumberElement =
-        document.getElementById(
-            "successOrderNumber"
-        );
-
+    const orderNumberElement = document.getElementById("successOrderNumber");
 
     if (orderNumberElement) {
-
-        orderNumberElement.textContent =
-            orderNumber;
+        orderNumberElement.textContent = orderNumber;
     }
 
+    const modalElement = document.getElementById("orderSuccessModal");
 
-    const modalElement =
-        document.getElementById(
-            "orderSuccessModal"
-        );
+    if (modalElement && typeof bootstrap !== "undefined") {
 
-
-    if (
-        modalElement &&
-        typeof bootstrap !== "undefined"
-    ) {
-
-        const successModal =
-            bootstrap.Modal.getOrCreateInstance(
-                modalElement
-            );
-
-        successModal.show();
+        bootstrap.Modal.getOrCreateInstance(modalElement).show();
 
     } else {
 
-        alert(
-            "Order placed successfully!\nOrder Number: " +
-            orderNumber
-        );
+        alert("Order placed successfully!\nOrder Number: " + orderNumber);
 
+        window.location.href = ORDERS_PAGE;
     }
 
-
     renderCheckout();
-
 }
 
 
@@ -1453,32 +900,19 @@ function placeOrder() {
 
 function updateHeaderCartCount() {
 
-    const cartCount =
-        document.getElementById(
-            "headerCartCount"
-        );
-
+    const cartCount = document.getElementById("headerCartCount");
 
     if (!cartCount) {
         return;
     }
 
-
     let totalQuantity = 0;
 
+    checkoutCart.forEach(function (item) {
+        totalQuantity += getItemQuantity(item);
+    });
 
-    checkoutCart.forEach(
-        item => {
-
-            totalQuantity +=
-                getItemQuantity(item);
-
-        }
-    );
-
-
-    cartCount.textContent =
-        totalQuantity;
+    cartCount.textContent = totalQuantity;
 }
 
 
@@ -1488,451 +922,184 @@ function updateHeaderCartCount() {
 
 function continueAfterOrder() {
 
-    window.location.href =
-        "AllProduct.html";
+    window.location.href = ORDERS_PAGE;
 }
 
 
 /* =========================================================
-   SET STAR VISUAL
+   STAR REVIEW
 ========================================================= */
 
 function updateStars(rating) {
 
-    const stars =
-        document.querySelectorAll(
-            "#feedbackStars i"
-        );
+    const stars = document.querySelectorAll("#feedbackStars i");
 
+    stars.forEach(function (star, index) {
 
-    stars.forEach(
-        (star, index) => {
+        star.classList.remove("bi-star", "bi-star-fill");
 
-            const starNumber =
-                index + 1;
-
-
-            star.classList.remove(
-                "bi-star",
-                "bi-star-fill"
-            );
-
-
-            if (
-                starNumber <= rating
-            ) {
-
-                star.classList.add(
-                    "bi-star-fill"
-                );
-
-            } else {
-
-                star.classList.add(
-                    "bi-star"
-                );
-
-            }
-
-        }
-    );
+        star.classList.add(index + 1 <= rating ? "bi-star-fill" : "bi-star");
+    });
 }
-
-
-/* =========================================================
-   SETUP STAR REVIEW
-========================================================= */
 
 function setupReviewSystem() {
 
-    const stars =
-        document.querySelectorAll(
-            "#feedbackStars i"
-        );
-
-
-    const reviewMessage =
-        document.getElementById(
-            "feedbackMessage"
-        );
-
-
-    const reviewText =
-        document.getElementById(
-            "feedbackText"
-        );
-
-
-    const submitButton =
-        document.getElementById(
-            "submitFeedbackButton"
-        );
-
+    const stars = document.querySelectorAll("#feedbackStars i");
+    const reviewMessage = document.getElementById("feedbackMessage");
+    const submitButton = document.getElementById("submitFeedbackButton");
 
     if (!stars.length) {
         return;
     }
 
+    stars.forEach(function (star) {
 
-    /* =====================================================
-       STAR CLICK
-    ====================================================== */
+        star.addEventListener("click", function () {
 
-    stars.forEach(
-        star => {
+            selectedRating = Number(this.dataset.value);
 
-            star.addEventListener(
-                "click",
-                function () {
+            updateStars(selectedRating);
 
-                    selectedRating =
-                        Number(
-                            this.dataset.value
-                        );
+            if (reviewMessage) {
 
+                reviewMessage.textContent =
+                    selectedRating + " out of 5 stars selected.";
 
-                    updateStars(
-                        selectedRating
-                    );
+                reviewMessage.classList.remove("error");
+                reviewMessage.classList.add("success");
+            }
+        });
 
+        star.addEventListener("mouseenter", function () {
+            updateStars(Number(this.dataset.value));
+        });
 
-                    if (reviewMessage) {
-
-                        reviewMessage.textContent =
-                            selectedRating +
-                            " out of 5 stars selected.";
-
-                        reviewMessage.classList.remove(
-                            "error"
-                        );
-
-                        reviewMessage.classList.add(
-                            "success"
-                        );
-                    }
-
-                }
-            );
-
-
-            /* =================================================
-               STAR HOVER
-            ================================================== */
-
-            star.addEventListener(
-                "mouseenter",
-                function () {
-
-                    const hoverRating =
-                        Number(
-                            this.dataset.value
-                        );
-
-
-                    updateStars(
-                        hoverRating
-                    );
-
-                }
-            );
-
-
-            /* =================================================
-               MOUSE LEAVE
-            ================================================== */
-
-            star.addEventListener(
-                "mouseleave",
-                function () {
-
-                    updateStars(
-                        selectedRating
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       SUBMIT REVIEW
-    ====================================================== */
+        star.addEventListener("mouseleave", function () {
+            updateStars(selectedRating);
+        });
+    });
 
     if (submitButton) {
-
-        submitButton.addEventListener(
-            "click",
-            submitReview
-        );
-
+        submitButton.addEventListener("click", submitReview);
     }
-
 }
-
-
-/* =========================================================
-   SUBMIT REVIEW
-========================================================= */
 
 function submitReview() {
 
-    const reviewText =
-        document.getElementById(
-            "feedbackText"
-        );
-
-
-    const reviewMessage =
-        document.getElementById(
-            "feedbackMessage"
-        );
-
+    const reviewText = document.getElementById("feedbackText");
+    const reviewMessage = document.getElementById("feedbackMessage");
 
     if (!reviewMessage) {
         return;
     }
 
-
-    /* =====================================================
-       CHECK RATING
-    ====================================================== */
-
     if (selectedRating === 0) {
 
-        reviewMessage.textContent =
-            "Please select a star rating.";
+        reviewMessage.textContent = "Please select a star rating.";
 
-        reviewMessage.classList.remove(
-            "success"
-        );
-
-        reviewMessage.classList.add(
-            "error"
-        );
+        reviewMessage.classList.remove("success");
+        reviewMessage.classList.add("error");
 
         return;
     }
 
-
-    /* =====================================================
-       GET TEXT
-    ====================================================== */
-
-    const text =
-        reviewText
-            ? reviewText.value.trim()
-            : "";
-
-
-    /* =====================================================
-       CREATE REVIEW
-    ====================================================== */
+    const user = checkoutUser || getCheckoutUser() || {};
 
     const review = {
-
-        rating:
-            selectedRating,
-
-        comment:
-            text,
-
-        date:
-            new Date().toISOString()
-
+        rating: selectedRating,
+        comment: reviewText ? reviewText.value.trim() : "",
+        customerEmail: user.email || "",
+        date: new Date().toISOString()
     };
-
-
-    /* =====================================================
-       GET OLD REVIEWS
-    ====================================================== */
 
     let reviews = [];
 
-
     try {
 
-        reviews =
-            JSON.parse(
-                localStorage.getItem(
-                    REVIEWS_KEY
-                )
-            ) || [];
+        reviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || [];
+
+        if (!Array.isArray(reviews)) reviews = [];
 
     } catch (error) {
 
         reviews = [];
     }
 
-
-    /* =====================================================
-       SAVE REVIEW
-    ====================================================== */
-
     reviews.push(review);
 
-
-    localStorage.setItem(
-        REVIEWS_KEY,
-        JSON.stringify(reviews)
-    );
-
-
-    /* =====================================================
-       SUCCESS MESSAGE
-    ====================================================== */
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
 
     reviewMessage.textContent =
         "Thank you! Your review has been submitted successfully.";
 
-    reviewMessage.classList.remove(
-        "error"
-    );
-
-    reviewMessage.classList.add(
-        "success"
-    );
-
-
-    /* =====================================================
-       CLEAR FORM
-    ====================================================== */
+    reviewMessage.classList.remove("error");
+    reviewMessage.classList.add("success");
 
     if (reviewText) {
-
         reviewText.value = "";
     }
-
 
     selectedRating = 0;
 
     updateStars(0);
-
 }
 
 
 /* =========================================================
-   CHECKOUT PROGRESS BAR
+   PROGRESS BAR
 ========================================================= */
 
 function setupCheckoutProgress() {
 
     const progressSteps =
-        document.querySelectorAll(
-            ".checkout-progress .progress-step"
-        );
-
+        document.querySelectorAll(".checkout-progress .progress-step");
 
     if (!progressSteps.length) {
         return;
     }
 
+    progressSteps.forEach(function (step, index) {
 
-    progressSteps.forEach(
-        (step, index) => {
+        step.classList.remove("completed", "active");
 
-            step.classList.remove(
-                "completed",
-                "active"
-            );
-
-
-            if (index < 2) {
-
-                step.classList.add(
-                    "completed"
-                );
-
-            }
-
-
-            if (index === 2) {
-
-                step.classList.add(
-                    "active"
-                );
-
-            }
-
-        }
-    );
-
+        if (index < 2) step.classList.add("completed");
+        if (index === 2) step.classList.add("active");
+    });
 }
-
-
-/* =========================================================
-   PROGRESS BAR - CLICK SUPPORT
-========================================================= */
 
 function setupProgressClick() {
 
     const progressSteps =
-        document.querySelectorAll(
-            ".checkout-progress .progress-step"
-        );
+        document.querySelectorAll(".checkout-progress .progress-step");
 
+    progressSteps.forEach(function (step) {
 
-    progressSteps.forEach(
-        step => {
+        step.addEventListener("click", function () {
 
-            step.addEventListener(
-                "click",
-                function () {
+            const target = this.dataset.target;
 
-                    const target =
-                        this.dataset.target;
+            if (!target) {
+                return;
+            }
 
+            const element = document.getElementById(target);
 
-                    if (!target) {
-                        return;
-                    }
-
-
-                    const element =
-                        document.getElementById(
-                            target
-                        );
-
-
-                    if (element) {
-
-                        element.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+    });
 }
-
-
-/* =========================================================
-   REVIEW BOX POSITION
-========================================================= */
 
 function setupReviewBox() {
 
-    const reviewBox =
-        document.getElementById(
-            "orderFeedbackBox"
-        );
-
+    const reviewBox = document.getElementById("orderFeedbackBox");
 
     if (!reviewBox) {
         return;
     }
 
-    reviewBox.classList.add(
-        "checkout-review-section"
-    );
-
+    reviewBox.classList.add("checkout-review-section");
 }
 
 
@@ -1942,154 +1109,82 @@ function setupReviewBox() {
 
 function setupFormSafety() {
 
-    const inputs =
-        document.querySelectorAll(
-            "input"
-        );
+    const inputs = document.querySelectorAll("input");
 
+    inputs.forEach(function (input) {
 
-    inputs.forEach(
-        input => {
+        input.addEventListener("keydown", function (event) {
 
-            input.addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key === "Enter" &&
-                        this.type !== "button"
-                    ) {
-
-                        event.preventDefault();
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
+            if (event.key === "Enter" && this.type !== "button") {
+                event.preventDefault();
+            }
+        });
+    });
 }
 
 
 /* =========================================================
-   HEADER ACCOUNT
-========================================================= */
-
-function setupAccountDropdown() {
-
-    const button =
-        document.getElementById(
-            "headerLoginButton"
-        );
-
-
-    const dropdown =
-        document.getElementById(
-            "accountDropdown"
-        );
-
-
-    if (
-        !button ||
-        !dropdown
-    ) {
-        return;
-    }
-
-
-    button.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            dropdown.classList.toggle(
-                "show"
-            );
-
-        }
-    );
-
-
-    document.addEventListener(
-        "click",
-        function () {
-
-            dropdown.classList.remove(
-                "show"
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   WISHLIST COUNT SAFETY
+   WISHLIST COUNT
+   (Dry.js stores the wishlist under "wishlist")
 ========================================================= */
 
 function setupWishlistCount() {
 
-    const count =
-        document.getElementById(
-            "headerWishlistCount"
-        );
-
+    const count = document.getElementById("headerWishlistCount");
 
     if (!count) {
         return;
     }
 
+    const saved =
+        localStorage.getItem("wishlist") ||
+        localStorage.getItem("sheernWishlist");
 
-    const wishlist =
-        localStorage.getItem(
-            "sheernWishlist"
-        );
-
-
-    if (!wishlist) {
-
+    if (!saved) {
         count.textContent = "0";
-
         return;
     }
 
-
     try {
 
-        const parsed =
-            JSON.parse(wishlist);
+        const parsed = JSON.parse(saved);
 
-
-        if (Array.isArray(parsed)) {
-
-            count.textContent =
-                parsed.length;
-
-        }
+        count.textContent = Array.isArray(parsed) ? parsed.length : 0;
 
     } catch (error) {
 
         count.textContent = "0";
-
     }
-
 }
-
-
-/* =========================================================
-   HEADER CART COUNT INITIALIZATION
-========================================================= */
 
 function initializeHeaderCounts() {
 
     updateHeaderCartCount();
 
     setupWishlistCount();
+}
 
+
+/* =========================================================
+   FILL FORM FROM ACCOUNT
+========================================================= */
+
+function fillCustomerFromAccount(user) {
+
+    const emailInput = document.getElementById("customerEmail");
+    const nameInput = document.getElementById("customerName");
+
+    if (emailInput) {
+
+        emailInput.value = user.email || "";
+
+        /* the order is linked to this account's email */
+        emailInput.readOnly = true;
+    }
+
+    if (nameInput && !nameInput.value) {
+        nameInput.value = getCheckoutUserName(user);
+    }
 }
 
 
@@ -2099,100 +1194,73 @@ function initializeHeaderCounts() {
 
 function initializeCheckout() {
 
-    /* =====================================================
-       GET CART
-    ====================================================== */
+    /* login is required */
 
-    checkoutCart =
-        getCartFromStorage();
+    checkoutUser = getCheckoutUser();
+
+    if (!checkoutUser) {
+
+        console.warn(
+            "Checkout: no logged-in user found.",
+            "sessionStorage keys:", Object.keys(sessionStorage),
+            "localStorage keys:", Object.keys(localStorage)
+        );
+
+        alert("Please login to continue to checkout.");
+
+        window.location.href = LOGIN_PAGE;
+
+        return;
+    }
 
 
-    /* =====================================================
-       RENDER
-    ====================================================== */
+    /* cart */
+
+    checkoutCart = getCartFromStorage();
 
     renderCheckout();
 
+    fillCustomerFromAccount(checkoutUser);
 
-    /* =====================================================
-       PAYMENT
-    ====================================================== */
+
+    /* payment */
 
     setupPaymentMethods();
-
     setupCardFormatting();
-
     setupUPIOptions();
 
 
-    /* =====================================================
-       REVIEW
-    ====================================================== */
+    /* review */
 
     setupReviewSystem();
-
     setupReviewBox();
-
     setupCheckoutProgress();
-
     setupProgressClick();
 
 
-    /* =====================================================
-       SAFETY
-    ====================================================== */
+    /* safety + header counts
+       (the account dropdown is handled by Dry.js) */
 
     setupFormSafety();
-
-
-    /* =====================================================
-       HEADER
-    ====================================================== */
-
     initializeHeaderCounts();
 
-    setupAccountDropdown();
 
+    /* place order button */
 
-    /* =====================================================
-       PLACE ORDER BUTTON
-    ====================================================== */
-
-    const placeOrderButton =
-        document.getElementById(
-            "placeOrderButton"
-        );
-
+    const placeOrderButton = document.getElementById("placeOrderButton");
 
     if (placeOrderButton) {
-
-        placeOrderButton.addEventListener(
-            "click",
-            placeOrder
-        );
-
+        placeOrderButton.addEventListener("click", placeOrder);
     }
 
 
-    /* =====================================================
-       SUCCESS BUTTON
-    ====================================================== */
+    /* success button */
 
-    const continueButton =
-        document.getElementById(
-            "continueAfterOrder"
-        );
-
+    const continueButton = document.getElementById("continueAfterOrder");
 
     if (continueButton) {
-
-        continueButton.addEventListener(
-            "click",
-            continueAfterOrder
-        );
-
+        continueButton.addEventListener("click", continueAfterOrder);
     }
-
 }
 
 
@@ -2200,7 +1268,4 @@ function initializeCheckout() {
    START CHECKOUT
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    initializeCheckout
-);
+document.addEventListener("DOMContentLoaded", initializeCheckout);

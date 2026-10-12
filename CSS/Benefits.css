@@ -1,0 +1,812 @@
+/* =========================================================
+   Benefits.css  -  Sheern Premium Dry Fruit
+   All classes start with "bn-" so they never clash with
+   Style.css or Bootstrap.
+   ========================================================= */
+
+.bn-page {
+    --bn-green: #1f3a1f;
+    --bn-green-soft: #2f5a2f;
+    --bn-gold: #b8892f;
+    --bn-gold-dark: #8f6a1f;
+    --bn-cream: #f8f3ea;
+    --bn-paper: #ffffff;
+    --bn-ink: #2b2b26;
+    --bn-muted: #6b6b60;
+    --bn-line: #e7dec9;
+
+    font-family: "Poppins", sans-serif;
+    color: var(--bn-ink);
+    line-height: 1.7;
+}
+
+.bn-page *,
+.bn-page *::before,
+.bn-page *::after {
+    box-sizing: border-box;
+}
+
+.bn-page h1,
+.bn-page h2,
+.bn-page h3 {
+    font-family: "Playfair Display", serif;
+    color: var(--bn-green);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.bn-page p {
+    margin: 0;
+}
+
+.bn-wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bn-page :focus-visible {
+    outline: 3px solid var(--bn-gold);
+    outline-offset: 3px;
+}
+
+/* ---------- Sections ---------- */
+.bn-section {
+    padding: 80px 5vw;
+    background: var(--bn-paper);
+}
+
+.bn-section.bn-alt {
+    background: var(--bn-cream);
+}
+
+.bn-head {
+    max-width: 640px;
+    margin-bottom: 36px;
+}
+
+.bn-head h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.bn-head p {
+    margin-top: 8px;
+    color: var(--bn-muted);
+}
+
+.bn-kicker {
+    color: var(--bn-gold-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+}
+
+/* ---------- Buttons ---------- */
+.bn-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.bn-btn-primary {
+    background: var(--bn-green);
+    color: #fff;
+}
+
+.bn-btn-primary:hover {
+    background: var(--bn-green-soft);
+    color: #fff;
+}
+
+.bn-btn-ghost {
+    border-color: var(--bn-green);
+    color: var(--bn-green);
+}
+
+.bn-btn-ghost:hover {
+    background: var(--bn-green);
+    color: #fff;
+}
+
+.bn-btn-gold {
+    background: var(--bn-gold);
+    color: #fff;
+}
+
+.bn-btn-gold:hover {
+    background: #fff;
+    color: var(--bn-green);
+}
+
+/* ---------- Hero ---------- */
+.bn-hero {
+    background: var(--bn-cream);
+    padding: 48px 5vw 56px;
+}
+
+.bn-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+}
+
+.bn-hero-text h1 {
+    font-size: clamp(2.4rem, 5.4vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.bn-lead {
+    margin-top: 20px;
+    max-width: 52ch;
+    font-size: 1.05rem;
+    color: var(--bn-muted);
+}
+
+.bn-hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.bn-stats {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 40px;
+    padding: 24px 0 0;
+    margin: 38px 0 0;
+    border-top: 1px solid var(--bn-line);
+}
+
+.bn-stats li {
+    display: flex;
+    flex-direction: column;
+}
+
+.bn-stats strong {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    color: var(--bn-green);
+    line-height: 1.1;
+}
+
+.bn-stats li>span {
+    font-size: 0.85rem;
+    color: var(--bn-muted);
+}
+
+/* Hero picture: square, fits on the first screen */
+.bn-hero-media {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    margin-left: auto;
+    padding: 0 16px 16px 0;
+}
+
+.bn-hero-media::before {
+    content: "";
+    position: absolute;
+    inset: 16px 0 0 16px;
+    border: 2px solid var(--bn-gold);
+    border-radius: 28px;
+}
+
+.bn-hero-media img {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 28px;
+    cursor: pointer;
+    transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.45s ease;
+}
+
+/* On hover the picture slides into the gold frame; moving away returns it */
+.bn-hero-media:hover img {
+    transform: translate(16px, 16px);
+    box-shadow: 0 14px 30px rgba(31, 58, 31, 0.25);
+}
+
+/* ---------- Filters ---------- */
+.bn-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.bn-chip {
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--bn-line);
+    background: var(--bn-paper);
+    color: var(--bn-ink);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.bn-chip:hover {
+    border-color: var(--bn-gold);
+}
+
+.bn-chip.active {
+    background: var(--bn-green);
+    border-color: var(--bn-green);
+    color: #fff;
+}
+
+/* ---------- Side picture next to the cards ---------- */
+.bn-showcase {
+    display: block;
+}
+
+.bn-showcase.has-side {
+    display: grid;
+    grid-template-columns: minmax(260px, 380px) 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.bn-side {
+    margin: 0;
+    position: sticky;
+    top: 24px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--bn-line);
+    background: var(--bn-cream);
+    animation: bn-in 0.35s ease both;
+}
+
+.bn-side[hidden] {
+    display: none;
+}
+
+.bn-side img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* ---------- Benefit cards ---------- */
+.bn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 22px;
+}
+
+.bn-card {
+    background: var(--bn-paper);
+    border: 1px solid var(--bn-line);
+    border-left: 4px solid var(--bn-gold);
+    border-radius: 12px;
+    padding: 24px 22px;
+    animation: bn-in 0.35s ease both;
+}
+
+.bn-card-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--bn-cream);
+    color: var(--bn-gold-dark);
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+}
+
+.bn-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+}
+
+.bn-card p {
+    font-size: 0.92rem;
+    color: var(--bn-muted);
+}
+
+.bn-card-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--bn-green-soft);
+    font-weight: 500;
+}
+
+@keyframes bn-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- Dry fruit tabs ---------- */
+.bn-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid var(--bn-line);
+}
+
+.bn-tab {
+    padding: 12px 22px;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.98rem;
+    color: var(--bn-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.bn-tab:hover {
+    color: var(--bn-green);
+}
+
+.bn-tab.active {
+    color: var(--bn-green);
+    font-weight: 600;
+    border-bottom-color: var(--bn-gold);
+}
+
+.bn-panel {
+    background: var(--bn-paper);
+    border: 1px solid var(--bn-line);
+    border-top: 0;
+    border-radius: 0 0 14px 14px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+}
+
+/* with a picture: small square on the left */
+.bn-panel:not(.no-img) {
+    grid-template-columns: 220px 1.2fr 1fr;
+    align-items: center;
+}
+
+.bn-panel .bn-fruit-pic {
+    width: 220px;
+    height: 220px;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bn-cream);
+}
+
+.bn-panel .bn-fruit-pic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bn-panel h3 {
+    font-size: 1.8rem;
+}
+
+.bn-panel-tag {
+    display: inline-block;
+    margin: 8px 0 14px;
+    padding: 3px 14px;
+    border-radius: 999px;
+    background: var(--bn-cream);
+    color: var(--bn-gold-dark);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.bn-panel p {
+    max-width: 58ch;
+    color: var(--bn-muted);
+}
+
+.bn-panel h4 {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--bn-green);
+    margin: 0 0 12px;
+}
+
+.bn-pills {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.bn-pills li {
+    padding: 5px 14px;
+    border: 1px solid var(--bn-line);
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.bn-serving {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--bn-muted);
+}
+
+.bn-serving strong {
+    color: var(--bn-green);
+}
+
+/* ---------- Daily intake ---------- */
+.bn-intake {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    border: 1px solid var(--bn-line);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.bn-intake-item {
+    padding: 26px 20px;
+    background: var(--bn-paper);
+    border-right: 1px solid var(--bn-line);
+    border-bottom: 1px solid var(--bn-line);
+    margin: 0 -1px -1px 0;
+}
+
+.bn-intake-item h3 {
+    font-size: 1.1rem;
+}
+
+.bn-amount {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    color: var(--bn-gold-dark);
+    margin: 6px 0 4px;
+}
+
+.bn-intake-item small {
+    color: var(--bn-muted);
+}
+
+.bn-note {
+    margin-top: 22px;
+    max-width: 78ch;
+    font-size: 0.9rem;
+    color: var(--bn-muted);
+}
+
+.bn-note i {
+    color: var(--bn-gold-dark);
+}
+
+/* ---------- Origin ---------- */
+.bn-origin {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.bn-origin-text h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+    margin-bottom: 16px;
+}
+
+.bn-origin-text>p:not(.bn-kicker) {
+    color: var(--bn-muted);
+    max-width: 62ch;
+}
+
+.bn-origin-points {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+    padding: 0;
+    margin: 24px 0 0;
+}
+
+.bn-origin-points li {
+    font-size: 0.93rem;
+}
+
+.bn-origin-points i {
+    color: var(--bn-gold-dark);
+    margin-right: 6px;
+}
+
+.bn-origin-badge {
+    background: var(--bn-green);
+    color: #fff;
+    border-radius: 24px;
+    padding: 44px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.bn-origin-badge i {
+    font-size: 3rem;
+    color: var(--bn-gold);
+}
+
+.bn-origin-badge strong {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.bn-origin-badge small {
+    opacity: 0.8;
+}
+
+/* ---------- Vitamins & certificates ---------- */
+.bn-vitamins {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+}
+
+.bn-vitamin {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 18px 20px;
+    background: var(--bn-cream);
+    border-radius: 12px;
+}
+
+.bn-vitamin strong {
+    color: var(--bn-green);
+    font-size: 1.05rem;
+}
+
+.bn-vitamin small {
+    color: var(--bn-muted);
+}
+
+.bn-certs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+}
+
+.bn-cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 28px 20px;
+    background: var(--bn-paper);
+    border: 1px solid var(--bn-line);
+    border-radius: 14px;
+}
+
+.bn-cert i {
+    font-size: 2rem;
+    color: var(--bn-gold-dark);
+}
+
+.bn-cert strong {
+    font-family: "Playfair Display", serif;
+    font-size: 1.3rem;
+    color: var(--bn-green);
+}
+
+.bn-cert small {
+    color: var(--bn-muted);
+}
+
+/* ---------- Store: compact branch cards + map ---------- */
+.bn-store {
+    display: block;
+}
+
+.bn-branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
+    gap: 14px;
+    align-content: start;
+}
+
+.bn-branch {
+    padding: 16px 18px;
+    background: var(--bn-paper);
+    border: 1px solid var(--bn-line);
+    border-radius: 12px;
+}
+
+.bn-pin {
+    font-size: 1.1rem;
+    color: var(--bn-gold);
+}
+
+.bn-branch h3 {
+    font-size: 1.1rem;
+    margin-top: 2px;
+}
+
+.bn-city {
+    display: block;
+    color: var(--bn-gold-dark);
+    font-weight: 500;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+}
+
+.bn-branch p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--bn-muted);
+}
+
+.bn-meta {
+    margin-top: 4px !important;
+}
+
+.bn-meta i {
+    color: var(--bn-gold-dark);
+    margin-right: 6px;
+}
+
+.bn-meta a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.bn-meta a:hover {
+    color: var(--bn-green);
+    text-decoration: underline;
+}
+
+.bn-map-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--bn-green);
+    text-decoration: none;
+    border-bottom: 2px solid var(--bn-gold);
+}
+
+.bn-map-link:hover {
+    color: var(--bn-gold-dark);
+}
+
+.bn-map {
+    margin-top: 20px;
+    min-height: 280px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--bn-line);
+}
+
+.bn-map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    border: 0;
+}
+
+/* ---------- CTA ---------- */
+.bn-cta {
+    background: var(--bn-green);
+    padding: 72px 5vw;
+    text-align: center;
+}
+
+.bn-cta h2 {
+    color: #fff;
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+}
+
+.bn-cta p {
+    color: rgba(255, 255, 255, 0.82);
+    margin: 10px 0 26px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+    .bn-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .bn-hero-media {
+        margin-left: 0;
+    }
+
+    .bn-panel,
+    .bn-panel:not(.no-img),
+    .bn-origin {
+        grid-template-columns: 1fr;
+    }
+
+    .bn-panel .bn-fruit-pic {
+        width: 200px;
+        height: 200px;
+    }
+
+    .bn-origin-badge {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 767px) {
+    .bn-showcase.has-side {
+        grid-template-columns: 1fr;
+    }
+
+    .bn-side {
+        position: static;
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .bn-section,
+    .bn-hero,
+    .bn-cta {
+        padding-top: 52px;
+        padding-bottom: 52px;
+    }
+
+    .bn-panel {
+        padding: 22px 18px;
+    }
+
+    .bn-origin-points {
+        grid-template-columns: 1fr;
+    }
+
+    .bn-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .bn-tab {
+        white-space: nowrap;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .bn-card,
+    .bn-side,
+    .bn-hero-media img,
+    .bn-chip,
+    .bn-tab,
+    .bn-btn {
+        animation: none;
+        transition: none;
+    }
+}

@@ -1,502 +1,137 @@
 "use strict";
-const registerForm =
-    document.getElementById("registerForm");
-
-const fullNameInput =
-    document.getElementById("fullName");
-
-const usernameInput =
-    document.getElementById("username");
-
-const emailInput =
-    document.getElementById("email");
-
-const passwordInput =
-    document.getElementById("password");
-
-const confirmPasswordInput =
-    document.getElementById("confirmPassword");
-
-const passwordToggle =
-    document.getElementById("passwordToggle");
-
-const confirmPasswordToggle =
-    document.getElementById("confirmPasswordToggle");
-
-const termsCheckbox =
-    document.getElementById("terms");
-
-const registerMessage =
-    document.getElementById("registerMessage");
-
-
 /* =========================================================
-   SHOW REGISTER MESSAGE
+   SHEERN  register.js
+   New accounts are saved in localStorage ("sheernUsers").
+   Everyone who registers here is a Customer (role 2).
+   Admin (0) and Manager (1) accounts are not created here.
 ========================================================= */
+(function () {
 
-function showRegisterMessage(message, type = "") {
+    var USERS_KEY = "sheernUsers";
 
-    if (!registerMessage) {
-        return;
+    var registerForm = document.getElementById("registerForm");
+    var registerMessage = document.getElementById("registerMessage");
+
+
+    /* ---------- messages ---------- */
+
+    function showRegisterMessage(message, type) {
+        if (!registerMessage) return;
+        registerMessage.textContent = message;
+        registerMessage.className = "register-message " + (type || "");
     }
 
-    registerMessage.textContent =
-        message;
 
-    registerMessage.className =
-        "register-message " + type;
-}
+    /* ---------- show / hide password buttons ---------- */
 
+    function setupToggle(buttonId, inputId, label) {
+        var btn = document.getElementById(buttonId);
+        var input = document.getElementById(inputId);
+        if (!btn || !input) return;
 
-/* =========================================================
-   PASSWORD SHOW / HIDE
-========================================================= */
+        btn.addEventListener("click", function () {
+            var hidden = input.type === "password";
+            input.type = hidden ? "text" : "password";
+            btn.innerHTML = hidden
+                ? '<i class="bi bi-eye-slash"></i>'
+                : '<i class="bi bi-eye"></i>';
+            btn.setAttribute("aria-label", (hidden ? "Hide " : "Show ") + label);
+        });
+    }
 
-if (passwordToggle && passwordInput) {
-
-    passwordToggle.addEventListener(
-        "click",
-        function () {
-
-            if (passwordInput.type === "password") {
-
-                passwordInput.type =
-                    "text";
-
-                passwordToggle.innerHTML =
-                    '<i class="bi bi-eye-slash"></i>';
-
-                passwordToggle.setAttribute(
-                    "aria-label",
-                    "Hide password"
-                );
-
-            }
-
-            else {
-
-                passwordInput.type =
-                    "password";
-
-                passwordToggle.innerHTML =
-                    '<i class="bi bi-eye"></i>';
-
-                passwordToggle.setAttribute(
-                    "aria-label",
-                    "Show password"
-                );
-
-            }
-
-        }
-    );
-
-}
+    setupToggle("passwordToggle", "password", "password");
+    setupToggle("confirmPasswordToggle", "confirmPassword", "confirm password");
 
 
-/* =========================================================
-   CONFIRM PASSWORD SHOW / HIDE
-========================================================= */
+    /* ---------- users ---------- */
 
-if (
-    confirmPasswordToggle &&
-    confirmPasswordInput
-) {
+    function readUsers() {
+        try {
+            var list = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+            return Array.isArray(list)
+                ? list.filter(function (u) { return u && typeof u === "object"; })
+                : [];
+        } catch (e) { return []; }
+    }
 
-    confirmPasswordToggle.addEventListener(
-        "click",
-        function () {
-
-            if (
-                confirmPasswordInput.type ===
-                "password"
-            ) {
-
-                confirmPasswordInput.type =
-                    "text";
-
-                confirmPasswordToggle.innerHTML =
-                    '<i class="bi bi-eye-slash"></i>';
-
-                confirmPasswordToggle.setAttribute(
-                    "aria-label",
-                    "Hide confirm password"
-                );
-
-            }
-
-            else {
-
-                confirmPasswordInput.type =
-                    "password";
-
-                confirmPasswordToggle.innerHTML =
-                    '<i class="bi bi-eye"></i>';
-
-                confirmPasswordToggle.setAttribute(
-                    "aria-label",
-                    "Show confirm password"
-                );
-
-            }
-
-        }
-    );
-
-}
+    function valueOf(id) {
+        var el = document.getElementById(id);
+        return el ? el.value : "";
+    }
 
 
-/* =========================================================
-   REGISTER FORM
-========================================================= */
+    /* ---------- register form ---------- */
 
-if (registerForm) {
+    if (registerForm) {
 
-    registerForm.addEventListener(
-        "submit",
-        function (event) {
-
+        registerForm.addEventListener("submit", function (event) {
             event.preventDefault();
 
+            var fullName = valueOf("fullName").trim();
+            var username = valueOf("username").trim();
+            var email = valueOf("email").trim().toLowerCase();
+            var password = valueOf("password");
+            var confirmPassword = valueOf("confirmPassword");
+            var terms = document.getElementById("terms");
 
-            /* =================================================
-               GET VALUES
-            ================================================= */
-
-            const fullName =
-                fullNameInput.value.trim();
-
-            const username =
-                usernameInput.value.trim();
-
-            const email =
-                emailInput.value.trim().toLowerCase();
-
-            const password =
-                passwordInput.value;
-
-            const confirmPassword =
-                confirmPasswordInput.value;
-
-
-            /* =================================================
-               EMPTY CHECK
-            ================================================= */
-
-            if (
-                fullName === "" ||
-                username === "" ||
-                email === "" ||
-                password === "" ||
-                confirmPassword === ""
-            ) {
-
-                showRegisterMessage(
-                    "Please fill in all fields.",
-                    "error"
-                );
-
-                return;
+            if (!fullName || !username || !email || !password || !confirmPassword) {
+                return showRegisterMessage("Please fill in all fields.", "error");
             }
-
-
-            /* =================================================
-               FULL NAME CHECK
-            ================================================= */
-
             if (fullName.length < 2) {
-
-                showRegisterMessage(
-                    "Please enter your full name.",
-                    "error"
-                );
-
-                return;
+                return showRegisterMessage("Please enter your full name.", "error");
             }
-
-
-            /* =================================================
-               USERNAME CHECK
-            ================================================= */
-
-            if (username.length < 3) {
-
-                showRegisterMessage(
-                    "Username must contain at least 3 characters.",
-                    "error"
-                );
-
-                return;
+            if (username.length < 3 || /\s/.test(username)) {
+                return showRegisterMessage("Username needs at least 3 characters and no spaces.", "error");
             }
-
-
-            /* =================================================
-               EMAIL FORMAT CHECK
-            ================================================= */
-
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-            if (!emailPattern.test(email)) {
-
-                showRegisterMessage(
-                    "Please enter a valid email address.",
-                    "error"
-                );
-
-                return;
+            if (username.indexOf("@") !== -1) {
+                return showRegisterMessage("Username cannot contain the @ sign.", "error");
             }
-
-
-            /* =================================================
-               PASSWORD CHECK
-            ================================================= */
-
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                return showRegisterMessage("Please enter a valid email address.", "error");
+            }
             if (password.length < 6) {
-
-                showRegisterMessage(
-                    "Password must contain at least 6 characters.",
-                    "error"
-                );
-
-                return;
+                return showRegisterMessage("Password must contain at least 6 characters.", "error");
+            }
+            if (password !== confirmPassword) {
+                return showRegisterMessage("Passwords do not match.", "error");
+            }
+            if (terms && !terms.checked) {
+                return showRegisterMessage("Please agree to the Terms & Conditions.", "error");
             }
 
+            var users = readUsers();
 
-            /* =================================================
-               CONFIRM PASSWORD CHECK
-            ================================================= */
-
-            if (
-                password !==
-                confirmPassword
-            ) {
-
-                showRegisterMessage(
-                    "Passwords do not match.",
-                    "error"
-                );
-
-                return;
+            var usernameTaken = users.some(function (u) {
+                return u.username && String(u.username).toLowerCase() === username.toLowerCase();
+            });
+            if (usernameTaken) {
+                return showRegisterMessage("This username is already registered.", "error");
             }
 
-
-            /* =================================================
-               TERMS & CONDITIONS
-            ================================================= */
-
-            if (
-                termsCheckbox &&
-                !termsCheckbox.checked
-            ) {
-
-                showRegisterMessage(
-                    "Please agree to the Terms & Conditions.",
-                    "error"
-                );
-
-                return;
+            var emailTaken = users.some(function (u) {
+                return u.email && String(u.email).toLowerCase() === email;
+            });
+            if (emailTaken) {
+                return showRegisterMessage("This email address is already registered.", "error");
             }
 
-            let users = [];
-
-
-            try {
-
-                const storedUsers =
-                    localStorage.getItem(
-                        "sheernUsers"
-                    );
-
-
-                if (storedUsers) {
-
-                    users =
-                        JSON.parse(storedUsers);
-
-                }
-
-
-                if (!Array.isArray(users)) {
-
-                    users = [];
-
-                }
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Error reading Sheern users:",
-                    error
-                );
-
-                users = [];
-
-            }
-
-
-            /* =================================================
-               CHECK USERNAME
-            ================================================= */
-
-            const usernameExists =
-                users.some(
-                    function (user) {
-
-                        return (
-                            user.username &&
-                            user.username
-                                .toLowerCase() ===
-                            username.toLowerCase()
-                        );
-
-                    }
-                );
-
-
-            if (usernameExists) {
-
-                showRegisterMessage(
-                    "This username is already registered.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            /* =================================================
-               CHECK EMAIL
-            ================================================= */
-
-            const emailExists =
-                users.some(
-                    function (user) {
-
-                        return (
-                            user.email &&
-                            user.email
-                                .toLowerCase() ===
-                            email.toLowerCase()
-                        );
-
-                    }
-                );
-
-
-            if (emailExists) {
-
-                showRegisterMessage(
-                    "This email address is already registered.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            /* =================================================
-               CREATE NEW CUSTOMER
-            ================================================= */
-
-            const newUser = {
-
+            users.push({
                 id: Date.now(),
-
                 fullName: fullName,
-
                 username: username,
-
                 email: email,
-
                 password: password,
+                role: 2,                       /* 0 admin, 1 manager, 2 customer */
+                createdAt: new Date().toISOString()
+            });
 
-                role: "customer",
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
 
-                createdAt:
-                    new Date().toISOString()
-
-            };
-
-
-            /* =================================================
-               ADD NEW USER
-            ================================================= */
-
-            users.push(newUser);
-
-
-            /* =================================================
-               SAVE USERS TO LOCAL STORAGE
-            ================================================= */
-
-            localStorage.setItem(
-                "sheernUsers",
-                JSON.stringify(users)
-            );
-
-
-            /* =================================================
-               CHECK THAT USER WAS SAVED
-            ================================================= */
-
-            console.log(
-                "New Sheern user registered:",
-                newUser
-            );
-
-
-            console.log(
-                "All Sheern users:",
-                users
-            );
-
-
-            /* =================================================
-               SUCCESS MESSAGE
-            ================================================= */
-
-            showRegisterMessage(
-                "Account created successfully! Redirecting to login...",
-                "success"
-            );
-
-
-            /* =================================================
-               RESET FORM
-            ================================================= */
-
+            showRegisterMessage("Account created successfully! Redirecting to login...", "success");
             registerForm.reset();
 
+            setTimeout(function () { window.location.href = "login.html"; }, 1500);
+        });
+    }
 
-            /* =================================================
-               REDIRECT TO LOGIN
-            ================================================= */
-
-            setTimeout(
-                function () {
-
-                    window.location.href =
-                        "Login.html";
-
-                },
-                1500
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   REGISTER.JS LOADED
-========================================================= */
-
-console.log(
-    "Sheern register.js loaded successfully."
-);
-
+})();
