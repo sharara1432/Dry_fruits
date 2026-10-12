@@ -1,24 +1,4 @@
 "use strict";
-/* =========================================================
-   SHEERN  login.js
-   Needs only auth.js loaded BEFORE it:
-     <script src="JS/auth.js"></script>
-     <script src="JS/login.js"></script>
-   Password hashing is built into this file.
-   auth.js keeps the session and the roles. This file only
-   handles the login form and a few helper functions that
-   your other pages already call (requireLogin, protect...).
-
-   Passwords are checked against the saved hash. An old
-   account that still has a plain-text password can log in
-   once and is upgraded to a hash automatically.
-========================================================= */
-/* =====================================================
-   PASSWORD HASHING (PBKDF2-SHA256, random salt)
-   Stored value looks like: pbkdf2$150000$<salt>$<hash>
-   Also available to other scripts as window.SheernPassword
-   (hash / verify / isHashed) once login.js is loaded.
-===================================================== */
 (function () {
 
     var PREFIX = "pbkdf2";
