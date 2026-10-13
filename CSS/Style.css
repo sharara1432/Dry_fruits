@@ -400,6 +400,7 @@ button {
     transform: translateY(-7px) rotate(-45deg);
 }
 
+
 /* =========================================================
    PROMOTION BAR
 ========================================================= */
@@ -5341,4 +5342,19 @@ footer .form-control {
 
 .checkout-btn:hover {
     background: var(--sheern-gold);
+}
+/* =========================================================
+   SIDEBAR ACCESS: hidden until the user logs in
+========================================================= */
+
+/* logged out: no burger, no sidebar, no overlay */
+#SIDE_toggle,
+body:not(.is-logged-in) #sideNavbar,
+body:not(.is-logged-in) #sidebarOverlay {
+    display: none !important;
+}
+
+/* logged in: show the burger */
+body.is-logged-in #SIDE_toggle {
+    display: flex !important;
 }

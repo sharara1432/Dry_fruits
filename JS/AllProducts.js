@@ -359,11 +359,6 @@ function createStars(rating) {
    FILTERS + SORTING
 ========================================================= */
 
-/*
-   resetPage = false keeps the current page
-   (used when a heart is clicked so the page does not jump).
-*/
-
 function applyFilters(resetPage = true) {
 
     const searchValue =

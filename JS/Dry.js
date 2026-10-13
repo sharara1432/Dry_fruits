@@ -1464,7 +1464,30 @@ function updateAccountUI() {
     }
 
 }
+/* =========================================================
+   SIDEBAR ACCESS (burger + sidebar only for logged-in users)
+========================================================= */
 
+function updateSidebarAccess() {
+
+    const loggedIn = !!getLoggedInUser();
+
+    document.body.classList.toggle("is-logged-in", loggedIn);
+
+    /* if the user is logged out, make sure the sidebar is closed */
+    if (!loggedIn) {
+
+        const sideNavbar = document.getElementById("sideNavbar");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
+        const toggle = document.getElementById("SIDE_toggle");
+
+        if (sideNavbar) sideNavbar.classList.remove("open");
+        if (sidebarOverlay) sidebarOverlay.classList.remove("show");
+        if (toggle) toggle.classList.remove("menu-open");
+
+    }
+
+}
 
 /* =========================================================
    ACCOUNT DROPDOWN
@@ -1551,6 +1574,16 @@ function setupAccountDropdown() {
             alert("You have been logged out.");
 
         });
+        if (logoutButton) {
+
+            logoutButton.addEventListener("click", function () {
+
+                /* runs after auth.js has cleared the session */
+                setTimeout(updateSidebarAccess, 0);
+
+            });
+
+        }
 
     }
 
@@ -1834,8 +1867,21 @@ document.addEventListener("DOMContentLoaded", function () {
         nav.appendChild(list);
         nav.appendChild(info);
     }
+    function isLoggedIn() {
+        try {
 
-    /* ---------- keep in sync with Dry.js ---------- */
+            return !!sessionStorage.getItem("loggedInUser");
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function updateSidebarAccess() {
+        document.body.classList.toggle("is-logged-in", isLoggedIn());
+    }
+
+    document.addEventListener("DOMContentLoaded", updateSidebarAccess);
+
 
     function queueRender() {
         if (queued) return;
@@ -1850,12 +1896,32 @@ document.addEventListener("DOMContentLoaded", function () {
         attributeFilter: ["style", "hidden"]
     });
 
-    // page size changes between desktop and mobile
-    var resizeTimer;
-    window.addEventListener("resize", function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(render, 150);
-    });
+    (function () {
+        "use strict";
 
+        function isLoggedIn() {
+            try {
+                return !!sessionStorage.getItem("sheernSession");
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function apply() {
+            document.body.classList.toggle("is-logged-in", isLoggedIn());
+        }
+        window.updateSidebarAccess = apply;
+
+        document.addEventListener("DOMContentLoaded", apply);
+        window.addEventListener("pageshow", apply);
+        window.addEventListener("storage", apply);
+
+        document.addEventListener("click", function (e) {
+            if (!isLoggedIn() && e.target.closest("#SIDE_toggle")) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+        }, true);
+    })();
     render();
 })();
